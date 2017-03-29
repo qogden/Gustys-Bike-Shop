@@ -1,4 +1,4 @@
-/*Database*/
+/*Content database in PostgreSQL*/
 DROP DATABASE IF EXISTS bikes;
 CREATE DATABASE bikes;
 
