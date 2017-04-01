@@ -4,58 +4,55 @@ CREATE DATABASE bikes;
 
 DROP ROLE IF EXISTS biker;
 CREATE ROLE biker WITH password 'bike123' LOGIN;
-\c bike
+\c bikes
 
 CREATE EXTENSION pgcrypto;
 
+DROP TABLE IF EXISTS usertype;
+CREATE TABLE usertype (
+    id serial NOT NULL PRIMARY KEY,
+    usertype text NOT NULL
+);
+
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-    email text NOT NULL,
+    email text NOT NULL PRIMARY KEY,
     password text NOT NULL,
-    usertype text NOT NULL
-    
-    PRIMARY KEY(email)
+    usertype int NOT NULL references usertype(id)
 );
 
-GRANT ALL ON users TO biker;
-GRANT ALL ON users_email_seq TO biker;
-
-DROP TABLE IF EXISTS customer;
-CREATE TABLE customer (
-    id serial NOT NULL,
+DROP TABLE IF EXISTS customers;
+CREATE TABLE customers (
+    id serial NOT NULL PRIMARY KEY,
     firstname text NOT NULL,
     lastname text NOT NULL,
-    email text NOT NULL reference users(email),
+    email text NOT NULL references users(email),
     
     /*billing information*/
-    bstreet1 text NOT NULL,
-    bstreet2 text NOT NULL,
-    bcity text NOT NULL,
-    bstate text NOT NULL,
-    bzip text NOT NULL,
+    bstreet1 text,
+    bstreet2 text,
+    bcity text,
+    bstate text,
+    bzip text,
     
     /*shipping information*/
-    sstreet1 text NOT NULL,
-    sstreet2 text NOT NULL,
-    scity text NOT NULL,
-    sstate text NOT NULL,
-    szip text NOT NULL,
+    sstreet1 text,
+    sstreet2 text,
+    scity text,
+    sstate text,
+    szip text,
     
     /*payment information*/
-    cardno text NOT NULL,
-    csc text NOT NULL,
-    exp text NOT NULL
-    
-    PRIMARY KEY(id)
+    cardno text,
+    csc text,
+    exp text 
+
 );
 
-GRANT ALL ON customer TO biker;
-GRANT ALL ON customer_id_seq TO biker;
-
-DROP TABLE IF EXISTS employee;
-CREATE TABLE employee (
-    id serial NOT NULL,
-    email text NOT NULL reference users(email),
+DROP TABLE IF EXISTS employees;
+CREATE TABLE employees (
+    id serial NOT NULL PRIMARY KEY,
+    email text NOT NULL references users(email),
 
     /*address*/
     street1 text NOT NULL,
@@ -63,70 +60,71 @@ CREATE TABLE employee (
     city text NOT NULL,
     state text NOT NULL,
     zip text NOT NULL
-    
-    PRIMARY KEY(id)
 );
-
-GRANT ALL ON employee TO biker;
-GRANT ALL ON employee_id_seq TO biker;
 
 DROP TABLE IF EXISTS timesheet;
 CREATE TABLE timesheet (
-    id serial NOT NULL,
-    employeeid text NOT NULL reference employee(id),
+    id serial NOT NULL PRIMARY KEY,
+    employeeid int NOT NULL references employees(id),
     clock timestamp NOT NULL,
     hours int NOT NULL
-    
-    PRIMARY KEY(id)
 );
 
-GRANT ALL ON timesheet TO biker;
-GRANT ALL ON timesheet_employeeid_seq TO biker;
-
-DROP TABLE IF EXISTS product;
-CREATE TABLE users (
-    id serial NOT NULL,
+DROP TABLE IF EXISTS products;
+CREATE TABLE products (
+    id serial NOT NULL PRIMARY KEY,
     name text NOT NULL,
-    description text NOT NULL,
+    image text,
+    description text,
     price decimal NOT NULL,
-    stock int NOT NULL
-    
-    PRIMARY KEY(id)
+    stock int
 );
 
 DROP TABLE IF EXISTS cart;
 CREATE TABLE cart (
-    id serial NOT NULL,
-    customerid text NOT NULL reference customer(id),
-    clock timestamp NOT NULL,
+    id serial NOT NULL PRIMARY KEY,
+    customerid int NOT NULL references customers(id),
+    clock date NOT NULL,
     productid text NOT NULL,
     quantity int NOT NULL
-    
-    PRIMARY KEY(id)
 );
 
-GRANT ALL ON cart TO biker;
-GRANT ALL ON cart_id_seq TO biker;
-
-DROP TABLE IF EXISTS review;
-CREATE TABLE review (
-    id serial NOT NULL,
-    customerid text NOT NULL reference customer(id),
-    productid text NOT NULL reference product(id),
+DROP TABLE IF EXISTS reviews;
+CREATE TABLE reviews (
+    id serial NOT NULL PRIMARY KEY,
+    customerid int NOT NULL references customers(id),
+    productid int NOT NULL references products(id),
     day date NOT NULL,
     rating int NOT NULL,
-    comment text NOT NUll
-    
-    PRIMARY KEY(id)
+    comment text
 );
 
 GRANT ALL ON users TO biker;
-GRANT ALL ON users_id_seq TO biker;
+GRANT ALL ON customers TO biker;
+GRANT ALL ON customers_id_seq TO biker;
+GRANT ALL ON employees TO biker;
+GRANT ALL ON employees_id_seq TO biker;
+GRANT ALL ON timesheet TO biker;
+GRANT ALL ON timesheet_id_seq TO biker;
+GRANT ALL ON products TO biker;
+GRANT ALL ON products_id_seq TO biker;
+GRANT ALL ON cart TO biker;
+GRANT ALL ON cart_id_seq TO biker;
+GRANT ALL ON reviews TO biker;
+GRANT ALL ON reviews_id_seq TO biker;
 
-/*CREATING TEST USERS*/
-INSERT INTO users(username, password) VALUES('master', crypt('master123', gen_salt('bf')), 'master administrator');
-INSERT INTO users(username, password) VALUES('manager', crypt('manager123', gen_salt('bf')), 'manager asministrator');
-INSERT INTO users(username, password) VALUES('sales', crypt('sales123', gen_salt('bf')), 'sales administrator');
-INSERT INTO users(username, password) VALUES('employee', crypt('employee123', gen_salt('bf')), 'employee');
-INSERT INTO users(username, password) VALUES('customer', crypt('customer123', gen_salt('bf')), 'customer');
+/*TYPES OF USERS*/
+INSERT INTO usertype(usertype) VALUES ('master');
+INSERT INTO usertype(usertype) VALUES ('manager');
+INSERT INTO usertype(usertype) VALUES ('sales');
+INSERT INTO usertype(usertype) VALUES ('employee');
+INSERT INTO usertype(usertype) VALUES ('customer');
 
+/*CREATING USERS*/
+INSERT INTO users(email, password, usertype) VALUES('master', crypt('master123', gen_salt('bf')), 1);
+INSERT INTO users(email, password, usertype) VALUES('manager', crypt('manager123', gen_salt('bf')), 2);
+INSERT INTO users(email, password, usertype) VALUES('sales', crypt('sales123', gen_salt('bf')), 3);
+INSERT INTO users(email, password, usertype) VALUES('employee', crypt('employee123', gen_salt('bf')), 4);
+INSERT INTO users(email, password, usertype) VALUES('customer', crypt('customer123', gen_salt('bf')), 5);
+
+/*DATA FOR TEST CASES*/
