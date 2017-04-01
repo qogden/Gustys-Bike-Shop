@@ -26,7 +26,11 @@ NOTE : FREQUENTLY ASKED QUESTIONS
 4. I want to remove w3layouts.com back link from footer?
 
 	We have two plans for that per template and unlimited.
+<<<<<<< HEAD
 	Donate us $10 per template. If you want templates for multiple domains or bulk templates please contact support@w3layouts.com
+=======
+	Donate us $10 per template or Donate $5000 use all the templates removing backlinks
+>>>>>>> d8b66047f4edf43fdd3dc571ed41685ce12b022a
 
 5. Will these templates work on iPhone, Android platforms, Tabs like kindle and Ipads?
 
