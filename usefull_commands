@@ -1,0 +1,7 @@
+git add .
+git clone https://github.com/qogden/Gustys-bike-shop
+git commit -m "Message"
+git status
+git pull
+git push
+

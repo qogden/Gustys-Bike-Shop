@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="login_sec">
+	 <div class="container">
+		 <ol class="breadcrumb">
+		  <li><a href="/">Home</a></li>
+		  <li class="active">Login</li>
+		 </ol>
+		 <h2>Login</h2>
+		 <div class="col-md-6 log">			 
+				 <p>Welcome, please login to continue.</p>
+				 <form>
+					 <input placeholder="email" type="text" value="">
+					 <input placeholder="password" type="password" value="">					
+					 <input type="submit" value="Login">
+					  <a href="#">Forgot Password?</a>
+				 </form>				 
+		 </div>
+		  <div class="col-md-6 login-right">
+			  	<h3>New Customer?</h3>
+				<a class="acount-btn" href="account.html">Create an Account</a>
+		 </div>
+		 <div class="clearfix"></div>
+	 </div>
+</div>
+{% endblock %}
