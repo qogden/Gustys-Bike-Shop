@@ -182,8 +182,6 @@ INSERT INTO products(name, image, description, price, stock, producttype) VALUES
 INSERT INTO products(name, description, price, stock) VALUES('Bicycle', 'Test Bike.', 300, 200);
 
 /*ADDING TO CART*/
-
-
 INSERT INTO cart(customerid, day, productid, quantity) VALUES((SELECT id FROM customers WHERE email = 'user2@email.com'), (SELECT CURRENT_DATE), 2, 1);
 INSERT INTO cart(customerid, day, productid, quantity) VALUES((SELECT id FROM customers WHERE email = 'user1@email.com'), (SELECT CURRENT_DATE), 1, 2);
 INSERT INTO cart(customerid, day, productid, quantity) VALUES((SELECT id FROM customers WHERE email = 'user1@email.com'), (SELECT CURRENT_DATE), 2, 1);
