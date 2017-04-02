@@ -47,9 +47,6 @@ def contact():
 def cart():
 	return render_template('cart.html')
 
-@app.route('/blog.html')
-def blog():
-	return render_template('blog.html')
 
 # start the server
 if __name__ == '__main__':
