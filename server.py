@@ -30,6 +30,9 @@ def cart():
 def account():
 	return render_template('account.html')
 
+@app.route('/blog.html')
+def blog():
+	return render_template('blog.html')
 
 # start the server
 if __name__ == '__main__':
