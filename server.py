@@ -3,11 +3,14 @@ import psycopg2
 import psycopg2.extras
 import uuid
 
+"""from flask.ext.socketio import SocketIO, emit"""
 from flask import Flask, render_template, request, session
 app = Flask(__name__)
 
 app.secret_key = os.urandom(24).encode('hex')
 app.config['SECRET_KEY'] = 'secret!'
+
+"""socketio = SocketIO(app)"""
 
 def connectToDB():
   connectionString = 'dbname=bikes user=biker password=bike123 host=localhost'
@@ -23,6 +26,12 @@ def index():
 	
 @app.route('/login')
 def login():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	session['uuid'] = uuid.uuid1()
+	
+	
 	return render_template('login.html')
 
 @app.route('/account')
@@ -60,7 +69,8 @@ def signup():
 		return render_template('account.html', noPassMatch = noPassMatch)
 		
 	try:
-		session['user'] = request.form['email']
+		session['email'] = request.form['email']
+		session['user'] = request.form['firstname']
 		print(session['user'])
 		cur.execute("INSERT INTO users(email, password) VALUES(%s, crypt(%s, gen_salt('bf')))", (request.form['email'], request.form['password']))
 		conn.commit()
@@ -99,3 +109,6 @@ def blog():
 # start the server
 if __name__ == '__main__':
     app.run(host=os.getenv('IP', '0.0.0.0'), port =int(os.getenv('PORT', 8080)), debug=True)
+    
+"""if __name__ == '__main__':
+    socketio.run(app,host=os.getenv('IP', '0.0.0.0'), port =int(os.getenv('PORT', 8080)), debug=True)"""
