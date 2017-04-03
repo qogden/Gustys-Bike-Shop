@@ -56,7 +56,17 @@ def access():
 		if(passwordresults == 1):
 			session['email'] = request.form['email']
 			"""session['user'] = request.form['firstname']"""
-			return render_template('index.html')
+			
+			query = cur.mogrify("SELECT * FROM employees WHERE email = %s", (request.form['email'], ))
+			cur.execute(query)
+			cur.fetchall()
+			employeeresults = cur.rowcount
+			conn.commit()
+			
+			if(employeeresults == 1):
+				return render_template('timesheet.html')
+			else:
+				return render_template('index.html')
 		else:
 			wrongPassword = 'true'
 			return render_template('login.html', wrongPassword = wrongPassword)
