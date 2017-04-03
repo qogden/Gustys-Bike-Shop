@@ -20,33 +20,42 @@ def connectToDB():
 def index():
 	return render_template('index.html')
 	
-@app.route('/login.html')
+@app.route('/login')
 def login():
 	return render_template('login.html')
 
-@app.route('/account.html')
+@app.route('/account')
 def account():
+	return render_template('account.html')	
+
+@app.route('/signup', methods=['POST', 'GET'])
+def signup():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-	return render_template('account.html')	
-
-@app.route('/single.html')
+	print(request.form['firstname'], request.form['lastname'], request.form['email'], request.form['password'], request.form['confirmpassword'])
+	
+	return render_template('signup.html')	
+	
+@app.route('/single')
 def single():
 	return render_template('single.html')
 	
-@app.route('/products.html')
+@app.route('/products')
 def products():
 	return render_template('products.html')
 
-@app.route('/contact.html')
+@app.route('/contact')
 def contact():
 	return render_template('contact.html')
 	
-@app.route('/cart.html')
+@app.route('/cart')
 def cart():
 	return render_template('cart.html')
 
+@app.route('/blog')
+def blog():
+	return render_template('blog.html')
 
 # start the server
 if __name__ == '__main__':
