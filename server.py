@@ -26,13 +26,43 @@ def index():
 	
 @app.route('/login')
 def login():
+	return render_template('login.html')
+	
+@app.route('/login', methods=['GET', 'POST'])
+def access():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-	
 	session['uuid'] = uuid.uuid1()
 	
+	query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['email'], ))
+	cur.execute(query)
+	cur.fetchall()
+	emailresults = cur.rowcount
+	print (emailresults)
+	conn.commit()
 	
-	return render_template('login.html')
+	noEmail = 'false'
+	wrongPassword = 'false'
+	print(request.form['password'])
+	
+	if(emailresults == 1):
+
+		query = cur.mogrify("SELECT * FROM users WHERE email = %s AND password = crypt(%s, password)", (request.form['email'], request.form['password']))
+		cur.execute(query)
+		cur.fetchall()
+		passwordresults = cur.rowcount
+		conn.commit()
+		
+		if(passwordresults == 1):
+			session['email'] = request.form['email']
+			"""session['user'] = request.form['firstname']"""
+			return render_template('index.html')
+		else:
+			wrongPassword = 'true'
+			return render_template('login.html', wrongPassword = wrongPassword)
+	else:
+		noEmail = 'true'
+		return render_template('login.html', noEmail = noEmail)
 
 @app.route('/account')
 def account():
