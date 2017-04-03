@@ -1,6 +1,7 @@
 import os
 import psycopg2
 import psycopg2.extras
+import uuid
 
 from flask import Flask, render_template, request, session
 app = Flask(__name__)
@@ -33,9 +34,47 @@ def signup():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
+	session['uuid'] = uuid.uuid1()
 	print(request.form['firstname'], request.form['lastname'], request.form['email'], request.form['password'], request.form['confirmpassword'])
 	
-	return render_template('signup.html')	
+	noPassMatch = 'false'
+	emailTaken = 'false'
+	
+	query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['email'], ))
+	cur.execute(query)
+	cur.fetchall()
+	emailresults = cur.rowcount
+	print (emailresults)
+	conn.commit()
+	
+	if(emailresults != 0):
+		emailTaken = 'true'
+		message1='Email taken'
+		print(message1)
+		return render_template('account.html', emailTaken = emailTaken)
+	
+	if(request.form['password'] != request.form['confirmpassword']):
+		noPassMatch = 'true'
+		message1='Passwords do not match'
+		print(message1)
+		return render_template('account.html', noPassMatch = noPassMatch)
+		
+	try:
+		session['user'] = request.form['email']
+		print(session['user'])
+		cur.execute("INSERT INTO users(email, password) VALUES(%s, crypt(%s, gen_salt('bf')))", (request.form['email'], request.form['password']))
+		conn.commit()
+		cur.execute("INSERT INTO customers(firstname, lastname, email) VALUES(%s, %s, (SELECT email FROM users WHERE email = %s))", (request.form['firstname'], request.form['lastname'], request.form['email']))
+		conn.commit()
+		return render_template('signup.html')	
+
+	except:
+		print("ERROR inserting into customer")
+		print("INSERT INTO users(email, password) VALUES(%s, crypt(%s, gen_salt('bf')))" % (request.form['email'], request.form['password']) )
+		print("TRIED: INSERT INTO customers(firstname, lastname, email) VALUES(%s, %s, (SELECT email FROM users WHERE email = %s))" % (request.form['firstname'], request.form['lastname'], request.form['email']))
+		conn.rollback()
+		return render_template('account.html')
+	conn.commit()
 	
 @app.route('/single')
 def single():

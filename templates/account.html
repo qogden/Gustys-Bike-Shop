@@ -67,11 +67,21 @@
 							<input placeholder="last name" name='lastname' type="text" tabindex="2" required autofocus>
 						</label>
 					</div>
+					{% if emailTaken %}
+                    <div>
+                    	<label style="color: red"> This email has an account.</label>
+                    </div>
+                    {% endif %}
 					<div>
 						<label>
 							<input placeholder="email" name='email' type="email" tabindex="3" required>
 						</label>
 					</div>
+					{% if noPassMatch %}
+                    <div>
+                    	<label style="color: red"> Passwords Do Not Match </label>
+                    </div>
+                    {% endif %}
 					<div>
 						<label>
 							<input placeholder="password" name='password' type="password" tabindex="4" required>
@@ -79,15 +89,18 @@
 					</div>						
 					<div>
 						<label>
-							<input placeholder="confirm password" name='confirmpassword' type="password" tabindex="4" required>
+							<input placeholder="password" name='confirmpassword' type="password" tabindex="4" required>
 						</label>
-					</div>	
+					</div>
+					<div>
+						<label class="checkbox">
+							<input type="checkbox" name="checkbox" required><i></i>I agree to gustysbikeshop.com &nbsp;<a class="terms" href="#"> terms of service</a> 
+						</label>
+					</div>
 					<div>
 						<input type="submit" value="create account" id="register-submit">
 					</div>
-					<div class="sky-form">
-						<label class="checkbox"><input type="checkbox" name="checkbox" ><i></i>i agree to gustysbikeshop.com &nbsp;<a class="terms" href="#"> terms of service</a> </label>
-					</div>
+
 				</form>
 				<!-- /Form -->
 			 </div>
