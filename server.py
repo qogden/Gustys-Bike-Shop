@@ -3,14 +3,13 @@ import psycopg2
 import psycopg2.extras
 import uuid
 
-"""from flask.ext.socketio import SocketIO, emit"""
+#from flask.ext.socketio import SocketIO, emit
 from flask import Flask, render_template, request, session
 app = Flask(__name__)
 
 app.secret_key = os.urandom(24).encode('hex')
 app.config['SECRET_KEY'] = 'secret!'
-
-"""socketio = SocketIO(app)"""
+#socketio = SocketIO(app)
 
 def connectToDB():
   connectionString = 'dbname=bikes user=biker password=bike123 host=localhost'
@@ -22,6 +21,9 @@ def connectToDB():
 
 @app.route('/')
 def index():
+	if("email" not in session):
+	 	session['email'] = uuid.uuid1()
+	 	loggedin = 'false'
 	return render_template('index.html')
 	
 @app.route('/login')
@@ -32,7 +34,6 @@ def login():
 def access():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-	session['uuid'] = uuid.uuid1()
 	
 	query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['email'], ))
 	cur.execute(query)
@@ -46,17 +47,14 @@ def access():
 	print(request.form['password'])
 	
 	if(emailresults == 1):
-
 		query = cur.mogrify("SELECT * FROM users WHERE email = %s AND password = crypt(%s, password)", (request.form['email'], request.form['password']))
 		cur.execute(query)
 		cur.fetchall()
 		passwordresults = cur.rowcount
 		conn.commit()
+		loggedin = 'true'
 		
 		if(passwordresults == 1):
-			session['email'] = request.form['email']
-			"""session['user'] = request.form['firstname']"""
-			
 			query = cur.mogrify("SELECT * FROM employees WHERE email = %s", (request.form['email'], ))
 			cur.execute(query)
 			cur.fetchall()
@@ -64,9 +62,11 @@ def access():
 			conn.commit()
 			
 			if(employeeresults == 1):
-				return render_template('timesheet.html')
+				session['email'] = request.form['email']
+				return render_template('timesheet.html', loggedin = loggedin)
 			else:
-				return render_template('index.html')
+				session['email'] = request.form['email']
+				return render_template('index.html', loggedin = loggedin)
 		else:
 			wrongPassword = 'true'
 			return render_template('login.html', wrongPassword = wrongPassword)
@@ -83,7 +83,6 @@ def signup():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-	session['uuid'] = uuid.uuid1()
 	print(request.form['firstname'], request.form['lastname'], request.form['email'], request.form['password'], request.form['confirmpassword'])
 	
 	noPassMatch = 'false'
@@ -110,14 +109,12 @@ def signup():
 		
 	try:
 		session['email'] = request.form['email']
-		session['user'] = request.form['firstname']
-		print(session['user'])
+		loggedin = 'true'
 		cur.execute("INSERT INTO users(email, password) VALUES(%s, crypt(%s, gen_salt('bf')))", (request.form['email'], request.form['password']))
 		conn.commit()
 		cur.execute("INSERT INTO customers(firstname, lastname, email) VALUES(%s, %s, (SELECT email FROM users WHERE email = %s))", (request.form['firstname'], request.form['lastname'], request.form['email']))
 		conn.commit()
-		return render_template('signup.html')	
-
+		return render_template('signup.html', loggedin = loggedin)
 	except:
 		print("ERROR inserting into customer")
 		print("INSERT INTO users(email, password) VALUES(%s, crypt(%s, gen_salt('bf')))" % (request.form['email'], request.form['password']) )

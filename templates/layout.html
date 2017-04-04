@@ -31,7 +31,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="static/js/menu_jquery.js"></script>
 <script src="static/js/simpleCart.min.js"> </script>
 <link href="static/css/form.css" rel="stylesheet" type="text/css" media="all" />
-
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.4/socket.io.js"></script>
+<script src="static/js/controller.js"></script>
   
 </head>
 <body>
@@ -49,7 +51,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<div class="top_left">
 				<ul>
-					<li class="top_link">Email: <a href="mailto@example.com">info(at)Mobilya.com</a></li>|
+					{% if loggedin %}
+					<li class="top_link">Email: <a href=user>{{ session['email'] }}</a></li>|
+					{% endif %}
 					<li class="top_link"><a href="/login">My Account</a></li>|					
 				</ul>
 				<div class="social">
@@ -72,9 +76,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 	<a href="/"><span style="float: left"><img src="static/images/Bike Shop logo HD.png" width="600px"/></span><h1>Gusty's Bike Shop</h1></a>
 		 </div>
 		 <div class="header_right">	
-			 <div class="login">
+		 	{% if loggedin %}
+		 	<div class="login">
+				 <a href="/login">LOG OUT</a>
+			</div>
+		 	{% else %}
+			<div class="login">
 				 <a href="/login">LOGIN</a>
-			 </div>
+			</div>
+			{% endif %}
 			 <div class="cart box_1">
 				<a href="/cart">
 					<h3> <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)<img src="static/images/bag.png" alt=""></h3>
