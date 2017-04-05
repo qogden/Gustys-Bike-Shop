@@ -142,6 +142,22 @@ def signup():
 def single():
 	return render_template('single.html')
 	
+@app.route('/account_info')
+def account_info():
+	return render_template('account_info.html')
+	
+@app.route('/account_info', methods=['GET', 'POST'])
+def update_account_info():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	query = cur.mogrify("SELECT * FROM customers WHERE email = %s", (request.form['email'], ))
+	cur.execute(query)
+	cur.fetchall()
+	emailresults = cur.rowcount
+	conn.commit()
+
+	
 @app.route('/products')
 def products():
 	return render_template('products.html')

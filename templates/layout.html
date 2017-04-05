@@ -55,8 +55,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<ul>
 					{% if session['loggedin'] == 'true' %}
 					<li class="top_link">Email: <a href=user>{{ session['email'] }}</a></li>|
+					<li class="top_link"><a href="/account_info">My Account</a></li>|
 					{% endif %}
-					<li class="top_link"><a href="/login">My Account</a></li>|					
+					{% if session['loggedin'] == 'false' %}
+					<li class="top_link"><a href="/login">Login</a></li>|
+					{% endif %}
 				</ul>
 				<div class="social">
 					<ul>
