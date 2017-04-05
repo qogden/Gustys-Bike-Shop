@@ -45,13 +45,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="top_right">
 				<ul>
 					<li><a href="#">help</a></li>|
-					<li><a href="/contact">Contact</a></li>|
-					<li><a href="/account">Register</a></li>
+					<li><a href="/contact">Contact</a></li>
+					{% if session['loggedin'] != 'true' %}
+					|<li><a href="/account">Register</a></li>
+					{% endif %}
 				</ul>
 			</div>
 			<div class="top_left">
 				<ul>
-					{% if loggedin %}
+					{% if session['loggedin'] == 'true' %}
 					<li class="top_link">Email: <a href=user>{{ session['email'] }}</a></li>|
 					{% endif %}
 					<li class="top_link"><a href="/login">My Account</a></li>|					
@@ -76,15 +78,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 	<a href="/"><span style="float: left"><img src="static/images/Bike Shop logo HD.png" width="600px"/></span><h1>Gusty's Bike Shop</h1></a>
 		 </div>
 		 <div class="header_right">	
-		 	{% if loggedin %}
 		 	<div class="login">
-				 <a href="/login">LOG OUT</a>
-			</div>
+		 	{% if session['loggedin'] == 'true' %}
+		 		<form action="/logout">
+				 <input type="submit" value='logout'>
 		 	{% else %}
-			<div class="login">
-				 <a href="/login">LOGIN</a>
-			</div>
+		 	<form action="/login">
+				 <input type="submit" value='login'>
 			{% endif %}
+			</div>
+			</form>
 			 <div class="cart box_1">
 				<a href="/cart">
 					<h3> <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)<img src="static/images/bag.png" alt=""></h3>

@@ -22,12 +22,20 @@ def connectToDB():
 @app.route('/')
 def index():
 	if("email" not in session):
-	 	session['email'] = uuid.uuid1()
-	 	loggedin = 'false'
+	 	session['email'] = ''
+	 	session['loggedin'] = 'false'
+	 
 	return render_template('index.html')
-	
+
+@app.route('/logout')
+def logout():
+	 session['email'] = ''
+	 session['loggedin'] = 'false'
+	 return render_template('index.html')
+
 @app.route('/login')
 def login():
+	print(session['email'])
 	return render_template('login.html')
 	
 @app.route('/login', methods=['GET', 'POST'])
@@ -39,12 +47,11 @@ def access():
 	cur.execute(query)
 	cur.fetchall()
 	emailresults = cur.rowcount
-	print (emailresults)
 	conn.commit()
 	
 	noEmail = 'false'
 	wrongPassword = 'false'
-	print(request.form['password'])
+	print(session['email'])
 	
 	if(emailresults == 1):
 		query = cur.mogrify("SELECT * FROM users WHERE email = %s AND password = crypt(%s, password)", (request.form['email'], request.form['password']))
@@ -63,10 +70,12 @@ def access():
 			
 			if(employeeresults == 1):
 				session['email'] = request.form['email']
-				return render_template('timesheet.html', loggedin = loggedin)
+				session['loggedin'] = 'true'
+				return render_template('timesheet.html')
 			else:
 				session['email'] = request.form['email']
-				return render_template('index.html', loggedin = loggedin)
+				session['loggedin'] = 'true'
+				return render_template('index.html')
 		else:
 			wrongPassword = 'true'
 			return render_template('login.html', wrongPassword = wrongPassword)
@@ -77,6 +86,11 @@ def access():
 @app.route('/account')
 def account():
 	return render_template('account.html')	
+
+@app.route('/signup')
+def signup2():
+	print(session['email'])
+	return render_template('signup.html')
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
@@ -92,8 +106,9 @@ def signup():
 	cur.execute(query)
 	cur.fetchall()
 	emailresults = cur.rowcount
-	print (emailresults)
 	conn.commit()
+	
+	print(session['email'])
 	
 	if(emailresults != 0):
 		emailTaken = 'true'
@@ -109,12 +124,12 @@ def signup():
 		
 	try:
 		session['email'] = request.form['email']
-		loggedin = 'true'
+		session['loggedin'] = 'true'
 		cur.execute("INSERT INTO users(email, password) VALUES(%s, crypt(%s, gen_salt('bf')))", (request.form['email'], request.form['password']))
 		conn.commit()
 		cur.execute("INSERT INTO customers(firstname, lastname, email) VALUES(%s, %s, (SELECT email FROM users WHERE email = %s))", (request.form['firstname'], request.form['lastname'], request.form['email']))
 		conn.commit()
-		return render_template('signup.html', loggedin = loggedin)
+		return render_template('signup.html')
 	except:
 		print("ERROR inserting into customer")
 		print("INSERT INTO users(email, password) VALUES(%s, crypt(%s, gen_salt('bf')))" % (request.form['email'], request.form['password']) )

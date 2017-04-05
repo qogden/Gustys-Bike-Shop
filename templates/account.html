@@ -55,9 +55,6 @@
 			 </script>
 			 <div class="registration_form">
 			 <!-- Form -->
-				{% if session['loggedin'] == 'true' %}
-				<h2>Logout to Register</h2>
-				{% else %}
 				<h2>new user? <span> create an account </span></h2>
 				<form id="registration_form" method="post" action="/signup">
 					<div>
@@ -103,7 +100,6 @@
 					<div>
 						<input type="submit" value="create account" id="register-submit">
 					</div>
-					{% endif %}
 				</form>
 				
 				<!-- /Form -->
