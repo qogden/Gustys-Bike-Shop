@@ -184,14 +184,14 @@ INSERT INTO products(name, image, description, price, stock, producttype) VALUES
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Roadmaster Adventure', 'static/images/bike7.jpg','An adorable blue finish is pperfect for your future cyclists.', 100.50, 75, 1);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Serv 6000', 'static/images/bike8.jpg','A great bike for mountain climbing', 149.99, 40, 1);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Durbon C5', 'static/images/bike9.jpg','A perfect fit for tall riders.', 255.00, 20, 1);
-INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Diamondback XC', 'static/images/bike10.jpg',"It's perfect for hiking steep inclines or for casual strolls.", 449.99, 60, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Diamondback XC', 'static/images/bike10.jpg','It is perfect for hiking steep inclines or for casual strolls.', 449.99, 60, 1);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Orange 324', 'static/images/bike11.jpg','Beautiful red color makes it visible in dark settings.', 300.00, 30, 1);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Northwoods Pamona', 'static/images/bike12.jpg','Aethetically pleasing, this bike has a beautiful silver and seafoam grean finish.', 249.99, 50, 1);
 
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Apparel', '','testing apparel', 30.00, 100, 2);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Parts', '','testing parts', 75.50, 50, 3);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Tools', '','testing tools', 20.00, 75, 4);
-INSERT INTO products(name, description, price, stock) VALUES('Bicycle', 'Test Bike.', 300, 200);
+
 
 /*ADDING TO CART*/
 INSERT INTO cart(customerid, day, productid, quantity) VALUES((SELECT id FROM customers WHERE email = 'user2@email.com'), (SELECT CURRENT_DATE), 2, 1);
@@ -201,6 +201,7 @@ INSERT INTO cart(customerid, day, productid, quantity) VALUES((SELECT id FROM cu
 
 /*ADDING REVIEWS*/
 INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'user1@email.com'), 1, (SELECT CURRENT_DATE), 5, 'This is a great product!');
+INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'user2@email.com'), 2, (SELECT CURRENT_DATE), 5, 'This is make to last. Love it!');
 
 
 
