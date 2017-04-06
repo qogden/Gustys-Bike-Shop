@@ -235,7 +235,7 @@ def cart():
 		
 	print(products)
 	if (subtotal != 0.00):
-		shipping = 5.00
+		shipping = 50.00
 	tax = subtotal * 0.15
 	tax = round(tax,2)
 	total = subtotal+ tax + shipping
@@ -267,6 +267,11 @@ def cartqty(quantity, productid):
 	conn.commit()
 	emit('adjustedqty')
 	conn.commit()
+
+@socketio.on('cart')
+def cart2():
+	
+	emit('display')
 
 @socketio.on('cartrm2')
 def cartrm2(quantity, productid):

@@ -175,7 +175,19 @@ INSERT INTO producttype(producttype) VALUES ('tools');
 
 
 /*ADDING PRODUCTS*/
-INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Bike', '','testing bikes', 250.99, 30, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Merax BW2KS', 'static/images/bike1.jpg','Never stop riding.', 749.99, 31, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bayside Kent3600', 'static/images/bike2.jpg','Made for the perfect ride along the water.', 644.99, 49, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Mongoose XCT28', 'static/images/bike3.jpg','Able to withstand great impact.', 389.99, 15, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Genesis Off Road 2061', 'static/images/bike4.jpg','Made to last a lifetime.', 700.00, 37, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Frameo 360', 'static/images/bike5.jpg','Perfect for the long haul.', 624.99, 55, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Mongoose 28', 'static/images/bike6.jpg','Durable bike withstand inclement weather with a breeze.', 374.99, 70, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Roadmaster Adventure', 'static/images/bike7.jpg','An adorable blue finish is pperfect for your future cyclists.', 100.50, 75, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Serv 6000', 'static/images/bike8.jpg','A great bike for mountain climbing', 149.99, 40, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Durbon C5', 'static/images/bike9.jpg','A perfect fit for tall riders.', 255.00, 20, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Diamondback XC', 'static/images/bike10.jpg',"It's perfect for hiking steep inclines or for casual strolls.", 449.99, 60, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Orange 324', 'static/images/bike11.jpg','Beautiful red color makes it visible in dark settings.', 300.00, 30, 1);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Northwoods Pamona', 'static/images/bike12.jpg','Aethetically pleasing, this bike has a beautiful silver and seafoam grean finish.', 249.99, 50, 1);
+
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Apparel', '','testing apparel', 30.00, 100, 2);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Parts', '','testing parts', 75.50, 50, 3);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Tools', '','testing tools', 20.00, 75, 4);
