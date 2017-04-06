@@ -54,8 +54,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="top_left">
 				<ul>
 					{% if session['loggedin'] == 'true' %}
+					<li class="top_link"><a href="/logout">Logout</a></li>|
 					<li class="top_link">Email: <a href=user>{{ session['email'] }}</a></li>|
-					<li class="top_link"><a href="/account">My Account</a></li>|
+					<li class="top_link"><a href="/account_info">My Account</a></li>|
+					{% else %}
+					<li class="top_link"><a href="/login">Login</a></li>|
 					{% endif %}
 				</ul>
 				<div class="social">
@@ -78,16 +81,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 	<a href="/"><span style="float: left"><img src="static/images/Bike Shop logo HD.png" width="600px"/></span><h1>Gusty's Bike Shop</h1></a>
 		 </div>
 		 <div class="header_right">	
-		 	<div class="login">
-		 	{% if session['loggedin'] == 'true' %}
-		 		<form action="/logout">
-				 <input type="submit" value='logout'>
-		 	{% else %}
-		 	<form action="/login">
-				 <input type="submit" value='login'>
-			{% endif %}
-			</div>
-			</form>
 			 <div class="cart box_1">
 				<a href="/cart">
 					<h3> <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)<img src="static/images/bag.png" alt=""></h3>

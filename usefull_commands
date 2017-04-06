@@ -1,3 +1,8 @@
+sudo apt-get update
+sudo apt-get install python-psycopg2
+sudo apt-get install postgresql-contrib-9.3
+sudo easy_install flask markdown
+
 git add .
 git clone https://github.com/qogden/Gustys-bike-shop
 git commit -m "Message"
@@ -5,3 +10,15 @@ git status
 git pull
 git push
 
+mysql-ctl start
+mysql-ctl stop
+mysql-ctl cli
+
+
+sudo service postgresql start
+sudo sudo -u postgres psql
+\i bikes.sql
+\l
+
+\c bikes
+\d 'table'
