@@ -47,7 +47,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li><a href="#">help</a></li>|
 					<li><a href="/contact">Contact</a></li>
 					{% if session['loggedin'] != 'true' %}
-					|<li><a href="/account">Register</a></li>
+					|<li><a href="/signup">Register</a></li>
 					{% endif %}
 				</ul>
 			</div>
@@ -55,8 +55,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<ul>
 					{% if session['loggedin'] == 'true' %}
 					<li class="top_link">Email: <a href=user>{{ session['email'] }}</a></li>|
+					<li class="top_link"><a href="/account">My Account</a></li>|
 					{% endif %}
-					<li class="top_link"><a href="/login">My Account</a></li>|					
 				</ul>
 				<div class="social">
 					<ul>
@@ -106,73 +106,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 <div class="menu_sec">
 		 <!-- start header menu -->
 		 <ul class="megamenu skyblue">
-			 <li class="active grid"><a class="color1" href="/">Home</a></li>
-			 <li class="grid"><a class="color2" href="#">Bikes & Frames</a>
-
-				<div class="megapanel">
-					<div class="row">
-						<div class="col1">
-							<div class="h_nav">
-								<h4>Bikes</h4>
-								<ul>
-									<li><a href="/products">All Bikes</a></li>
-								</ul>	
-							</div>							
-						</div>
-					<div class="row">
-						<div class="col2"></div>
-						<div class="col1"></div>
-						<div class="col1"></div>
-						<div class="col1"></div>
-						<div class="col1"></div>
-					</div>
-    				</div>
-				</li>
-				
-			<li><a class="color4" href="#">Parts & Components</a>
-				<div class="megapanel">
-					<div class="row">
-						<div class="col1">
-							<div class="h_nav">
-								<h4>Components</h4>
-								<ul>
-									<li><a href="/products">Replacement parts</a></li>
-								</ul>	
-							</div>							
-						</div>
-						
-					<div class="row">
-						<div class="col2"></div>
-						<div class="col1"></div>
-						<div class="col1"></div>
-						<div class="col1"></div>
-						<div class="col1"></div>
-					</div>
-    				</div>
-				</li>				
-				<li><a class="color6" href="#">Tools</a>
-				<div class="megapanel">
-					<div class="row">
-						<div class="col1">
-							<div class="h_nav">
-								<h4>Tools</h4>
-								<ul>
-									<li><a href="/products">All Tools</a></li>
-								</ul>	
-							</div>						
-						</div>
-					<div class="row">
-						<div class="col2"></div>
-						<div class="col1"></div>
-						<div class="col1"></div>
-						<div class="col1"></div>
-						<div class="col1"></div>
-					</div>
-    				</div>
-				</li>				
-				<li><a class="color6" href="/blog">Blog</a>
-				</li>				
-			   </ul> 
+			<li class="active grid"><a class="color1" href="/">Home</a></li>
+			<li class="grid"><a class="color2" href="/products">Bikes & Frames</a></li>
+			<li><a class="color4" href="/products">Parts & Components</a></li>
+			<li><a class="color6" href="/products">Tools</a></li>
+			<li><a class="color6" href="/blog">Blog</a></li>
+		 </ul> 
 			   <div class="search">
 				 <form>
 					<input type="text" value="" placeholder="Search...">
