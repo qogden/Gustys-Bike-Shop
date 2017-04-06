@@ -38,7 +38,7 @@ def login():
 	print(session['email'])
 	return render_template('login.html')
 	
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def access():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -92,7 +92,7 @@ def signup2():
 	print(session['email'])
 	return render_template('signup.html')
 
-@app.route('/signup', methods=['POST', 'GET'])
+@app.route('/signup', methods=['POST'])
 def signup():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -150,9 +150,94 @@ def products():
 def contact():
 	return render_template('contact.html')
 	
+def addToCart(productid, quantity):
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	if("email" not in session):
+	 	session['customerid']=uuid.uuid1()
+	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
+		customerid = cur.fetchall()
+		print (customerid)
+		conn.commit()
+	else:
+		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+		customerid = cur.fetchall()
+		print (customerid)
+		conn.commit()
+	
+	cur.execute("INSERT INTO cart(customerid, day, productid, quantity) VALUES(%s, (SELECT CURRENT_DATE), %s, %s)", (customerid, productid, quantity))
+	conn.commit()
+	
+	message='item has been added'
+	return message
+
 @app.route('/cart')
 def cart():
-	return render_template('cart.html')
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+	if("email" not in session):
+	 	session['customerid']=uuid.uuid1()
+	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	else:
+		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	
+	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid[0][0], ))
+	cart = cur.fetchall()
+	conn.commit()
+	
+	subtotal = 0.00
+	tax = 0.00
+	shipping = 5.00
+	total = 0.00
+	
+	i=0
+	j=0
+	k=0
+	products = []
+	for row in cart:
+		c=cart[i]
+		cur.execute("SELECT * FROM products WHERE id = %s", (c[3], ))
+		item = cur.fetchall()
+		conn.commit()
+		print(i)
+		for row in item:
+			p=item[j]	
+			items = [p[0], p[1], p[2], p[4], c[4]]
+			subtotal = subtotal + float(p[4])
+		products.append(items)
+		i+=1
+		
+	print(products)
+	tax = subtotal * 0.15
+	tax = round(tax,2)
+	total = subtotal+ tax + shipping
+	
+	subtotal = "{0:.2f}".format(subtotal)
+	tax = "{0:.2f}".format(tax)
+	shipping = "{0:.2f}".format(shipping)
+	total = "{0:.2f}".format(total)
+	
+	session['total'] = total
+	
+	return render_template('cart.html', cart = products, total = total, subtotal = subtotal, tax = tax, shipping = shipping, count = i)
+
+@app.route('/checkoutinfo')
+def checkoutinfo():
+	return render_template('checkoutinfo.html')
+
+@app.route('/ordersummary')
+def ordersummary():
+	return render_template('ordersummary.html')
+
+@app.route('/customerinfo')
+def customerinfo():
+	return render_template('customerinfo.html')
 
 @app.route('/blog')
 def blog():

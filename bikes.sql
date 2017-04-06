@@ -176,7 +176,7 @@ INSERT INTO producttype(producttype) VALUES ('tools');
 
 /*ADDING PRODUCTS*/
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Bike', '','testing bikes', 250.99, 30, 1);
-INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Apparel', '','testing apparel', 30, 100, 2);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Apparel', '','testing apparel', 30.00, 100, 2);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Parts', '','testing parts', 75.50, 50, 3);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Tools', '','testing tools', 20.00, 75, 4);
 INSERT INTO products(name, description, price, stock) VALUES('Bicycle', 'Test Bike.', 300, 200);
