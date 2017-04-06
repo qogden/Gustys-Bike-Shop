@@ -8,39 +8,44 @@
 		  <li class="active">Cart</li>
 		 </ol>			
 		 <div class="cart-items">
-			 <h2>My Shopping Bag ({{count}})</h2>
+			 <h2>My Cart ({{count}})</h2>
 			 {% for item in cart %}
-				<script>$(document).ready(function(c) {
+				<script>/*$(document).ready(function(c) {
+					
 					$('.close1').on('click', function(c){
 						$('.cart-header').fadeOut('slow', function(c){
-							$('.cart-header').remove();
+							//$('.cart-header').remove();
 						});
 						});	  
 					});
+					
+					*/
+					
+					
 			   </script>
+			   
 			 <div class="cart-header">
-				 <div class="close1"> </div>
-				 <div class="cart-sec">
+			 	
+				 <div class="close1">
+				 	<!--<form method="post" action="/cart">-->
+				 	<input type='image' ng-model="rm{{item[0]}}" src="/static/images/close.png" ng-click="cartrm({{item[4]}},{{item[0]}})">
+				 </div>
+				 <!--</form>-->
+				 
+					<div class="cart-sec">
 						<div class="cart-item cyc">
-							 <img src={{item[2]}}/>
+							 <img src={{item[2]}}>
 						</div>
 					   <div class="cart-item-info">
 							 <h3>{{item[1]}}<span>Product ID: {{item[0]}}</span></h3>
 							 <h4>${{item[3]}} </h4>
-							 <p class="qty">Qty</p>
-								<input min="1" type="number" id="quantity" name="quantity" value={{item[4]}} class="form-control input-small">
+							 <p class="qty" style="float:right">Qty 
+							 	
+								<span ><input min="1" type="number" id="quantity" ng-init={{item[4]}} ng-model="quantity{{item[0]}}" ng-change="cartqty({{item[4]}},{{item[0]}})" class="form-control input-small"></span></p>
 					   </div>
 					   <div class="clearfix"></div>
 				  </div>
 			 </div>
-			 <script>$(document).ready(function(c) {
-					$('.close2').on('click', function(c){
-							$('.cart-header2').fadeOut('slow', function(c){
-						$('.cart-header2').remove();
-					});
-					});	  
-					});
-			 </script>
 		 </div>
 		 {% endfor %}
 		 

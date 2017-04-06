@@ -3,13 +3,13 @@ import psycopg2
 import psycopg2.extras
 import uuid
 
-#from flask.ext.socketio import SocketIO, emit
-from flask import Flask, render_template, request, session
+from flask.ext.socketio import SocketIO, emit
+from flask import Flask, render_template, request, session, redirect
 app = Flask(__name__)
 
 app.secret_key = os.urandom(24).encode('hex')
 app.config['SECRET_KEY'] = 'secret!'
-#socketio = SocketIO(app)
+socketio = SocketIO(app)
 
 def connectToDB():
   connectionString = 'dbname=bikes user=biker password=bike123 host=localhost'
@@ -18,6 +18,10 @@ def connectToDB():
     return psycopg2.connect(connectionString)
   except:
     print("Can't connect to database")
+
+@socketio.on('connect', namespace='/iss')
+def makeConnection():
+    print('connected')
 
 @app.route('/')
 def index():
@@ -209,7 +213,7 @@ def cart():
 	
 	subtotal = 0.00
 	tax = 0.00
-	shipping = 5.00
+	shipping = 0.00
 	total = 0.00
 	
 	i=0
@@ -230,6 +234,8 @@ def cart():
 		i+=1
 		
 	print(products)
+	if (subtotal != 0.00):
+		shipping = 5.00
 	tax = subtotal * 0.15
 	tax = round(tax,2)
 	total = subtotal+ tax + shipping
@@ -242,6 +248,47 @@ def cart():
 	session['total'] = total
 	
 	return render_template('cart.html', cart = products, total = total, subtotal = subtotal, tax = tax, shipping = shipping, count = i)
+
+@socketio.on('cartqty2')
+def cartqty(quantity, productid):
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	if("email" not in session):
+	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	else:
+		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	customerid = customerid[0][0]
+	
+	cur.execute("UPDATE cart SET quantity = %s WHERE customerid = %s AND productid = '%s'", (quantity, customerid, productid))
+	conn.commit()
+	emit('adjustedqty')
+	conn.commit()
+
+@socketio.on('cartrm2')
+def cartrm2(quantity, productid):
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	print(1234)
+	if("email" not in session):
+	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	else:
+		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	print('hey')
+	customerid = customerid[0][0]
+	
+	cur.execute("DELETE FROM cart WHERE customerid = %s AND productid = '%s'", (customerid, productid))
+	conn.commit()
+	print(6789)
+	emit('premove')
+	conn.commit()
 
 @app.route('/checkoutinfo')
 def checkoutinfo():
@@ -259,9 +306,10 @@ def customerinfo():
 def blog():
 	return render_template('blog.html')
 
+
 # start the server
-if __name__ == '__main__':
-    app.run(host=os.getenv('IP', '0.0.0.0'), port =int(os.getenv('PORT', 8080)), debug=True)
-    
 """if __name__ == '__main__':
-    socketio.run(app,host=os.getenv('IP', '0.0.0.0'), port =int(os.getenv('PORT', 8080)), debug=True)"""
+    app.run(host=os.getenv('IP', '0.0.0.0'), port =int(os.getenv('PORT', 8080)), debug=True)"""
+    
+if __name__ == '__main__':
+    socketio.run(app,host=os.getenv('IP', '0.0.0.0'), port =int(os.getenv('PORT', 8080)), debug=True)
