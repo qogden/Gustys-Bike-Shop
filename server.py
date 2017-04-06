@@ -85,7 +85,7 @@ def access():
 
 @app.route('/account')
 def account():
-	return render_template('account.html')	
+	return render_template('signup.html')	
 
 @app.route('/signup')
 def signup2():
@@ -129,13 +129,13 @@ def signup():
 		conn.commit()
 		cur.execute("INSERT INTO customers(firstname, lastname, email) VALUES(%s, %s, (SELECT email FROM users WHERE email = %s))", (request.form['firstname'], request.form['lastname'], request.form['email']))
 		conn.commit()
-		return render_template('signup.html')
+		return render_template('signup2.html')
 	except:
 		print("ERROR inserting into customer")
 		print("INSERT INTO users(email, password) VALUES(%s, crypt(%s, gen_salt('bf')))" % (request.form['email'], request.form['password']) )
 		print("TRIED: INSERT INTO customers(firstname, lastname, email) VALUES(%s, %s, (SELECT email FROM users WHERE email = %s))" % (request.form['firstname'], request.form['lastname'], request.form['email']))
 		conn.rollback()
-		return render_template('account.html')
+		return render_template('signup.html')
 	conn.commit()
 	
 @app.route('/single')
