@@ -19,7 +19,7 @@ def connectToDB():
   except:
     print("Can't connect to database")
 
-@socketio.on('connect', namespace='/iss')
+@socketio.on('connect')
 def makeConnection():
     print('connected')
 
@@ -196,7 +196,7 @@ def addToCart(productid, quantity):
 def cart():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
+	
 	if("email" not in session):
 	 	session['customerid']=uuid.uuid1()
 	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
@@ -249,10 +249,14 @@ def cart():
 	
 	return render_template('cart.html', cart = products, total = total, subtotal = subtotal, tax = tax, shipping = shipping, count = i)
 
-@socketio.on('cartqty2')
-def cartqty(quantity, productid):
+@socketio.on('cartqty')
+def cartqty(productid, quantity):
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	print('cartqty')
+	print(productid)
+	print(quantity)
+	
 	if("email" not in session):
 	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
 		customerid = cur.fetchall()
@@ -262,19 +266,16 @@ def cartqty(quantity, productid):
 		customerid = cur.fetchall()
 		conn.commit()
 	customerid = customerid[0][0]
-	
+	print(customerid)
 	cur.execute("UPDATE cart SET quantity = %s WHERE customerid = %s AND productid = '%s'", (quantity, customerid, productid))
+	print('adjusted')
 	conn.commit()
 	emit('adjustedqty')
-	conn.commit()
+	#conn.commit()
 
-@socketio.on('cart')
-def cart2():
-	
-	emit('display')
 
-@socketio.on('cartrm2')
-def cartrm2(quantity, productid):
+@app.route('/cartrm', methods=['post'])
+def cartrm():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	print(1234)
@@ -286,14 +287,15 @@ def cartrm2(quantity, productid):
 		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 		customerid = cur.fetchall()
 		conn.commit()
+		
 	print('hey')
 	customerid = customerid[0][0]
+	productid = request.form['cartrm']
 	
-	cur.execute("DELETE FROM cart WHERE customerid = %s AND productid = '%s'", (customerid, productid))
+	cur.execute("DELETE FROM cart WHERE customerid = %s AND productid = %s", (customerid, productid))
 	conn.commit()
-	print(6789)
-	emit('premove')
-	conn.commit()
+	return redirect('/cart')
+
 
 @app.route('/checkoutinfo')
 def checkoutinfo():
