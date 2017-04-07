@@ -26,7 +26,7 @@ def makeConnection():
 @app.route('/')
 def index():
 	if("email" not in session):
-	 	session['email'] = ''
+	 	session['email'] = uuid.uuid1()
 	 	session['loggedin'] = 'false'
 	 
 	return render_template('index.html')
@@ -174,17 +174,10 @@ def addToCart(productid, quantity):
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-	if("email" not in session):
-	 	session['customerid']=uuid.uuid1()
-	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
-		customerid = cur.fetchall()
-		print (customerid)
-		conn.commit()
-	else:
-		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-		customerid = cur.fetchall()
-		print (customerid)
-		conn.commit()
+	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+	customerid = cur.fetchall()
+	print (customerid)
+	conn.commit()
 	
 	cur.execute("INSERT INTO cart(customerid, day, productid, quantity) VALUES(%s, (SELECT CURRENT_DATE), %s, %s)", (customerid, productid, quantity))
 	conn.commit()
@@ -197,17 +190,12 @@ def cart():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-	if("email" not in session):
-	 	session['customerid']=uuid.uuid1()
-	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
-		customerid = cur.fetchall()
-		conn.commit()
-	else:
-		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-		customerid = cur.fetchall()
-		conn.commit()
+	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+	customerid = cur.fetchall()
+	customerid = customerid[0][0]
+	conn.commit()
 	
-	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid[0][0], ))
+	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
 	cart = cur.fetchall()
 	conn.commit()
 	
@@ -272,7 +260,6 @@ def cartqty(productid, quantity):
 	conn.commit()
 	emit('adjustedqty')
 	#conn.commit()
-
 
 @app.route('/cartrm', methods=['post'])
 def cartrm():
