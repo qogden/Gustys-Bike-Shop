@@ -155,11 +155,13 @@ def update_account_info():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-	query = cur.mogrify("SELECT * FROM customers WHERE email = %s", (request.form['email'], ))
-	cur.execute(query)
-	cur.fetchall()
-	emailresults = cur.rowcount
-	conn.commit()
+	#query = cur.mogrify("SELECT id FROM customers WHERE email = %s", (request.form['email'], ))
+	#cur.execute(query)
+	#cur.fetchall()
+	#results = cur.rowcount
+	#conn.commit()
+	
+	return render_template('index.html')
 
 	
 @app.route('/products')
