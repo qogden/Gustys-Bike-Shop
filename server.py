@@ -87,10 +87,6 @@ def access():
 		noEmail = 'true'
 		return render_template('login.html', noEmail = noEmail)
 
-@app.route('/account')
-def account():
-	return render_template('signup.html')	
-
 @app.route('/signup')
 def signup2():
 	print(session['email'])
@@ -145,7 +141,11 @@ def signup():
 @app.route('/single')
 def single():
 	return render_template('single.html')
-	
+
+@app.route('/account')
+def account():
+	return render_template('account.html')
+
 @app.route('/account_info')
 def account_info():
 	return render_template('account_info.html')
