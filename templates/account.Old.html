@@ -15,11 +15,6 @@
 					<input placeholder="Firstname" type="text" name="fname" required>
 					<input placeholder="Lastname" type="text" name="lname" required>
 					<p><a href="/contact">Request email or password change?</a></p>
-					<input type="submit" name="account_info" value="update">
-				 </form>				 
-		 </div>
-		 <div class="col-md-6 log -right">
-		 	<form method='post' action='/account_info'>
 					<h3>Payment information</h3>
 					<input placeholder="Cardno" type="text" name="Cardno" required>
 					<input placeholder="csc" type="text" name="csc" required>
@@ -36,6 +31,12 @@
 					<input placeholder="City" type="text" name="City" required>
 					<input placeholder="State" type="text" name="State" required>					
 					<input placeholder="Zip code" type="text" name="Zip code" required>
+				 </form>				 
+		 </div>
+		 <div class="col-md-6 log -right">
+		     <h3>Update information?</h3>
+		 	<form method='post' action='/account_info'>
+		 	    <input type="submit" name="account_info" value="update info">
 			</form>
 		</div>
 		 <div class="clearfix"></div>

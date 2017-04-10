@@ -146,22 +146,29 @@ def single():
 def account():
 	return render_template('account.html')
 
-@app.route('/account_info')
-def account_info():
-	return render_template('account_info.html')
+#@app.route('/account_info')
+#def account_info():
+#	return render_template('account_info.html')
 	
-@app.route('/account_info', methods=['GET', 'POST'])
+@app.route('/account', methods=['GET', 'POST'])
 def update_account_info():
-	conn = connectToDB()
-	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+#	info = { 'name' : 'ian', 'pass' : '123' }
+	return render_template('account.html')
+#	return render_template('account.html', info=info)		#Place in account.html: <!--<p>info: {{contact.name}}</p> -->
+#	if request.method == 'POST':
+#		conn = connectToDB()
+#		cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-	#query = cur.mogrify("SELECT id FROM customers WHERE email = %s", (request.form['email'], ))
+#		session['fname'] = 'Nullname'
+#		session['lname'] = 'Null_last'
+#		print(session['fname'])
+	
+	#query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['fname'], ))
 	#cur.execute(query)
 	#cur.fetchall()
 	#results = cur.rowcount
 	#conn.commit()
-	
-	return render_template('index.html')
+	#return render_template('account.html')
 
 	
 @app.route('/products')
