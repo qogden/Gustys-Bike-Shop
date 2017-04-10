@@ -142,9 +142,9 @@ def signup():
 def single():
 	return render_template('single.html')
 
-@app.route('/account')
-def account():
-	return render_template('account.html')
+#@app.route('/account')
+#def account():
+#	return render_template('account.html')
 
 #@app.route('/account_info')
 #def account_info():
