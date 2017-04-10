@@ -21,12 +21,13 @@ def connectToDB():
 
 @socketio.on('connect')
 def makeConnection():
-    print('connected')
+	session['user'] = uuid.uuid1()
+	print('connected')
 
 @app.route('/')
 def index():
 	if("email" not in session):
-	 	session['email'] = uuid.uuid1()
+	 	session['email'] = ''
 	 	session['loggedin'] = 'false'
 	 
 	return render_template('index.html')
@@ -79,6 +80,10 @@ def access():
 			else:
 				session['email'] = request.form['email']
 				session['loggedin'] = 'true'
+				
+				#switch all unregistered user products onto the customer
+				
+				
 				return render_template('index.html')
 		else:
 			wrongPassword = 'true'
@@ -188,57 +193,20 @@ def addToCart(productid, quantity):
 	return message
 
 @app.route('/cart')
-def cart():
-	conn = connectToDB()
-	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+def cart2():
 	
-	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-	customerid = cur.fetchall()
-	customerid = customerid[0][0]
-	conn.commit()
-	
-	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
-	cart = cur.fetchall()
-	conn.commit()
-	
-	subtotal = 0.00
-	tax = 0.00
-	shipping = 0.00
-	total = 0.00
-	
-	i=0
-	j=0
-	k=0
-	products = []
-	for row in cart:
-		c=cart[i]
-		cur.execute("SELECT * FROM products WHERE id = %s", (c[3], ))
-		item = cur.fetchall()
-		conn.commit()
-		print(i)
-		for row in item:
-			p=item[j]	
-			items = [p[0], p[1], p[2], p[4], c[4]]
-			subtotal = subtotal + float(p[4])
-		products.append(items)
-		i+=1
-		
-	print(products)
-	if (subtotal != 0.00):
-		shipping = 50.00
-	tax = subtotal * 0.15
-	tax = round(tax,2)
-	total = subtotal+ tax + shipping
-	
-	subtotal = "{0:.2f}".format(subtotal)
-	tax = "{0:.2f}".format(tax)
-	shipping = "{0:.2f}".format(shipping)
-	total = "{0:.2f}".format(total)
-	
-	session['total'] = total
-	
-	return render_template('cart.html', cart = products, total = total, subtotal = subtotal, tax = tax, shipping = shipping, count = i)
+	products = getProducts()
+	totals = getTotals()
 
+	return render_template('cart.html', cart = products, totals = totals)
+
+@socketio.on('cart')
+def cart():
+	
+	totals = getTotals()
+	
+	emit('totals', totals)
+	
 @socketio.on('cartqty')
 def cartqty(productid, quantity):
 	conn = connectToDB()
@@ -260,8 +228,10 @@ def cartqty(productid, quantity):
 	cur.execute("UPDATE cart SET quantity = %s WHERE customerid = %s AND productid = '%s'", (quantity, customerid, productid))
 	print('adjusted')
 	conn.commit()
-	emit('adjustedqty')
-	#conn.commit()
+	
+	totals=getTotals()
+	
+	emit('totals', totals)
 
 @app.route('/cartrm', methods=['post'])
 def cartrm():
@@ -288,7 +258,118 @@ def cartrm():
 
 @app.route('/checkoutinfo')
 def checkoutinfo():
-	return render_template('checkoutinfo.html')
+	
+	userinfo = getUserInfo()
+	products = getProducts()
+	totals = getTotals()
+	
+	return render_template('checkoutinfo.html', info = userinfo, cart = products, totals = totals)
+
+def getUserInfo():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	cur.execute("SELECT * FROM customers WHERE email = %s", (session['email'], ))
+	r = cur.fetchall()
+	conn.commit()
+	
+	i = 0
+	j = 0
+	for row in r:
+		for now in r[i]:
+			if r[i][j] == None:
+				r[i][j] = ''
+			print r[i][j]
+			j+=1
+		i+=1
+
+	userInfo = {'first': r[0][1], 'last':r[0][2], 'email':r[0][3], 'bstreet': r[0][4], 'bstreet2': r[0][5], 'bcity':r[0][6], 'bstate':r[0][7], 'bzip':r[0][8], 'sstreet': r[0][9], 'sstreet2': r[0][10], 'scity':r[0][11], 'sstate':r[0][12], 'szip':r[0][13], 'cardno':r[0][14], 'csc':r[0][15], 'exp':r[0][16]}
+		
+	return userInfo
+
+def getProducts():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	if("email" not in session):
+	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	else:
+		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	customerid = customerid[0][0]
+	print(customerid)
+	conn.commit()
+
+	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
+	cart = cur.fetchall()
+	conn.commit()
+	
+	i=0
+	j=0
+	k=0
+	products = []
+	for row in cart:
+		c=cart[i]
+		cur.execute("SELECT * FROM products WHERE id = %s", (c[3], ))
+		item = cur.fetchall()
+		conn.commit()
+		print(i)
+		for row in item:
+			p=item[j]	
+			items = [p[0], p[1], p[2], p[4], c[4]]
+		products.append(items)
+	return products
+
+def getTotals():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+	customerid = cur.fetchall()
+	customerid = customerid[0][0]
+	conn.commit()
+	
+	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
+	cart = cur.fetchall()
+	conn.commit()
+	
+	subtotal = 0.00
+	tax = 0.00
+	shipping = 0.00
+	total = 0.00
+	
+	i=0
+	j=0
+	k=0
+	count = 0
+	for row in cart:
+		c=cart[i]
+		cur.execute("SELECT * FROM products WHERE id = %s", (c[3], ))
+		item = cur.fetchall()
+		conn.commit()
+		for row in item:
+			p=item[j]	
+			count = count + c[4]
+			subtotal = (subtotal + float(p[4]))*float(c[4])
+		i+=1
+		
+	if (subtotal != 0.00):
+		shipping = 50.00
+	tax = subtotal * 0.15
+	tax = round(tax,2)
+	total = subtotal+ tax + shipping
+	
+	subtotal = "{0:.2f}".format(subtotal)
+	tax = "{0:.2f}".format(tax)
+	shipping = "{0:.2f}".format(shipping)
+	total = "{0:.2f}".format(total)
+	
+	totals={'total':total, 'subtotal':subtotal, 'tax':tax, 'shipping':shipping, 'count': count}
+	
+	return totals
 
 @app.route('/ordersummary')
 def ordersummary():
