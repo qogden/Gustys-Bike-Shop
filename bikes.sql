@@ -39,7 +39,6 @@ CREATE TABLE customers (
     cardno text,
     csc text,
     exp text 
-
 );
 
 DROP TABLE IF EXISTS employeetype;

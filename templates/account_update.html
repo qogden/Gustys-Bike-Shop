@@ -5,29 +5,22 @@
 	<div class="container">
 		<ol class="breadcrumb">
 		<li><a href="/">Home</a></li>
-		<li class="active">Account</li>
+		<li class="active">Account Info</li>
 		</ol>
-		<h2>Update information to purchase products.</h2>
-		<br></br>
-		<!-- use span to keep everything on same line-->
-		<div class="col-md-3 update_form">
-			<form id="registration_form" method="post" action="/account">
-				<label>
-				{{info['fname']}}
-				</label>
-			</form>
-		</div>
-		<div class="col-md-9 update_form">
+
+		<div class="update_form">
+			<h2>Update information to purchase products.</h2>
 			<form id="registration_form" method="post" action="/account">
 				<label>
 					<input placeholder="first name" name='firstname' type="text">
 					<input type="submit" value="update" id="fname-submit">
 				</label>
 			</form>
-		</div>
-<!--		 
+		 </div>
+<!--
 		 <form method='post' action='/account_info'>
-		 	<h3>Account update page</h3>
+		 	<h3>User information</h3>
+			<input placeholder="Firstname" type="text" name="fname" required>
 			<input type="submit" name="account_info" value="update">
 		 </form>
 -->
