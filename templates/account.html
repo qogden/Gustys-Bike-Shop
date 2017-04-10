@@ -7,10 +7,17 @@
 		<li><a href="/">Home</a></li>
 		<li class="active">Account</li>
 		</ol>
-		
-		
-<!--		<div class="col-md-8 update_form">
-			<h2>Update information to purchase products.</h2>
+		<h2>Update information to purchase products.</h2>
+		<br></br>
+		<!-- use span to keep everything on same line-->
+		<div class="col-md-3 update_form">
+			<form id="registration_form" method="post" action="/account">
+				<label>
+				{{info['fname']}}
+				</label>
+			</form>
+		</div>
+		<div class="col-md-9 update_form">
 			<form id="registration_form" method="post" action="/account">
 				<label>
 					<input placeholder="first name" name='firstname' type="text">
@@ -18,17 +25,9 @@
 				</label>
 			</form>
 		</div>
-		<div class="col-md-2 -right update_form">
-			<label>
-				<input placeholder="first name" name='firstname' type="text">
-				<input type="submit" value="update" id="fname-submit">
-			</label>
-		 </div>
--->		 
-<!--
+<!--		 
 		 <form method='post' action='/account_info'>
-		 	<h3>User information</h3>
-			<input placeholder="Firstname" type="text" name="fname" required>
+		 	<h3>Account update page</h3>
 			<input type="submit" name="account_info" value="update">
 		 </form>
 -->

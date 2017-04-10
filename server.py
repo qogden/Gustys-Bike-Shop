@@ -152,24 +152,25 @@ def single():
 	
 @app.route('/account', methods=['GET', 'POST'])
 def update_account_info():
-#	info = { 'name' : 'ian', 'pass' : '123' }
-	return render_template('account.html')
-#	return render_template('account.html', info=info)		#Place in account.html: <!--<p>info: {{contact.name}}</p> -->
+	info = {'fname':'Ian', 'lname':'Carlyle',
+			'bstreet':'rocky road','bstreet2':'','bcity':'ricksburg','bstate':'solid','bzip':'1234',
+			'sstreet':'rocky road','sstreet2':'','scity':'ricksburg','sstate':'solid','szip':'1234',
+			'cardno':'1234567','csc':'666','exp':'now'}
 #	if request.method == 'POST':
-#		conn = connectToDB()
-#		cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-#		session['fname'] = 'Nullname'
-#		session['lname'] = 'Null_last'
-#		print(session['fname'])
+#	session['fname'] = 'Nullname'
+#	session['lname'] = 'Null_last'
+#	print(session['fname'])
 	
 	#query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['fname'], ))
 	#cur.execute(query)
 	#cur.fetchall()
 	#results = cur.rowcount
 	#conn.commit()
-	#return render_template('account.html')
-
+	
+	return render_template('account.html', info=info)
 	
 @app.route('/products')
 def products():
