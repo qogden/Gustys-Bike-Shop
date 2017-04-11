@@ -2,6 +2,7 @@ var App = angular.module('App', []);
 
 App.controller('AppController', function($scope){
     var socket = io.connect('https://' + document.domain + ':' + location.port);
+    
     $scope.totals = [];
 
     $scope.cartqty = function cartqty(qty, pid){
@@ -19,6 +20,7 @@ App.controller('AppController', function($scope){
     
     socket.on('connect', function(){
         console.log('connected');
+        
     });
     
 });
