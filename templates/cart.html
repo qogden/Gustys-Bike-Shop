@@ -8,7 +8,7 @@
 		  <li class="active">Cart</li>
 		 </ol>			
 		 <div class="cart-items">
-			 <h2>My Cart ({{count}})</h2>
+			 <h2>My Cart (<span ng-bind="totals['count']"></span>)</h2>
 			 {% for item in cart %}
 				<script>/*$(document).ready(function(c) {
 					
@@ -40,7 +40,7 @@
 							 <h3>{{item[1]}}<span>Product ID: {{item[0]}}</span></h3>
 							 <h4>${{item[3]}} </h4>
 							 <p class="qty" style="float:right">Qty 
-								<span><input min="1" type="number" id="quantity" data-ng-model="quantity{{item[4]}}" ng-change="cartqty(quantity{{item[4]}},{{item[0]}})" class="form-control input-small"></span></p>
+								<span><input min="1" type="number" id="quantity" ng-model="quantity{{item[4]}}" ng-init="quantity{{item[4]}} = {{item[4]}}" ng-change="cartqty(quantity{{item[4]}},{{item[0]}})" class="form-control input-small"></span></p>
 					   </div>
 					   <div class="clearfix"></div>
 				  </div>
@@ -51,17 +51,17 @@
 		 <div class="cart-total">
 			 <div class="price-details">
 				 <span>Subtotal</span>
-				 <span class="total">${{subtotal1}}</span>
+				 <span class="total">  <span ng-bind="totals['subtotal']"></span></span>
 				 <span>Tax</span>
-				 <span class="total">${{tax1}}</span>
+				 <span class="total">  <span ng-bind="totals['tax']"></span></span>
 				 <span>Shipping</span>
-				 <span class="total">${{shipping1}}</span>
-				 <div class="clearfix"></div>				 
+				 <span class="total">  <span ng-bind="totals['shipping']"></span></span>
+				 <div class="clearfix"></div>
 			 </div>	
 			 <h4 class="last-price">TOTAL</h4>
-			 <span class="total final">${{total1}}</span>
+			 <span class="total final">$ <b ng-bind="totals['total']"></b></span>
 			 <div class="clearfix"></div>
-			 <a class="order" href="/checkoutinfo">Place Order</a>
+			 <a class="order" href="/ordersummary">Place Order</a>
 			 <div class="total-item">
 			 </div>
 			</div>

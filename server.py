@@ -22,6 +22,8 @@ def connectToDB():
 @socketio.on('connect')
 def makeConnection():
 	session['user'] = uuid.uuid1()
+	totals = getTotals()
+	emit('totals', totals)
 	print('connected')
 
 @app.route('/')
@@ -264,14 +266,14 @@ def cartrm():
 	return redirect('/cart')
 
 
-@app.route('/checkoutinfo')
-def checkoutinfo():
+@app.route('/ordersummary')
+def ordersummary():
 	
 	userinfo = getUserInfo()
 	products = getProducts()
 	totals = getTotals()
 	
-	return render_template('checkoutinfo.html', info = userinfo, cart = products, totals = totals)
+	return render_template('ordersummary.html', info = userinfo, cart = products, totals = totals)
 
 def getUserInfo():
 	conn = connectToDB()
@@ -313,6 +315,7 @@ def getProducts():
 
 	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
 	cart = cur.fetchall()
+	print cart
 	conn.commit()
 	
 	i=0
@@ -329,6 +332,8 @@ def getProducts():
 			p=item[j]	
 			items = [p[0], p[1], p[2], p[4], c[4]]
 		products.append(items)
+		i+=1
+	print products
 	return products
 
 def getTotals():
@@ -379,13 +384,9 @@ def getTotals():
 	
 	return totals
 
-@app.route('/ordersummary')
-def ordersummary():
-	return render_template('ordersummary.html')
-
-@app.route('/customerinfo')
-def customerinfo():
-	return render_template('customerinfo.html')
+@app.route('/order')
+def order():
+	return render_template('order.html')
 
 @app.route('/blog')
 def blog():
