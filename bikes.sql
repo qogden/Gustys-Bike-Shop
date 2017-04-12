@@ -228,8 +228,8 @@ INSERT INTO products(name, image, description, price, stock, producttype) VALUES
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Orange 324', '/static/images/bike11.jpg','Beautiful red color makes it visible in dark settings.', 300.00, 30, 1);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Northwoods Pamona', '/static/images/bike12.jpg','Aethetically pleasing, this bike has a beautiful silver and seafoam grean finish.', 249.99, 50, 1);
 
-INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Parts', '','testing parts', 75.50, 50, 2);
-INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Test Tools', '','testing tools', 20.00, 75, 3);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Tire', '/static/images/tire1.jpg','Test tire', 75.50, 50, 2);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Hammer', '/static/images/hammer.jpg','Test hammer', 20.00, 75, 3);
 
 
 /*ADDING TO CART*/
