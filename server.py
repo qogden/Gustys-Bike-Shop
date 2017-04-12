@@ -21,15 +21,15 @@ def connectToDB():
 
 @socketio.on('connect')
 def makeConnection():
-	session['user'] = uuid.uuid1()
 	totals = getTotals()
 	emit('totals', totals)
+	
 	print('connected')
 
 @app.route('/')
 def index():
 	if("email" not in session):
-	 	session['email'] = ''
+		session['email']=''
 	 	session['loggedin'] = 'false'
 	 
 	return render_template('index.html')
@@ -148,6 +148,70 @@ def signup():
 @app.route('/single')
 def single():
 	return render_template('single.html')
+	
+@app.route('/bikes')
+def products():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+	cur.execute("SELECT * FROM products WHERE producttype = (SELECT id FROM producttype WHERE producttype = 'bicycles')")
+	stock = cur.fetchall()
+	print stock
+	conn.commit()
+	
+	i=0
+	products = []
+	for row in stock:
+		for row in stock[i]:
+			p = stock[i]
+			items = {'id':p[0], 'name':p[1], 'image':p[2], 'price':p[4]}
+		products.append(items)
+		i+=1
+	print products
+	
+	return render_template('bikes.html', stock = products)
+	
+@app.route('/parts')
+def parts():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+	cur.execute("SELECT * FROM products WHERE producttype = (SELECT id FROM producttype WHERE producttype = 'parts')")
+	stock = cur.fetchall()
+	print stock
+	conn.commit()
+	
+	i=0
+	products = []
+	for row in stock:
+		for row in stock[i]:
+			p = stock[i]
+			items = {'id':p[0], 'name':p[1], 'image':p[2], 'price':p[4]}
+		products.append(items)
+		i+=1
+	print products
+	return render_template('parts.html', stock = products)
+	
+@app.route('/tools')
+def tools():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+	cur.execute("SELECT * FROM products WHERE producttype = (SELECT id FROM producttype WHERE producttype = 'tools')")
+	stock = cur.fetchall()
+	print stock
+	conn.commit()
+	
+	i=0
+	products = []
+	for row in stock:
+		for row in stock[i]:
+			p = stock[i]
+			items = {'id':p[0], 'name':p[1], 'image':p[2], 'price':p[4]}
+		products.append(items)
+		i+=1
+	print products
+	return render_template('tools.html', stock = products)
 
 #@app.route('/account')
 #def account():
@@ -178,10 +242,6 @@ def update_account_info():
 	#conn.commit()
 	
 	return render_template('account.html', info=info)
-	
-@app.route('/products')
-def products():
-	return render_template('products.html')
 
 @app.route('/contact')
 def contact():
@@ -202,20 +262,16 @@ def addToCart(productid, quantity):
 	message='item has been added'
 	return message
 
-@app.route('/cart')
-def cart2():
-	
-	products = getProducts()
-	totals = getTotals()
-
-	return render_template('cart.html', cart = products, totals = totals)
-
 @socketio.on('cart')
 def cart():
-	
 	totals = getTotals()
-	
 	emit('totals', totals)
+
+@app.route('/cart')
+def cart1():
+	products = getProducts()
+	totals = getTotals()
+	return render_template('cart.html', cart = products, totals = totals)
 	
 @socketio.on('cartqty')
 def cartqty(productid, quantity):
@@ -247,7 +303,6 @@ def cartqty(productid, quantity):
 def cartrm():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-	print(1234)
 	if("email" not in session):
 	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
 		customerid = cur.fetchall()
@@ -257,14 +312,12 @@ def cartrm():
 		customerid = cur.fetchall()
 		conn.commit()
 		
-	print('hey')
 	customerid = customerid[0][0]
 	productid = request.form['cartrm']
 	
 	cur.execute("DELETE FROM cart WHERE customerid = %s AND productid = %s", (customerid, productid))
 	conn.commit()
 	return redirect('/cart')
-
 
 @app.route('/ordersummary')
 def ordersummary():
@@ -301,16 +354,9 @@ def getProducts():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-	if("email" not in session):
-	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
-		customerid = cur.fetchall()
-		conn.commit()
-	else:
-		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-		customerid = cur.fetchall()
-		conn.commit()
+	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+	customerid = cur.fetchall()
 	customerid = customerid[0][0]
-	print(customerid)
 	conn.commit()
 
 	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
@@ -383,10 +429,10 @@ def getTotals():
 	totals={'total':total, 'subtotal':subtotal, 'tax':tax, 'shipping':shipping, 'count': count}
 	
 	return totals
-
-@app.route('/order')
+	
+@app.route('/orderconfirmation')
 def order():
-	return render_template('order.html')
+	return render_template('orderconfirmation.html')
 
 @app.route('/blog')
 def blog():
@@ -394,8 +440,5 @@ def blog():
 
 
 # start the server
-"""if __name__ == '__main__':
-    app.run(host=os.getenv('IP', '0.0.0.0'), port =int(os.getenv('PORT', 8080)), debug=True)"""
-    
 if __name__ == '__main__':
     socketio.run(app,host=os.getenv('IP', '0.0.0.0'), port =int(os.getenv('PORT', 8080)), debug=True)
