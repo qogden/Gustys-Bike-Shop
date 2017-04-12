@@ -142,27 +142,40 @@ def signup():
 def single():
 	return render_template('single.html')
 
-#@app.route('/account')
-#def account():
-#	return render_template('account.html')
-
-#@app.route('/account_info')
-#def account_info():
-#	return render_template('account_info.html')
-	
 @app.route('/account', methods=['GET', 'POST'])
 def update_account_info():
-	info = {'fname':'Ian', 'lname':'Carlyle',
-			'bstreet':'rocky road','bstreet2':'','bcity':'ricksburg','bstate':'solid','bzip':'1234',
-			'sstreet':'rocky road','sstreet2':'','scity':'ricksburg','sstate':'solid','szip':'1234',
-			'cardno':'1234567','csc':'666','exp':'now'}
-#	if request.method == 'POST':
+	# Placeholder Data
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	info = {'fname':'John', 'lname':'Smith',
+			'bstreet':'rocky road','bstreet2':'','bcity':'the ricksburg','bstate':'solid','bzip':'1234',
+			'sstreet':'rocky road','sstreet2':'','scity':'the ricksburg','sstate':'solid','szip':'1234',
+			'cardno':'1234567','csc':'666','exp':'now'}
+	
+	
+#	query = cur.mogrify("SELECT * FROM  WHERE email = %s", (request.form['email'], ))
+#	cur.execute(query)
+#	cur.fetchall()
+#	emailresults = cur.rowcount
+#	conn.commit()
+	
 	
 #	session['fname'] = 'Nullname'
 #	session['lname'] = 'Null_last'
 #	print(session['fname'])
+
+#	try:
+#		cur.execute("INSERT INTO customers(firstname, lastname, email) VALUES(%s, %s, (SELECT email FROM users WHERE email = %s))", (request.form['firstname'], request.form['lastname'], request.form['email']))
+#		conn.commit()
+#		return render_template('signup2.html')
+#	except:
+#		print("ERROR updating customer info")
+#		print("TRIED: INSERT INTO customers(firstname, lastname, email) VALUES(%s, %s, (SELECT email FROM users WHERE email = %s))" % (request.form['firstname'], request.form['lastname'], request.form['email']))
+#		conn.rollback()
+#		return render_template('account.html')
+#	conn.commit()
+	
+	
 	
 	#query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['fname'], ))
 	#cur.execute(query)

@@ -14,7 +14,7 @@ mysql-ctl start
 mysql-ctl stop
 mysql-ctl cli
 
-
+sudo service postgresql stop
 sudo service postgresql start
 sudo sudo -u postgres psql
 \i bikes.sql
