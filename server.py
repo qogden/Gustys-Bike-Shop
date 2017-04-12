@@ -149,22 +149,22 @@ def signup():
 def single():
 	return render_template('single.html')
 
-@app.route('/account', methods=['GET', 'POST'])
+@app.route('/account', methods=['GET','POST'])
 def update_account_info():
 	# Placeholder Data
-	conn = connectToDB()
-	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	info = {'fname':'John', 'lname':'Smith',
 			'bstreet':'rocky road','bstreet2':'','bcity':'the ricksburg','bstate':'solid','bzip':'1234',
 			'sstreet':'rocky road','sstreet2':'','scity':'the ricksburg','sstate':'solid','szip':'1234',
 			'cardno':'1234567','csc':'666','exp':'now'}
 	
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-#	query = cur.mogrify("SELECT * FROM  WHERE email = %s", (request.form['email'], ))
-#	cur.execute(query)
-#	cur.fetchall()
-#	emailresults = cur.rowcount
-#	conn.commit()
+	query = cur.mogrify("SELECT * FROM  WHERE email = %s", (request.form['email'], ))
+	cur.execute(query)
+	cur.fetchall()
+	results = cur.rowcount
+	conn.commit()
 	
 	
 #	session['fname'] = 'Nullname'
