@@ -8,7 +8,7 @@ CREATE ROLE biker WITH password 'bike123' LOGIN;
 
 CREATE EXTENSION pgcrypto;
 
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
     email text NOT NULL PRIMARY KEY,
     password text NOT NULL

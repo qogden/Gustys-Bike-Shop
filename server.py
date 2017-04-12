@@ -229,7 +229,8 @@ def update_account_info():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-#	query = cur.execute("SELECT * FROM users WHERE email = %s", (request.form['email'], ))
+	query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['email'], ))
+	print(query)
 #	cur.execute(query)
 #	cur.fetchall()
 #	results = cur.rowcount
@@ -307,6 +308,7 @@ def cartqty(productid, quantity):
 		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 		customerid = cur.fetchall()
 		conn.commit()
+	print('cartqty CustomerID;', customerid)
 	customerid = customerid[0][0]
 	print(customerid)
 	cur.execute("UPDATE cart SET quantity = %s WHERE customerid = %s AND productid = '%s'", (quantity, customerid, productid))
@@ -329,7 +331,7 @@ def cartrm():
 		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 		customerid = cur.fetchall()
 		conn.commit()
-		
+	print('cartrm CustomerID;', customerid)
 	customerid = customerid[0][0]
 	productid = request.form['cartrm']
 	
@@ -374,6 +376,7 @@ def getProducts():
 	
 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 	customerid = cur.fetchall()
+	print('getProducts CustomerID;', customerid)
 	customerid = customerid[0][0]
 	conn.commit()
 
@@ -406,6 +409,7 @@ def getTotals():
 	
 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 	customerid = cur.fetchall()
+	print('getTotals CustomerID;', customerid)
 	customerid = customerid[0][0]
 	conn.commit()
 	
