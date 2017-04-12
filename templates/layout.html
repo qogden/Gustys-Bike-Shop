@@ -80,11 +80,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 	<!--<a href="/"><img src="static/images/Bike Shop logo HD.png" alt=""/></a>-->
 		 	<a href="/"><span style="float: left"><img src="static/images/Bike Shop logo HD.png" width="600px"/></span><h1>Gusty's Bike Shop</h1></a>
 		 </div>
+		 
 		 <div class="header_right">	
 			 <div class="cart box_1">
+			 	{% if session['loggedin'] == 'true' %}
 				<a href="/cart">
-					<h3><span class="simpleCart_total" >$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)<img src="static/images/bag.png" alt=""></h3>
+					<h3><img src="static/images/bag.png" alt=""> $<span ng-bind="totals['total']"></span> (<span ng-bind="totals['count']"></span> items)</h3>
 				</a>
+				{% else %}
+				<a href="/login">
+					<h3><img src="static/images/bag.png" alt=""> $0</span> (0 items)</h3>
+				</a>
+				{% endif %}
 				<div class="clearfix"> </div>
 			 </div>				 
 		 </div>
@@ -100,9 +107,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 <!-- start header menu -->
 		 <ul class="megamenu skyblue">
 			<li class="active grid"><a class="color1" href="/">Home</a></li>
-			<li class="grid"><a class="color2" href="/products">Bikes & Frames</a></li>
-			<li><a class="color4" href="/products">Parts & Components</a></li>
-			<li><a class="color6" href="/products">Tools</a></li>
+			<li class="grid"><a class="color2" href="/bikes">Bikes & Frames</a></li>
+			<li><a class="color4" href="/parts">Parts & Components</a></li>
+			<li><a class="color6" href="/tools">Tools</a></li>
 			<li><a class="color6" href="/blog">Blog</a></li>
 		 </ul> 
 			   <div class="search">

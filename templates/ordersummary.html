@@ -7,7 +7,7 @@
 		  <li><a href="men.html">Home</a></li>
 		  <li class="active">Cart</li>
 		 </ol>			
-		     <a href="/account"><h5 style="text-align:right">Update Profile Information</h5></a>
+		     <a href="/account"><h5 style="color:blue; text-align:right">Update Profile Information</h5></a>
 		     <form>
 		         
              <table>
@@ -22,31 +22,31 @@
 		     <table>
 		     <h4>Billing Information</h4>
 		     <br>
-		     <tr><td>Street Address: </td> <td><input type='text' value="{{info['bstreet']}}" required></td></tr>
-		     <tr><td>Street Address 2: </td> <td><input type='text' value="{{info['bstreet2']}}" required></td></tr>
-		     <tr><td>City: </td> <td><input type='text' value="{{info['bcity']}}" required></td></tr>
-		     <tr><td>State: </td> <td><input type='text' value="{{info['bstate']}}" required></td></tr>
-		     <tr><td>Zip: </td> <td><input type='text' value="{{info['bzip']}}" required></td></tr>
+		     <tr><td>Street Address: </td> <td><input type='text' name="bstreet" value="{{info['bstreet']}}" required></td></tr>
+		     <tr><td>Street Address 2: </td> <td><input type='text' name="bstreet2" value="{{info['bstreet2']}}" required></td></tr>
+		     <tr><td>City: </td> <td><input type='text' name="bcity" value="{{info['bcity']}}" required></td></tr>
+		     <tr><td>State: </td> <td><input type='text' name="bstate" value="{{info['bstate']}}" required></td></tr>
+		     <tr><td>Zip: </td> <td><input type='text' name="bzip" value="{{info['bzip']}}" required></td></tr>
 		     </table>
              <br>
 		     
 		     <table>
 		     <h4>Shipping Information</h4>
 		     <br>
-		     <tr><td>Street Address: </td> <td><input type='text' value="{{info['sstreet']}}" required></td></tr>
-		     <tr><td>Street Address 2: </td> <td><input type='text' value="{{info['sstreet2']}}" required></td></tr>
-		     <tr><td>City: </td> <td><input type='text' value="{{info['scity']}}" required></td></tr>
-		     <tr><td>State: </td> <td><input type='text' value="{{info['sstate']}}" required></td></tr>
-		     <tr><td>Zip: </td> <td><input type='text' value="{{info['szip']}}" required></td></tr>
+		     <tr><td>Street Address: </td> <td><input type='text' name="sstreet" value="{{info['sstreet']}}" required></td></tr>
+		     <tr><td>Street Address 2: </td> <td><input type='text' name="sstreet2" value="{{info['sstreet2']}}" required></td></tr>
+		     <tr><td>City: </td> <td><input type='text' name="scity" value="{{info['scity']}}" required></td></tr>
+		     <tr><td>State: </td> <td><input type='text' name="sstate" value="{{info['sstate']}}" required></td></tr>
+		     <tr><td>Zip: </td> <td><input type='text' name="szip" value="{{info['szip']}}" required></td></tr>
 		     </table>
 		     <br>
 		     
 		     <table>
 		     <h4>Card Information</h4>
 		     <br>
-		     <tr><td>Card Number: </td> <td><input type='text' value="{{info['cardno']}}" required></td></tr>
-		     <tr><td>Csc: </td> <td><input type='text' value="{{info['csc']}}" required></td></tr>
-		     <tr><td>Expiration Date: </td> <td><input type='text' value="{{info['exp']}}" required></td></tr>
+		     <tr><td>Card Number: </td> <td><input type='text' name="cardno" value="{{info['cardno']}}" required></td></tr>
+		     <tr><td>Csc: </td> <td><input type='text' name="csc" value="{{info['csc']}}" required></td></tr>
+		     <tr><td>Expiration Date: </td> <td><input type='text' name="exp" value="{{info['exp']}}" required></td></tr>
 		     </table>
 		     <br>
 		     </table>
@@ -86,7 +86,7 @@
 			 <h4 class="last-price">TOTAL</h4>
 			 <span class="total final">$ {{totals['total']}}</span>
 			 <div class="clearfix"></div>
-			 <a class="order" href="/order">Confirm Order</a>
+			 <a class="order" href="/orderconfirmation">Confirm Order</a>
 			 <div class="total-item">
 			 </div>
 			</div>

@@ -107,6 +107,45 @@ CREATE TABLE reviews (
     comment text
 );
 
+DROP TABLE IF EXISTS orders;
+CREATE TABLE orders(
+     id serial NOT NULL PRIMARY KEY,
+     customerid int NOT NULL references customers(id),
+     
+     firstname text NOT NULL,
+     lastname text NOT NULL,
+     email text NOT NULL references users(email),
+     
+     /*billing information*/
+     bstreet1 text NOT NULL,
+     bstreet2 text NOT NULL,
+     bcity text NOT NULL,
+     bstate text NOT NULL,
+     bzip text NOT NULL,
+    
+     /*shipping information*/
+     sstreet1 text NOT NULL,
+     sstreet2 text NOT NULL,
+     scity text NOT NULL,
+     sstate text NOT NULL,
+     szip text NOT NULL,
+    
+     /*payment information*/
+     cardno text NOT NULL,
+     csc text NOT NULL,
+     exp text NOT NULL
+     
+);
+
+DROP TABLE IF EXISTS orderitems;
+CREATE TABLE orderitems(
+    orderid int NOT NULL references orders(id),
+    productid int NOT NULL references products(id),
+    quantity int
+
+);
+
+
 /*PERMISSIONS*/
 GRANT ALL ON users TO biker;
 GRANT ALL ON customers TO biker;
@@ -125,6 +164,9 @@ GRANT ALL ON cart TO biker;
 GRANT ALL ON cart_id_seq TO biker;
 GRANT ALL ON reviews TO biker;
 GRANT ALL ON reviews_id_seq TO biker;
+GRANT ALL ON orderitems TO biker;
+GRANT ALL ON orders TO biker;
+GRANT ALL ON orders_id_seq TO biker;
 
 
 /*ADDING TYPES OF USERS*/

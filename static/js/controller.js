@@ -17,7 +17,6 @@ App.controller('AppController', function($scope){
         $scope.$apply();
     });
     
-    
     socket.on('connect', function(){
         console.log('connected');
         
