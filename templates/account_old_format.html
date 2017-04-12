@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="info_sec">
+	<div class="container">
+		<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li class="active">Account</li>
+		</ol>
+		<h2>Update information to purchase products.</h2>
+		<br></br>
+		<!-- use span to keep everything on same line-->
+		<div class="col-md-2 update_form">
+			<label>{{info['fname']}}</label>
+			<label>{{info['lname']}}</label>
+			
+			<p>{{info['bstreet']}}</p>
+			<p>{{info['bstreet2']}}</p>
+			<p>{{info['bcity']}}</p>
+			<p>{{info['bstate']}}</p>
+			<p>{{info['bzip']}}</p>
+			
+			<p>{{info['sstreet']}}</p>
+			<p>{{info['sstreet2']}}</p>
+			<p>{{info['scity']}}</p>
+			<p>{{info['sstate']}}</p>
+			<p>{{info['szip']}}</p>
+			
+			<p>{{info['cardno']}}</p>
+			<p>{{info['csc']}}</p>
+			<p>{{info['exp']}}</p>
+		</div>
+		<div class="col-md-10 update_form">
+			<form id="registration_form" method="post" action="/account">
+				<label>
+					<input placeholder="first name" name='firstname' type="text">
+					<input type="submit" value="update" id="fname-submit">
+				</label>
+				<label>
+					<input placeholder="last name" name='lastname' type="text">
+					<input type="submit" value="update" id="lname-submit">
+				</label>
+				<label>
+					<input placeholder="first name" name='firstname' type="text">
+					<input type="submit" value="update" id="fname-submit">
+				</label>
+				<label>
+					<input placeholder="last name" name='lastname' type="text">
+					<input type="submit" value="update" id="lname-submit">
+				</label>
+			</form>
+		</div>
+<!--		 
+		 <form method='post' action='/account_info'>
+		 	<h3>Account update page</h3>
+			<input type="submit" name="account_info" value="update">
+		 </form>
+-->
+	</div>
+	<div class="clearfix"></div>
+</div>
+{% endblock %}
