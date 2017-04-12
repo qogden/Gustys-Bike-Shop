@@ -213,6 +213,11 @@ def tools():
 	print products
 	return render_template('tools.html', stock = products)
 
+@app.route('/accout')
+def account2():
+	print(session['email'])
+	return render_template('account.html')
+	
 @app.route('/account', methods=['GET','POST'])
 def update_account_info():
 	# Placeholder Data
@@ -224,11 +229,11 @@ def update_account_info():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-	query = cur.mogrify("SELECT * FROM  WHERE email = %s", (request.form['email'], ))
-	cur.execute(query)
-	cur.fetchall()
-	results = cur.rowcount
-	conn.commit()
+#	query = cur.execute("SELECT * FROM users WHERE email = %s", (request.form['email'], ))
+#	cur.execute(query)
+#	cur.fetchall()
+#	results = cur.rowcount
+#	conn.commit()
 	
 	
 #	session['fname'] = 'Nullname'
