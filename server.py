@@ -227,38 +227,38 @@ def update_account_info():
 	#user = User.get(request.form['uuid'])
 	#query = cur.mogrify("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
 	cur.execute("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
-	info["fname"] = cur.fetchall()
+	info["fname"] = cur.fetchall()[0][0]
 	cur.execute("SELECT lastname FROM customers WHERE email = %s", (session['email'],))
-	info["lname"] = cur.fetchall()
+	info["lname"] = cur.fetchall()[0][0]
 	
 	cur.execute("SELECT bstreet1 FROM customers WHERE email = %s", (session['email'],))
-	info["bstreet"] = cur.fetchall()
+	info["bstreet"] = cur.fetchall()[0][0]
 	cur.execute("SELECT bstreet2 FROM customers WHERE email = %s", (session['email'],))
-	info["bstreet2"] = cur.fetchall()
+	info["bstreet2"] = cur.fetchall()[0][0]
 	cur.execute("SELECT bcity FROM customers WHERE email = %s", (session['email'],))
-	info["bcity"] = cur.fetchall()
+	info["bcity"] = cur.fetchall()[0][0]
 	cur.execute("SELECT bstate FROM customers WHERE email = %s", (session['email'],))
-	info["bstate"] = cur.fetchall()
+	info["bstate"] = cur.fetchall()[0][0]
 	cur.execute("SELECT bzip FROM customers WHERE email = %s", (session['email'],))
-	info["bzip"] = cur.fetchall()
+	info["bzip"] = cur.fetchall()[0][0]
 	
 	cur.execute("SELECT sstreet1 FROM customers WHERE email = %s", (session['email'],))
-	info["sstreet"] = cur.fetchall()
+	info["sstreet"] = cur.fetchall()[0][0]
 	cur.execute("SELECT sstreet2 FROM customers WHERE email = %s", (session['email'],))
-	info["sstreet2"] = cur.fetchall()
+	info["sstreet2"] = cur.fetchall()[0][0]
 	cur.execute("SELECT scity FROM customers WHERE email = %s", (session['email'],))
-	info["scity"] = cur.fetchall()
+	info["scity"] = cur.fetchall()[0][0]
 	cur.execute("SELECT sstate FROM customers WHERE email = %s", (session['email'],))
-	info["sstate"] = cur.fetchall()
+	info["sstate"] = cur.fetchall()[0][0]
 	cur.execute("SELECT szip FROM customers WHERE email = %s", (session['email'],))
-	info["szip"] = cur.fetchall()
+	info["szip"] = cur.fetchall()[0][0]
 	
 	cur.execute("SELECT cardno FROM customers WHERE email = %s", (session['email'],))
-	info["cardno"] = cur.fetchall()
+	info["cardno"] = cur.fetchall()[0][0]
 	cur.execute("SELECT csc FROM customers WHERE email = %s", (session['email'],))
-	info["csc"] = cur.fetchall()
+	info["csc"] = cur.fetchall()[0][0]
 	cur.execute("SELECT exp FROM customers WHERE email = %s", (session['email'],))
-	info["exp"] = cur.fetchall()
+	info["exp"] = cur.fetchall()[0][0]
 	
 
 #	if request.method == 'POST':
