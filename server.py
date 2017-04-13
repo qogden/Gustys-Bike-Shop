@@ -229,12 +229,12 @@ def update_account_info():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-	query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['email'], ))
+	#query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['email'], ))
+	query = cur.mogrify("UPDATE customers SET firstname = 'Ia' where firstname = 'Ian'")
 	print(query)
-#	cur.execute(query)
+	cur.execute(query)
 #	cur.fetchall()
-#	results = cur.rowcount
-#	conn.commit()
+	conn.commit()
 	
 	
 #	session['fname'] = 'Nullname'

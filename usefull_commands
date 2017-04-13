@@ -17,10 +17,11 @@ mysql-ctl cli
 sudo service postgresql stop
 sudo service postgresql start
 sudo sudo -u postgres psql
+\c bikes
+
+
 \i bikes.sql
 \l
-
-\c bikes
 \d 'table'
 
 
