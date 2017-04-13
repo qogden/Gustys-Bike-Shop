@@ -213,11 +213,6 @@ def tools():
 	print products
 	return render_template('tools.html', stock = products)
 
-@app.route('/accout')
-def account2():
-	print(session['email'])
-	return render_template('account.html')
-	
 @app.route('/account', methods=['GET','POST'])
 def update_account_info():
 	# Placeholder Data
@@ -228,13 +223,23 @@ def update_account_info():
 	
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	print(session['email'])
+	#user = User.get(request.form['uuid'])
+	#query = cur.mogrify("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
+	cur.execute("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
+	info["fname"] = cur.fetchall()
+	cur.execute("SELECT lastname FROM customers WHERE email = %s", (session['email'],))
+	info["lname"] = cur.fetchall()
 	
-	#query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['email'], ))
-	query = cur.mogrify("UPDATE customers SET firstname = 'Ia' where firstname = 'Ian'")
-	print(query)
-	cur.execute(query)
+
+#	if request.method == 'POST':
+#    	user = User.get(request.form['uuid'])
+	#query = cur.mogrify("UPDATE customers SET firstname = 'Ia' where firstname = 'Ian'")
+	#query = cur.mogrify("UPDATE customers SET firstname = 'Iand' where email = 'ian.carlyle@yahoo.com'")
+#	print(query)
+#	cur.execute(query)
 #	cur.fetchall()
-	conn.commit()
+#	conn.commit()
 	
 	
 #	session['fname'] = 'Nullname'
