@@ -231,6 +231,35 @@ def update_account_info():
 	cur.execute("SELECT lastname FROM customers WHERE email = %s", (session['email'],))
 	info["lname"] = cur.fetchall()
 	
+	cur.execute("SELECT bstreet1 FROM customers WHERE email = %s", (session['email'],))
+	info["bstreet"] = cur.fetchall()
+	cur.execute("SELECT bstreet2 FROM customers WHERE email = %s", (session['email'],))
+	info["bstreet2"] = cur.fetchall()
+	cur.execute("SELECT bcity FROM customers WHERE email = %s", (session['email'],))
+	info["bcity"] = cur.fetchall()
+	cur.execute("SELECT bstate FROM customers WHERE email = %s", (session['email'],))
+	info["bstate"] = cur.fetchall()
+	cur.execute("SELECT bzip FROM customers WHERE email = %s", (session['email'],))
+	info["bzip"] = cur.fetchall()
+	
+	cur.execute("SELECT sstreet1 FROM customers WHERE email = %s", (session['email'],))
+	info["sstreet"] = cur.fetchall()
+	cur.execute("SELECT sstreet2 FROM customers WHERE email = %s", (session['email'],))
+	info["sstreet2"] = cur.fetchall()
+	cur.execute("SELECT scity FROM customers WHERE email = %s", (session['email'],))
+	info["scity"] = cur.fetchall()
+	cur.execute("SELECT sstate FROM customers WHERE email = %s", (session['email'],))
+	info["sstate"] = cur.fetchall()
+	cur.execute("SELECT szip FROM customers WHERE email = %s", (session['email'],))
+	info["szip"] = cur.fetchall()
+	
+	cur.execute("SELECT cardno FROM customers WHERE email = %s", (session['email'],))
+	info["cardno"] = cur.fetchall()
+	cur.execute("SELECT csc FROM customers WHERE email = %s", (session['email'],))
+	info["csc"] = cur.fetchall()
+	cur.execute("SELECT exp FROM customers WHERE email = %s", (session['email'],))
+	info["exp"] = cur.fetchall()
+	
 
 #	if request.method == 'POST':
 #    	user = User.get(request.form['uuid'])
