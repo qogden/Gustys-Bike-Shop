@@ -7,8 +7,8 @@
 		  <li><a href="/">Home</a></li>
 		  <li class="active">Products</li>
 		 </ol>
-			<h2>OUR PRODUCTS</h2>			
-		 <div class="col-md-9 product-model-sec">
+			<h2>OUR PARTS & COMPONENTS</h2>			
+		 <!--<div class="col-md-9 product-model-sec">-->
 		 			{% for product in stock %}
 					 <a href="/single"><div class="product-grid love-grid">
 						<div class="more-product"><span> </span></div>						
@@ -25,8 +25,14 @@
 								<h4>{{product['name']}}</h4>
 								<p>ID: {{product['id']}}</p>
 								<span class="item_price">${{product['price']}}</span>								
-								<input type="text" class="item_quantity" value="1" />
+								<input type="number" ng-model="qty" class="item_quantity" ng-init="qty=1" />
+								{% if session['loggedin'] == 'true' %}
+								<p>hell</p>
+								<input type="button" class="item_add items" ng-model="add" ng-change="addToCart()"value="ADD">
+								{% else %}
+								
 								<input type="button" class="item_add items" value="ADD">
+								{% endif %}
 							</div>													
 							<div class="clearfix"> </div>
 						</div>
@@ -51,7 +57,7 @@
 									<a href="#"><p>Beach</p></a>
 									<a href="#"><p>Racing</p></a>
 						     </div>
-					      </div>						  
+					      </div>					  
 						  <!--script-->
 						<script>
 							$(document).ready(function(){
@@ -77,7 +83,7 @@
 								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Other(50)</label>
 						 </div>
 					 </div>
-				 </section> 				 				
+				 </section>				 				
 					 <!---->
 				   		<section  class="sky-form">
 						<h4><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Brand</h4>

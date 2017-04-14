@@ -7,8 +7,8 @@
 		  <li><a href="/">Home</a></li>
 		  <li class="active">Products</li>
 		 </ol>
-			<h2>OUR PRODUCTS</h2>			
-		 <div class="col-md-9 product-model-sec">
+			<h2>OUR BIKES & FRAMES</h2>			
+		 <!--<div class="col-md-9 product-model-sec">-->
 					 {% for product in stock %}
 					 <a href="/single"><div class="product-grid love-grid">
 						<div class="more-product"><span> </span></div>						
@@ -25,7 +25,7 @@
 								<h4>{{product['name']}}</h4>
 								<p>ID: {{product['id']}}</p>
 								<span class="item_price">${{product['price']}}</span>								
-								<input type="text" class="item_quantity" value="1" />
+								<input type="number" name="qty" class="item_quantity" value="1" />
 								<input type="button" class="item_add items" value="ADD">
 							</div>													
 							<div class="clearfix"> </div>
@@ -33,7 +33,7 @@
 					</div>	
 					
 					{% endfor %}
-			</div>
+</div>
 			<div class="rsidebar span_1_of_left">
 				 <section  class="sky-form">
 					 <div class="product_right">
@@ -50,7 +50,7 @@
 									<a href="#"><p>Beach</p></a>
 									<a href="#"><p>Racing</p></a>
 						     </div>
-					      </div>						  
+					      </div>					  
 						  <!--script-->
 						<script>
 							$(document).ready(function(){
@@ -76,7 +76,7 @@
 								<label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Other(50)</label>
 						 </div>
 					 </div>
-				 </section> 				 				
+				 </section> 			 				
 					 <!---->
 				   		<section  class="sky-form">
 						<h4><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Brand</h4>
@@ -97,6 +97,7 @@
 				   </section>			
 			 </div>				 
 	      </div>
+	      
 		</div>
 </div>
 {% endblock %}
