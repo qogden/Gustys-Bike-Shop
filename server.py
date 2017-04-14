@@ -28,7 +28,7 @@ def makeConnection():
 def index():
 	if("email" not in session):
 		session['email']=''
-	 	session['loggedin'] = 'false'
+	 	session['loggedin'] = False
 	 
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -67,7 +67,7 @@ def index():
 @app.route('/logout')
 def logout():
 	 session['email'] = ''
-	 session['loggedin'] = 'false'
+	 session['loggedin'] = False
 	 return render_template('index.html')
 
 @app.route('/login')
@@ -87,8 +87,8 @@ def access():
 	emailresults = cur.rowcount
 	conn.commit()
 	
-	noEmail = 'false'
-	wrongPassword = 'false'
+	noEmail = False
+	wrongPassword = False
 	print(session['email'])
 	
 	if(emailresults == 1):
@@ -97,7 +97,7 @@ def access():
 		cur.fetchall()
 		passwordresults = cur.rowcount
 		conn.commit()
-		loggedin = 'true'
+		loggedin = True
 		
 		if(passwordresults == 1):
 			query = cur.mogrify("SELECT * FROM employees WHERE email = %s", (request.form['email'], ))
@@ -108,22 +108,22 @@ def access():
 			
 			if(employeeresults == 1):
 				session['email'] = request.form['email']
-				session['loggedin'] = 'true'
-				session['employee'] = 'true'
+				session['loggedin'] = True
+				session['employee'] = True
 				return render_template('timesheet.html')
 			else:
 				session['email'] = request.form['email']
-				session['loggedin'] = 'true'
-				
+				session['loggedin'] = True
+				session['employee'] = False
 				#switch all unregistered user products onto the customer
 				
 				
 				return render_template('index.html')
 		else:
-			wrongPassword = 'true'
+			wrongPassword = True
 			return render_template('login.html', wrongPassword = wrongPassword)
 	else:
-		noEmail = 'true'
+		noEmail = True
 		return render_template('login.html', noEmail = noEmail)
 
 @app.route('/signup')
@@ -138,8 +138,8 @@ def signup():
 	
 	print(request.form['firstname'], request.form['lastname'], request.form['email'], request.form['password'], request.form['confirmpassword'])
 	
-	noPassMatch = 'false'
-	emailTaken = 'false'
+	noPassMatch = False
+	emailTaken = False
 	
 	query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['email'], ))
 	cur.execute(query)
@@ -150,20 +150,20 @@ def signup():
 	print(session['email'])
 	
 	if(emailresults != 0):
-		emailTaken = 'true'
+		emailTaken = True
 		message1='Email taken'
 		print(message1)
 		return render_template('account.html', emailTaken = emailTaken)
 	
 	if(request.form['password'] != request.form['confirmpassword']):
-		noPassMatch = 'true'
+		noPassMatch = True
 		message1='Passwords do not match'
 		print(message1)
 		return render_template('account.html', noPassMatch = noPassMatch)
 		
 	try:
 		session['email'] = request.form['email']
-		session['loggedin'] = 'true'
+		session['loggedin'] = True
 		cur.execute("INSERT INTO users(email, password) VALUES(%s, crypt(%s, gen_salt('bf')))", (request.form['email'], request.form['password']))
 		conn.commit()
 		cur.execute("INSERT INTO customers(firstname, lastname, email) VALUES(%s, %s, (SELECT email FROM users WHERE email = %s))", (request.form['firstname'], request.form['lastname'], request.form['email']))
@@ -467,39 +467,47 @@ def getTotals():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-	print(session['email'])
-	
-	query = cur.mogrify("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-	print(query)
-	cur.execute(query)
-	customerid = cur.fetchall()
-	customerid = customerid[0][0]
-	conn.commit()
-	
-	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
-	cart = cur.fetchall()
-	conn.commit()
-	
-	subtotal = 0.00
-	tax = 0.00
-	shipping = 0.00
-	total = 0.00
-	
-	i=0
-	j=0
-	k=0
-	count = 0
-	for row in cart:
-		c=cart[i]
-		cur.execute("SELECT * FROM products WHERE id = %s", (c[3], ))
-		item = cur.fetchall()
-		conn.commit()
-		for row in item:
-			p=item[j]	
-			count = count + c[4]
-			subtotal = (subtotal + float(p[4]))*float(c[4])
-		i+=1
+	if (session['loggedin'] and session['employee'] == False):
+		print(session['email'])
 		
+		query = cur.mogrify("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+		print(query)
+		cur.execute(query)
+		customerid = cur.fetchall()
+		customerid = customerid[0][0]
+		conn.commit()
+		
+		cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
+		cart = cur.fetchall()
+		conn.commit()
+		
+		subtotal = 0.00
+		tax = 0.00
+		shipping = 0.00
+		total = 0.00
+		
+		i=0
+		j=0
+		k=0
+		count = 0
+		for row in cart:
+			c=cart[i]
+			cur.execute("SELECT * FROM products WHERE id = %s", (c[3], ))
+			item = cur.fetchall()
+			conn.commit()
+			for row in item:
+				p=item[j]	
+				count = count + c[4]
+				subtotal = (subtotal + float(p[4]))*float(c[4])
+			i+=1
+		
+	else:
+		subtotal = 0.00
+		tax = 0.00
+		shipping = 0.00
+		total = 0.00
+		count = 0
+			
 	if (subtotal != 0.00):
 		shipping = 50.00
 	tax = subtotal * 0.15
@@ -513,7 +521,6 @@ def getTotals():
 	
 	totals={'total':total, 'subtotal':subtotal, 'tax':tax, 'shipping':shipping, 'count': count}
 	
-
 	return totals
 	
 @app.route('/orderconfirmation', methods = ['POST'])
