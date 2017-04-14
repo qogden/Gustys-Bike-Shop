@@ -256,12 +256,52 @@ def update_account_info():
 	
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	print(session['email'])
+	#user = User.get(request.form['uuid'])
+	#query = cur.mogrify("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
+	cur.execute("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
+	info["fname"] = cur.fetchall()[0][0]
+	cur.execute("SELECT lastname FROM customers WHERE email = %s", (session['email'],))
+	info["lname"] = cur.fetchall()[0][0]
 	
-	query = cur.mogrify("SELECT * FROM  WHERE email = %s", (request.form['email'], ))
-	cur.execute(query)
-	cur.fetchall()
-	results = cur.rowcount
-	conn.commit()
+	cur.execute("SELECT bstreet1 FROM customers WHERE email = %s", (session['email'],))
+	info["bstreet"] = cur.fetchall()[0][0]
+	cur.execute("SELECT bstreet2 FROM customers WHERE email = %s", (session['email'],))
+	info["bstreet2"] = cur.fetchall()[0][0]
+	cur.execute("SELECT bcity FROM customers WHERE email = %s", (session['email'],))
+	info["bcity"] = cur.fetchall()[0][0]
+	cur.execute("SELECT bstate FROM customers WHERE email = %s", (session['email'],))
+	info["bstate"] = cur.fetchall()[0][0]
+	cur.execute("SELECT bzip FROM customers WHERE email = %s", (session['email'],))
+	info["bzip"] = cur.fetchall()[0][0]
+	
+	cur.execute("SELECT sstreet1 FROM customers WHERE email = %s", (session['email'],))
+	info["sstreet"] = cur.fetchall()[0][0]
+	cur.execute("SELECT sstreet2 FROM customers WHERE email = %s", (session['email'],))
+	info["sstreet2"] = cur.fetchall()[0][0]
+	cur.execute("SELECT scity FROM customers WHERE email = %s", (session['email'],))
+	info["scity"] = cur.fetchall()[0][0]
+	cur.execute("SELECT sstate FROM customers WHERE email = %s", (session['email'],))
+	info["sstate"] = cur.fetchall()[0][0]
+	cur.execute("SELECT szip FROM customers WHERE email = %s", (session['email'],))
+	info["szip"] = cur.fetchall()[0][0]
+	
+	cur.execute("SELECT cardno FROM customers WHERE email = %s", (session['email'],))
+	info["cardno"] = cur.fetchall()[0][0]
+	cur.execute("SELECT csc FROM customers WHERE email = %s", (session['email'],))
+	info["csc"] = cur.fetchall()[0][0]
+	cur.execute("SELECT exp FROM customers WHERE email = %s", (session['email'],))
+	info["exp"] = cur.fetchall()[0][0]
+	
+
+#	if request.method == 'POST':
+#    	user = User.get(request.form['uuid'])
+	#query = cur.mogrify("UPDATE customers SET firstname = 'Ia' where firstname = 'Ian'")
+	#query = cur.mogrify("UPDATE customers SET firstname = 'Iand' where email = 'ian.carlyle@yahoo.com'")
+#	print(query)
+#	cur.execute(query)
+#	cur.fetchall()
+#	conn.commit()
 	
 	
 #	session['fname'] = 'Nullname'
@@ -330,9 +370,21 @@ def cartqty(productid, quantity):
 	print(productid)
 	print(quantity)
 	
+<<<<<<< HEAD
 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 	customerid = cur.fetchall()
 	conn.commit()
+=======
+	if("email" not in session):
+	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	else:
+		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	print('cartqty CustomerID;', customerid)
+>>>>>>> a978e2eeed9167c8f9af6a45db063e12e0989b9f
 	customerid = customerid[0][0]
 	print(customerid)
 	cur.execute("UPDATE cart SET quantity = %s WHERE customerid = %s AND productid = '%s'", (quantity, customerid, productid))
@@ -347,11 +399,23 @@ def cartqty(productid, quantity):
 def cartrm():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+<<<<<<< HEAD
 
 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 	customerid = cur.fetchall()
 	conn.commit()
 		
+=======
+	if("email" not in session):
+	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	else:
+		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+		customerid = cur.fetchall()
+		conn.commit()
+	print('cartrm CustomerID;', customerid)
+>>>>>>> a978e2eeed9167c8f9af6a45db063e12e0989b9f
 	customerid = customerid[0][0]
 	productid = request.form['cartrm']
 	
@@ -396,6 +460,7 @@ def getProducts():
 	
 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 	customerid = cur.fetchall()
+	print('getProducts CustomerID;', customerid)
 	customerid = customerid[0][0]
 	conn.commit()
 
@@ -425,6 +490,7 @@ def getProducts():
 def getTotals():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+<<<<<<< HEAD
 
 	if (session['employee'] != True and session['loggedin'] != False):
 
