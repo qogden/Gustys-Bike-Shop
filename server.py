@@ -29,7 +29,6 @@ def index():
 	if("email" not in session):
 		session['email']=''
 	 	session['loggedin'] = 'false'
-	 	session['employee'] = 'false'
 	 
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -467,54 +466,45 @@ def getProducts():
 def getTotals():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-	
-	if (session['employee'] != True and session['loggedin'] != False):
 
-		print(session['email'])
-		
-		query = cur.mogrify("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-		print(query)
-		cur.execute(query)
-		customerid = cur.fetchall()
-		customerid = customerid[0][0]
-		conn.commit()
-		
-		cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
-		cart = cur.fetchall()
-		conn.commit()
-		
-		subtotal = 0.00
-		tax = 0.00
-		shipping = 0.00
-		total = 0.00
-		
-		i=0
-		j=0
-		k=0
-		count = 0
-		for row in cart:
-			c=cart[i]
-			cur.execute("SELECT * FROM products WHERE id = %s", (c[3], ))
-			item = cur.fetchall()
-			conn.commit()
-			for row in item:
-				p=item[j]	
-				count = count + c[4]
-				subtotal = (subtotal + float(p[4]))*float(c[4])
-			i+=1
-			
-		if (subtotal != 0.00):
-			shipping = 50.00
-		tax = subtotal * 0.15
-		tax = round(tax,2)
-		total = subtotal+ tax + shipping
+	print(session['email'])
 	
-	else:
-		subtotal = 0.00
-		tax = 0.00
-		shipping = 0.00
-		total = 0.00
+	query = cur.mogrify("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+	print(query)
+	cur.execute(query)
+	customerid = cur.fetchall()
+	customerid = customerid[0][0]
+	conn.commit()
 	
+	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
+	cart = cur.fetchall()
+	conn.commit()
+	
+	subtotal = 0.00
+	tax = 0.00
+	shipping = 0.00
+	total = 0.00
+	
+	i=0
+	j=0
+	k=0
+	count = 0
+	for row in cart:
+		c=cart[i]
+		cur.execute("SELECT * FROM products WHERE id = %s", (c[3], ))
+		item = cur.fetchall()
+		conn.commit()
+		for row in item:
+			p=item[j]	
+			count = count + c[4]
+			subtotal = (subtotal + float(p[4]))*float(c[4])
+		i+=1
+		
+	if (subtotal != 0.00):
+		shipping = 50.00
+	tax = subtotal * 0.15
+	tax = round(tax,2)
+	total = subtotal+ tax + shipping
 	
 	subtotal = "{0:.2f}".format(subtotal)
 	tax = "{0:.2f}".format(tax)
