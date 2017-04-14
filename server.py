@@ -1,7 +1,6 @@
 import os
 import psycopg2
 import psycopg2.extras
-import uuid
 
 from flask.ext.socketio import SocketIO, emit
 from flask import Flask, render_template, request, session, redirect
@@ -23,7 +22,6 @@ def connectToDB():
 def makeConnection():
 	totals = getTotals()
 	emit('totals', totals)
-	
 	print('connected')
 
 @app.route('/')
@@ -31,8 +29,41 @@ def index():
 	if("email" not in session):
 		session['email']=''
 	 	session['loggedin'] = 'false'
+	 	session['employee'] = 'false'
 	 
-	return render_template('index.html')
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+	cur.execute("SELECT * FROM products")
+	stock = cur.fetchall()
+	print stock
+	conn.commit()
+	
+	i=0
+	products = []
+	for row in stock:
+		for row in stock[i]:
+			p = stock[i]
+			items = {'id':p[0], 'name':p[1], 'image':p[2], 'price':p[4]}
+		products.append(items)
+		i+=1
+	print products
+	
+	cur.execute("SELECT * FROM products WHERE producttype = (SELECT id FROM producttype WHERE producttype = 'bicycles')")
+	stock = cur.fetchall()
+	print stock
+	conn.commit()
+	
+	i=0
+	feature = []
+	for row in stock:
+		for row in stock[i]:
+			p = stock[i]
+			items = {'id':p[0], 'name':p[1], 'image':p[2]}
+		feature.append(items)
+		i+=1
+	print products
+	return render_template('index.html', stock = products, feature = feature)
 
 @app.route('/logout')
 def logout():
@@ -45,6 +76,7 @@ def login():
 	print(session['email'])
 	return render_template('login.html')
 	
+
 @app.route('/login', methods=['POST'])
 def access():
 	conn = connectToDB()
@@ -78,6 +110,7 @@ def access():
 			if(employeeresults == 1):
 				session['email'] = request.form['email']
 				session['loggedin'] = 'true'
+				session['employee'] = 'true'
 				return render_template('timesheet.html')
 			else:
 				session['email'] = request.form['email']
@@ -260,9 +293,12 @@ def update_account_info():
 def contact():
 	return render_template('contact.html')
 	
+@socketio.on('addToCart')	
 def addToCart(productid, quantity):
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	print(productid, quantity)
+	print(session['email'])
 	
 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 	customerid = cur.fetchall()
@@ -273,7 +309,7 @@ def addToCart(productid, quantity):
 	conn.commit()
 	
 	message='item has been added'
-	return message
+	emit('added')
 
 @socketio.on('cart')
 def cart():
@@ -294,14 +330,9 @@ def cartqty(productid, quantity):
 	print(productid)
 	print(quantity)
 	
-	if("email" not in session):
-	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
-		customerid = cur.fetchall()
-		conn.commit()
-	else:
-		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-		customerid = cur.fetchall()
-		conn.commit()
+	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+	customerid = cur.fetchall()
+	conn.commit()
 	customerid = customerid[0][0]
 	print(customerid)
 	cur.execute("UPDATE cart SET quantity = %s WHERE customerid = %s AND productid = '%s'", (quantity, customerid, productid))
@@ -316,14 +347,10 @@ def cartqty(productid, quantity):
 def cartrm():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-	if("email" not in session):
-	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
-		customerid = cur.fetchall()
-		conn.commit()
-	else:
-		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-		customerid = cur.fetchall()
-		conn.commit()
+
+	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+	customerid = cur.fetchall()
+	conn.commit()
 		
 	customerid = customerid[0][0]
 	productid = request.form['cartrm']
@@ -398,41 +425,54 @@ def getProducts():
 def getTotals():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-	
-	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-	customerid = cur.fetchall()
-	customerid = customerid[0][0]
-	conn.commit()
-	
-	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
-	cart = cur.fetchall()
-	conn.commit()
-	
-	subtotal = 0.00
-	tax = 0.00
-	shipping = 0.00
-	total = 0.00
-	
-	i=0
-	j=0
-	k=0
-	count = 0
-	for row in cart:
-		c=cart[i]
-		cur.execute("SELECT * FROM products WHERE id = %s", (c[3], ))
-		item = cur.fetchall()
-		conn.commit()
-		for row in item:
-			p=item[j]	
-			count = count + c[4]
-			subtotal = (subtotal + float(p[4]))*float(c[4])
-		i+=1
+
+	if (session['employee'] != True and session['loggedin'] != False):
+
+		print(session['email'])
 		
-	if (subtotal != 0.00):
-		shipping = 50.00
-	tax = subtotal * 0.15
-	tax = round(tax,2)
-	total = subtotal+ tax + shipping
+		query = cur.mogrify("SELECT id FROM customers WHERE email = %s", (session['email'], ))
+		print(query)
+		cur.execute(query)
+		customerid = cur.fetchall()
+		customerid = customerid[0][0]
+		conn.commit()
+		
+		cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
+		cart = cur.fetchall()
+		conn.commit()
+		
+		subtotal = 0.00
+		tax = 0.00
+		shipping = 0.00
+		total = 0.00
+		
+		i=0
+		j=0
+		k=0
+		count = 0
+		for row in cart:
+			c=cart[i]
+			cur.execute("SELECT * FROM products WHERE id = %s", (c[3], ))
+			item = cur.fetchall()
+			conn.commit()
+			for row in item:
+				p=item[j]	
+				count = count + c[4]
+				subtotal = (subtotal + float(p[4]))*float(c[4])
+			i+=1
+			
+		if (subtotal != 0.00):
+			shipping = 50.00
+		tax = subtotal * 0.15
+		tax = round(tax,2)
+		total = subtotal+ tax + shipping
+	
+	else:
+		subtotal = 0.00
+		tax = 0.00
+		shipping = 0.00
+		total = 0.00
+	
 	
 	subtotal = "{0:.2f}".format(subtotal)
 	tax = "{0:.2f}".format(tax)
@@ -441,10 +481,37 @@ def getTotals():
 	
 	totals={'total':total, 'subtotal':subtotal, 'tax':tax, 'shipping':shipping, 'count': count}
 	
+
 	return totals
 	
-@app.route('/orderconfirmation')
+@app.route('/orderconfirmation', methods = ['POST'])
 def order():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	firstname = request.form['firstname']
+	lastname = request.form['lastname']
+	email = request.form['email']
+	
+	bstreet = request.form['bstreet']
+	bstreet2 = request.form['bstreet2']
+	bcity = request.form['bcity']
+	bstate = request.form['bstate']
+	bzip = request.form['bzip']
+	
+	sstreet = request.form['sstreet']
+	sstreet2 = request.form['sstreet2']
+	scity = request.form['scity']
+	sstate = request.form['sstate']
+	szip = request.form['szip']
+	
+	cardno = request.form['cardno']
+	csc = request.form['csc']
+	exp = request.form['exp']
+	
+	
+	
+	
 	return render_template('orderconfirmation.html')
 
 @app.route('/blog')
