@@ -12,14 +12,26 @@ App.controller('AppController', function($scope){
         console.log('adjusting quantity');
     };
     
+    $scope.addToCart = function addToCart(){
+        console.log('enter')
+        socket.emit('addToCart', $scope.qty);
+        console.log('adjusting quantity');
+    };
+    
     socket.on('totals', function(totals){
         $scope.totals = totals;
         $scope.$apply();
+    });
+    
+    socket.on('added', function(){
+        console.log('added to cart');
+        
     });
     
     socket.on('connect', function(){
         console.log('connected');
         
     });
+    
     
 });
