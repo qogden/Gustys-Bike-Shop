@@ -370,21 +370,10 @@ def cartqty(productid, quantity):
 	print(productid)
 	print(quantity)
 	
-<<<<<<< HEAD
 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 	customerid = cur.fetchall()
 	conn.commit()
-=======
-	if("email" not in session):
-	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
-		customerid = cur.fetchall()
-		conn.commit()
-	else:
-		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-		customerid = cur.fetchall()
-		conn.commit()
-	print('cartqty CustomerID;', customerid)
->>>>>>> a978e2eeed9167c8f9af6a45db063e12e0989b9f
+	
 	customerid = customerid[0][0]
 	print(customerid)
 	cur.execute("UPDATE cart SET quantity = %s WHERE customerid = %s AND productid = '%s'", (quantity, customerid, productid))
@@ -399,23 +388,11 @@ def cartqty(productid, quantity):
 def cartrm():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-<<<<<<< HEAD
 
 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 	customerid = cur.fetchall()
 	conn.commit()
 		
-=======
-	if("email" not in session):
-	 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['customerid'], ))
-		customerid = cur.fetchall()
-		conn.commit()
-	else:
-		cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-		customerid = cur.fetchall()
-		conn.commit()
-	print('cartrm CustomerID;', customerid)
->>>>>>> a978e2eeed9167c8f9af6a45db063e12e0989b9f
 	customerid = customerid[0][0]
 	productid = request.form['cartrm']
 	
@@ -490,8 +467,7 @@ def getProducts():
 def getTotals():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-<<<<<<< HEAD
-
+	
 	if (session['employee'] != True and session['loggedin'] != False):
 
 		print(session['email'])
