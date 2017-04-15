@@ -81,7 +81,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	 <div class="container">
 		 <div class="logo">
 		 	<!--<a href="/"><img src="static/images/Bike Shop logo HD.png" alt=""/></a>-->
+		 	{% if session['employee'] == False %}
 		 	<a href="/"><span style="float: left"><img src="static/images/Bike Shop logo HD.png" width="600px"/></span><h1>Gusty's Bike Shop</h1></a>
+		 	{% endif %}
+		 	{% if session['employee'] == True %}
+		 	<a href="/"><span style="float: left"><img src="static/images/businessman.png" width="600px"/></span><h1>Gusty's Bike Shop</h1></a>
+		 	{% endif %}
 		 </div>
 		 <div class="header_right">	
 			 <div class="cart box_1">
