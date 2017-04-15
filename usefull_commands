@@ -9,6 +9,7 @@ git commit -m "Message"
 git status
 git pull
 git push
+git diff
 
 mysql-ctl start
 mysql-ctl stop
