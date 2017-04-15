@@ -9,50 +9,143 @@
 		 </ol>			
 		     <a href="/account"><h5 style="color:blue; text-align:right">Update Profile Information</h5></a>
 		     <style>
-		     	label, input{
-		     		/*display:inline-block;*/
-					width:200px;
-					margin-right:30px;
-					text-align:left;	
-		     	}
-		     	
-				label {
-    				margin-bottom: 10px;
+				td{
+    				padding: 10px;
+    				text-align: right;
+				}
+				tr, td:second-child{
+					text-align: left;
 				}
 		     </style>
 		     
 		     <form methods = 'post' action='/orderconfirmation'>
-		     <h4>Customer Information</h4>
-		     <br>
+		     <table>
+		     <tr><td><h4>Customer Information</h4></td></tr>
 		     
-		     <label>First Name:  <input type='text' name="firstname" value="{{info['first']}}" required></label>
-		     <label>Last Name:  <input type='text' name="lastname" value="{{info['last']}}" required></label>
-		     <label>Email:  <input type='text' name="email" value="{{info['email']}}" required></label>
-             <br>
+		     <tr><label><td>First Name:  </td><td><input type='text' name="firstname" value="{{info['first']}}" required></td></label></tr>
+		     <tr><label><td>Last Name:  </td><td><input type='text' name="lastname" value="{{info['last']}}" required></td></label></tr>
+		     <tr><label><td>Email:  </td><td><input type='email' name="email" value="{{info['email']}}" required></td></label></tr>
 		         
-		     <h4>Billing Information</h4>
-		     <br>
-		     <label>Street Address: <input type='text' name="bstreet" value="{{info['bstreet']}}" required></label>
-		     <label>Street Address 2:<input type='text' name="bstreet2" value="{{info['bstreet2']}}" required></label>
-		     <label>City: <input type='text' name="bcity"  value="{{info['bcity']}}" required></label>
-		     <label>State: <input type='text' name="bstate"  value="{{info['bstate']}}" required></label>
-		     <label>Zip: <input type='text' name="bzip"  value="{{info['bzip']}}" required></label>
-             <br>
+		     <tr><td><h4>Billing Information</h4></td></tr>
 		     
-		     <h4>Shipping Information</h4>
-		     <br>
-		     <label>Street Address: <input type='text' name="sstreet" value="{{info['sstreet']}}" required></label>
-		     <label>Street Address 2: <input type='text' name="sstreet2" value="{{info['sstreet2']}}" required></label>
-		     <label>City: <input type='text' name="scity" value="{{info['scity']}}" required></label>
-		     <label>State: <input type='text' name="sstate" value="{{info['sstate']}}" required></label>
-		     <label>Zip: <input type='text' name="szip" value="{{info['szip']}}" required></label>
-		     <br>
+		     <tr><label><td>Street Address: </td><td><input type='text' name="bstreet" value="{{info['bstreet']}}" required></td></label></tr>
+		     <tr><label><td>Street Address 2: </td><td><input type='text' name="bstreet2" value="{{info['bstreet2']}}"></td></label></tr>
+		     <tr><label><td>City: </td><td><input type='text' name="bcity"  value="{{info['bcity']}}" required></td></label></tr>
+		     <tr><label><td>State: </td><td style="text-align:center;"><select name="bstate"  value="{{info['bstate']}}" required>
+		     				<option selected ="selected" value="" disabled>--</option>
+		     				<option {% if info['sstate'] == 'AL' %} selected='selected' {% endif %} value="AL">AL</option>
+		     				<option {% if info['sstate'] == 'AK' %} selected='selected' {% endif %} value="AK">AK</option>
+		     				<option {% if info['sstate'] == 'AZ' %} selected='selected' {% endif %} value="AZ">AZ</option>
+		     				<option {% if info['sstate'] == 'CA' %} selected='selected' {% endif %} value="CA">CA</option>
+		     				<option {% if info['sstate'] == 'CO' %} selected='selected' {% endif %} value="CO">CO</option>
+		     				<option {% if info['sstate'] == 'CT' %} selected='selected' {% endif %} value="CT">CT</option>
+		     				<option {% if info['sstate'] == 'DE' %} selected='selected' {% endif %} value="DE">DE</option>
+		     				<option {% if info['sstate'] == 'FL' %} selected='selected' {% endif %} value="FL">FL</option>
+		     				<option {% if info['sstate'] == 'GA' %} selected='selected' {% endif %} value="GA">GA</option>
+		     				<option {% if info['sstate'] == 'HI' %} selected='selected' {% endif %} value="HI">HI</option>
+		     				<option {% if info['sstate'] == 'ID' %} selected='selected' {% endif %} value="ID">ID</option>
+		     				<option {% if info['sstate'] == 'IL' %} selected='selected' {% endif %} value="IL">IL</option>
+		     				<option {% if info['sstate'] == 'IN' %} selected='selected' {% endif %} value="IN">IN</option>
+		     				<option {% if info['sstate'] == 'IA' %} selected='selected' {% endif %} value="IA">IA</option>
+		     				<option {% if info['sstate'] == 'KS' %} selected='selected' {% endif %} value="KS">KS</option>
+		     				<option {% if info['sstate'] == 'KY' %} selected='selected' {% endif %} value="KY">KY</option>
+		     				<option {% if info['sstate'] == 'LA' %} selected='selected' {% endif %} value="LA">LA</option>
+		     				<option {% if info['sstate'] == 'ME' %} selected='selected' {% endif %} value="ME">ME</option>
+		     				<option {% if info['sstate'] == 'MD' %} selected='selected' {% endif %} value="MD">MD</option>
+		     				<option {% if info['sstate'] == 'MA' %} selected='selected' {% endif %} value="MA">MA</option>
+		     				<option {% if info['sstate'] == 'MI' %} selected='selected' {% endif %} value="MI">MI</option>
+		     				<option {% if info['sstate'] == 'MN' %} selected='selected' {% endif %} value="MN">MN</option>
+		     				<option {% if info['sstate'] == 'MS' %} selected='selected' {% endif %} value="MS">MS</option>
+		     				<option {% if info['sstate'] == 'MO' %} selected='selected' {% endif %} value="MO">MO</option>
+		     				<option {% if info['sstate'] == 'MT' %} selected='selected' {% endif %} value="MT">MT</option>
+		     				<option {% if info['sstate'] == 'NV' %} selected='selected' {% endif %} value="NV">NV</option>
+		     				<option {% if info['sstate'] == 'NH' %} selected='selected' {% endif %} value="NH">NH</option>
+		     				<option {% if info['sstate'] == 'NM' %} selected='selected' {% endif %} value="NM">NM</option>
+		     				<option {% if info['sstate'] == 'NY' %} selected='selected' {% endif %} value="NY">NY</option>
+		     				<option {% if info['sstate'] == 'NC' %} selected='selected' {% endif %} value="NC">NC</option>	
+		     				<option {% if info['sstate'] == 'ND' %} selected='selected' {% endif %} value="ND">ND</option>
+		     				<option {% if info['sstate'] == 'OH' %} selected='selected' {% endif %} value="OH">OH</option>
+		     				<option {% if info['sstate'] == 'OK' %} selected='selected' {% endif %} value="OK">OK</option>
+		     				<option {% if info['sstate'] == 'OR' %} selected='selected' {% endif %} value="OR">OR</option>
+		     				<option {% if info['sstate'] == 'PA' %} selected='selected' {% endif %} value="PA">PA</option>
+		     				<option {% if info['sstate'] == 'RI' %} selected='selected' {% endif %} value="RI">RI</option>
+		     				<option {% if info['sstate'] == 'SC' %} selected='selected' {% endif %} value="SC">SC</option>
+		     				<option {% if info['sstate'] == 'SD' %} selected='selected' {% endif %} value="SD">SD</option>
+		     				<option {% if info['sstate'] == 'TN' %} selected='selected' {% endif %} value="TN">TN</option>
+		     				<option {% if info['sstate'] == 'TX' %} selected='selected' {% endif %} value="TX">TX</option>
+		     				<option {% if info['sstate'] == 'UT' %} selected='selected' {% endif %} value="UT">UT</option>
+		     				<option {% if info['sstate'] == 'VT' %} selected='selected' {% endif %} value="VT">VT</option>
+		     				<option {% if info['sstate'] == 'VA' %} selected='selected' {% endif %} value="VA">VA</option>
+		     				<option {% if info['sstate'] == 'WA' %} selected='selected' {% endif %} value="WA">WA</option>
+		     				<option {% if info['sstate'] == 'WV' %} selected='selected' {% endif %} value="WV">WV</option>
+		     				<option {% if info['sstate'] == 'WI' %} selected='selected' {% endif %} value="WI">WI</option>
+		     				<option {% if info['sstate'] == 'WY' %} selected='selected' {% endif %} value="WY">WY</option>
+		     				</select></td></label></tr>
+		     <tr><label><td>Zip: </td><td><input type='text' name="bzip"  value="{{info['bzip']}}" required></td></label></tr>
 		     
-		     <h4>Card Information</h4>
-		     <br>
-		     <label>Card Number: <input type='text' name="cardno" value="{{info['cardno']}}" required></label>
-		     <label>Csc: <input type='text' name="csc" value="{{info['csc']}}" required></label>
-		     <label>Expiration Date: <input type='text' name="exp" value="{{info['exp']}}" required></label>
+		     <tr><td><h4>Shipping Information</h4></td></tr>
+		     
+		     <tr><td><input type="checkbox" name="same"></td><td>Same as Billing Information </td></tr>
+		     <tr><label><td>Street Address: </td><td><input type='text' name="sstreet" value="{{info['sstreet']}}" required></td></label></tr>
+		     <tr><label><td>Street Address 2: </td><td><input type='text' name="sstreet2" value="{{info['sstreet2']}}"></td></label></tr>
+		     <tr><label><td>City: </td><td><input type='text' name="scity"  value="{{info['scity']}}" required></td></label></tr>
+		     <tr><label><td>State: </td><td style="text-align:center;"><select name="sstate" required>
+		     				<option selected ="selected" value="" disabled>--</option>
+		     						     				<option {% if info['sstate'] == 'AL' %} selected='selected' {% endif %} value="AL">AL</option>
+		     				<option {% if info['sstate'] == 'AK' %} selected='selected' {% endif %} value="AK">AK</option>
+		     				<option {% if info['sstate'] == 'AZ' %} selected='selected' {% endif %} value="AZ">AZ</option>
+		     				<option {% if info['sstate'] == 'CA' %} selected='selected' {% endif %} value="CA">CA</option>
+		     				<option {% if info['sstate'] == 'CO' %} selected='selected' {% endif %} value="CO">CO</option>
+		     				<option {% if info['sstate'] == 'CT' %} selected='selected' {% endif %} value="CT">CT</option>
+		     				<option {% if info['sstate'] == 'DE' %} selected='selected' {% endif %} value="DE">DE</option>
+		     				<option {% if info['sstate'] == 'FL' %} selected='selected' {% endif %} value="FL">FL</option>
+		     				<option {% if info['sstate'] == 'GA' %} selected='selected' {% endif %} value="GA">GA</option>
+		     				<option {% if info['sstate'] == 'HI' %} selected='selected' {% endif %} value="HI">HI</option>
+		     				<option {% if info['sstate'] == 'ID' %} selected='selected' {% endif %} value="ID">ID</option>
+		     				<option {% if info['sstate'] == 'IL' %} selected='selected' {% endif %} value="IL">IL</option>
+		     				<option {% if info['sstate'] == 'IN' %} selected='selected' {% endif %} value="IN">IN</option>
+		     				<option {% if info['sstate'] == 'IA' %} selected='selected' {% endif %} value="IA">IA</option>
+		     				<option {% if info['sstate'] == 'KS' %} selected='selected' {% endif %} value="KS">KS</option>
+		     				<option {% if info['sstate'] == 'KY' %} selected='selected' {% endif %} value="KY">KY</option>
+		     				<option {% if info['sstate'] == 'LA' %} selected='selected' {% endif %} value="LA">LA</option>
+		     				<option {% if info['sstate'] == 'ME' %} selected='selected' {% endif %} value="ME">ME</option>
+		     				<option {% if info['sstate'] == 'MD' %} selected='selected' {% endif %} value="MD">MD</option>
+		     				<option {% if info['sstate'] == 'MA' %} selected='selected' {% endif %} value="MA">MA</option>
+		     				<option {% if info['sstate'] == 'MI' %} selected='selected' {% endif %} value="MI">MI</option>
+		     				<option {% if info['sstate'] == 'MN' %} selected='selected' {% endif %} value="MN">MN</option>
+		     				<option {% if info['sstate'] == 'MS' %} selected='selected' {% endif %} value="MS">MS</option>
+		     				<option {% if info['sstate'] == 'MO' %} selected='selected' {% endif %} value="MO">MO</option>
+		     				<option {% if info['sstate'] == 'MT' %} selected='selected' {% endif %} value="MT">MT</option>
+		     				<option {% if info['sstate'] == 'NV' %} selected='selected' {% endif %} value="NV">NV</option>
+		     				<option {% if info['sstate'] == 'NH' %} selected='selected' {% endif %} value="NH">NH</option>
+		     				<option {% if info['sstate'] == 'NM' %} selected='selected' {% endif %} value="NM">NM</option>
+		     				<option {% if info['sstate'] == 'NY' %} selected='selected' {% endif %} value="NY">NY</option>
+		     				<option {% if info['sstate'] == 'NC' %} selected='selected' {% endif %} value="NC">NC</option>	
+		     				<option {% if info['sstate'] == 'ND' %} selected='selected' {% endif %} value="ND">ND</option>
+		     				<option {% if info['sstate'] == 'OH' %} selected='selected' {% endif %} value="OH">OH</option>
+		     				<option {% if info['sstate'] == 'OK' %} selected='selected' {% endif %} value="OK">OK</option>
+		     				<option {% if info['sstate'] == 'OR' %} selected='selected' {% endif %} value="OR">OR</option>
+		     				<option {% if info['sstate'] == 'PA' %} selected='selected' {% endif %} value="PA">PA</option>
+		     				<option {% if info['sstate'] == 'RI' %} selected='selected' {% endif %} value="RI">RI</option>
+		     				<option {% if info['sstate'] == 'SC' %} selected='selected' {% endif %} value="SC">SC</option>
+		     				<option {% if info['sstate'] == 'SD' %} selected='selected' {% endif %} value="SD">SD</option>
+		     				<option {% if info['sstate'] == 'TN' %} selected='selected' {% endif %} value="TN">TN</option>
+		     				<option {% if info['sstate'] == 'TX' %} selected='selected' {% endif %} value="TX">TX</option>
+		     				<option {% if info['sstate'] == 'UT' %} selected='selected' {% endif %} value="UT">UT</option>
+		     				<option {% if info['sstate'] == 'VT' %} selected='selected' {% endif %} value="VT">VT</option>
+		     				<option {% if info['sstate'] == 'VA' %} selected='selected' {% endif %} value="VA">VA</option>
+		     				<option {% if info['sstate'] == 'WA' %} selected='selected' {% endif %} value="WA">WA</option>
+		     				<option {% if info['sstate'] == 'WV' %} selected='selected' {% endif %} value="WV">WV</option>
+		     				<option {% if info['sstate'] == 'WI' %} selected='selected' {% endif %} value="WI">WI</option>
+		     				<option {% if info['sstate'] == 'WY' %} selected='selected' {% endif %} value="WY">WY</option>
+		     				</select></td></label></tr>
+		     <tr><label><td>Zip: </td><td><input type='text' name="szip"  value="{{info['szip']}}" required></td></label></tr>
+		     
+		     <tr><td><h4>Card Information</h4></td></tr>
+
+		     <tr><label><td>Card Number: </td><td><input type='text' name="cardno" value="{{info['cardno']}}" required></td></label></tr>
+		     <tr><label><td>Csc: </td><td><input type='text' name="csc" value="{{info['csc']}}" required></td></label></tr>
+		     <tr><label><td>Expiration Date: </td><td><input type='month' name="exp" min="current_date"value="{{info['exp']}}" required></td></label></tr>
 		     </table>
 		     <br>
 
