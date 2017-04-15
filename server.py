@@ -103,6 +103,7 @@ def logout():
 	print products
 	return render_template('index.html', stock = products)
 
+
 @app.route('/login')
 def login():
 	print(session['email'])

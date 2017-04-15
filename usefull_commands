@@ -9,6 +9,7 @@ git commit -m "Message"
 git status
 git pull
 git push
+git diff
 
 mysql-ctl start
 mysql-ctl stop
@@ -28,4 +29,8 @@ sudo sudo -u postgres psql
 INSERT INTO users VALUES
     ('ian.carlyle@yahoo.com', '123');
     
-SELECT
+
+
+Credentials:
+employee@gustybikeshop.com
+Simon
