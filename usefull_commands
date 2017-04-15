@@ -28,4 +28,8 @@ sudo sudo -u postgres psql
 INSERT INTO users VALUES
     ('ian.carlyle@yahoo.com', '123');
     
-SELECT
+
+
+Credentials:
+employee@gustybikeshop.com
+Simon

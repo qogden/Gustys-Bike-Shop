@@ -68,6 +68,7 @@ def index():
 def logout():
 	 session['email'] = ''
 	 session['loggedin'] = False
+	 session['employee'] = False
 	 return render_template('index.html')
 
 @app.route('/login')
