@@ -60,7 +60,9 @@
 			 <span class="total final">$ <b ng-bind="totals['total']"></b></span>
 			 <div class="clearfix"></div>
 
+				{% if cart != [] %}
 				<a class="order" href="/ordersummary">Place Order</a>
+				{% endif %}
 			 <div class="total-item">
 			 </div>
 			</div>

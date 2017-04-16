@@ -62,14 +62,47 @@ def index():
 		feature.append(items)
 		i+=1
 	print products
-	return render_template('index.html', stock = products, feature = feature)
+	return render_template('index.html', stock = products)
 
 @app.route('/logout')
 def logout():
-	 session['email'] = ''
-	 session['loggedin'] = False
-	 session['employee'] = False
-	 return render_template('index.html')
+	session['email'] = ''
+	session['loggedin'] = False
+	 
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+	cur.execute("SELECT * FROM products")
+	stock = cur.fetchall()
+	print stock
+	conn.commit()
+	
+	i=0
+	products = []
+	for row in stock:
+		for row in stock[i]:
+			p = stock[i]
+			items = {'id':p[0], 'name':p[1], 'image':p[2], 'price':p[4]}
+		products.append(items)
+		i+=1
+	print products
+	
+	cur.execute("SELECT * FROM products WHERE producttype = (SELECT id FROM producttype WHERE producttype = 'bicycles')")
+	stock = cur.fetchall()
+	print stock
+	conn.commit()
+	
+	i=0
+	feature = []
+	for row in stock:
+		for row in stock[i]:
+			p = stock[i]
+			items = {'id':p[0], 'name':p[1], 'image':p[2]}
+		feature.append(items)
+		i+=1
+	print products
+	return render_template('index.html', stock = products)
+
 
 @app.route('/login')
 def login():
@@ -118,8 +151,37 @@ def access():
 				session['employee'] = False
 				#switch all unregistered user products onto the customer
 				
+				cur.execute("SELECT * FROM products")
+				stock = cur.fetchall()
+				print stock
+				conn.commit()
 				
-				return render_template('index.html')
+				i=0
+				products = []
+				for row in stock:
+					for row in stock[i]:
+						p = stock[i]
+						items = {'id':p[0], 'name':p[1], 'image':p[2], 'price':p[4]}
+					products.append(items)
+					i+=1
+				print products
+				
+				cur.execute("SELECT * FROM products WHERE producttype = (SELECT id FROM producttype WHERE producttype = 'bicycles')")
+				stock = cur.fetchall()
+				print stock
+				conn.commit()
+				
+				i=0
+				feature = []
+				for row in stock:
+					for row in stock[i]:
+						p = stock[i]
+						items = {'id':p[0], 'name':p[1], 'image':p[2]}
+					feature.append(items)
+					i+=1
+				print products
+				return render_template('index.html', stock = products)
+				
 		else:
 			wrongPassword = True
 			return render_template('login.html', wrongPassword = wrongPassword)
@@ -408,6 +470,12 @@ def getUserInfo():
 			j+=1
 		i+=1
 
+	cur.execute("SELECT cardno, csc FROM customers WHERE email = %s", (session['email'], ))
+	r2 = cur.fetchall()
+	conn.commit()
+
+	
+
 	userInfo = {'first': r[0][1], 'last':r[0][2], 'email':r[0][3], 'bstreet': r[0][4], 'bstreet2': r[0][5], 'bcity':r[0][6], 'bstate':r[0][7], 'bzip':r[0][8], 'sstreet': r[0][9], 'sstreet2': r[0][10], 'scity':r[0][11], 'sstate':r[0][12], 'szip':r[0][13], 'cardno':r[0][14], 'csc':r[0][15], 'exp':r[0][16]}
 		
 	return userInfo
@@ -530,6 +598,12 @@ def order():
 	csc = request.form['csc']
 	exp = request.form['exp']
 	
+	#insert into orders
+	query=cur.mogrify("Insert INTO orders(customerid, orderdate, firstname, lastname, email, bstreet, bstreet2, bcity, bstate, bzip, sstreet, sstreet2, scity, szip, cardno, csc, exp) VALUES ((SELECT id FROM customerid WHERE email = %s), (SELECT current_timestamp), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+	(session['email'], firstname, lastname, email, bstreet, bstreet2, bcity, bstate, bzip, sstreet, sstreet2, scity, szip, cardno, csc, exp))
+	print(query)
+	
+	#insert into orderdetails using curval(orders_pid_seq)
 	
 	
 	

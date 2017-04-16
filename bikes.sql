@@ -111,6 +111,7 @@ DROP TABLE IF EXISTS orders;
 CREATE TABLE orders(
      id serial NOT NULL PRIMARY KEY,
      customerid int NOT NULL references customers(id),
+     orderdate timestamp NOT NULL,
      
      firstname text NOT NULL,
      lastname text NOT NULL,
@@ -188,11 +189,11 @@ INSERT INTO users(email, password) VALUES('user1@email.com', crypt('Simon1', gen
 INSERT INTO users(email, password) VALUES('user2@email.com', crypt('Simon2', gen_salt('bf')));
 
 /*ADDING CUSTOMERS*/
-INSERT INTO customers(firstname, lastname, email, bstreet1, bstreet2, bcity, bstate, bzip, sstreet1, sstreet2, scity, sstate, szip, cardno, csc, exp) VALUES('testfirstname', 'testlastname', (SELECT email FROM users WHERE email = 'customers@email.com'), 
-                        'testbstreet1', 'testbstreet2', 'testbcity', 'testbstate', 'testbzip', 'testsstreet1', 'testsstreet2', 'testscity', 'testsstate', 'testszip', crypt('testcardno', gen_salt('bf')),  crypt('testcsc', gen_salt('bf')),  crypt('testexp', gen_salt('bf')));
+INSERT INTO customers(firstname, lastname, email, bstreet1, bstreet2, bcity, bstate, bzip, sstreet1, sstreet2, scity, sstate, szip, cardno, csc, exp) VALUES('testfirstname', 'testlastname', (SELECT email FROM users WHERE email = 'user2@email.com'), 
+                        'testbstreet1', 'testbstreet2', 'testbcity', 'AZ', 'testbzip', 'testsstreet1', 'testsstreet2', 'testscity', 'VA', 'testszip', 'testcardno', 'testcsc','09/17');
 INSERT INTO customers(firstname, lastname, email) VALUES('testfirstname2', 'testlastname1', (SELECT email FROM users WHERE email = 'customers1@email.com'));
 INSERT INTO customers(firstname, lastname, email) VALUES('userfirst1', 'userlast1', (SELECT email FROM users WHERE email = 'user1@email.com'));
-INSERT INTO customers(firstname, lastname, email) VALUES('userfirst2', 'userlast2', (SELECT email FROM users WHERE email = 'user2@email.com'));
+INSERT INTO customers(firstname, lastname, email) VALUES('userfirst2', 'userlast2', (SELECT email FROM users WHERE email = 'customers@email.com'));
 
 /*ADDING EMPLOYEES*/
 INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('masterfirst', 'masterlast', 1, (SELECT email FROM users WHERE email = 'masters@gustybikeshop.com'), 
