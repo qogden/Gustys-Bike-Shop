@@ -257,8 +257,6 @@ def update_account_info():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	print(session['email'])
-	#user = User.get(request.form['uuid'])
-	#query = cur.mogrify("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
 	cur.execute("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
 	info["fname"] = cur.fetchall()[0][0]
 	cur.execute("SELECT lastname FROM customers WHERE email = %s", (session['email'],))
@@ -293,41 +291,24 @@ def update_account_info():
 	cur.execute("SELECT exp FROM customers WHERE email = %s", (session['email'],))
 	info["exp"] = cur.fetchall()[0][0]
 	
-
-#	if request.method == 'POST':
-#    	user = User.get(request.form['uuid'])
-	#query = cur.mogrify("UPDATE customers SET firstname = 'Ia' where firstname = 'Ian'")
-	#query = cur.mogrify("UPDATE customers SET firstname = 'Iand' where email = 'ian.carlyle@yahoo.com'")
-#	print(query)
-#	cur.execute(query)
-#	cur.fetchall()
-#	conn.commit()
-	
-	
-#	session['fname'] = 'Nullname'
-#	session['lname'] = 'Null_last'
-#	print(session['fname'])
-
-#	try:
-#		cur.execute("INSERT INTO customers(firstname, lastname, email) VALUES(%s, %s, (SELECT email FROM users WHERE email = %s))", (request.form['firstname'], request.form['lastname'], request.form['email']))
-#		conn.commit()
-#		return render_template('signup2.html')
-#	except:
-#		print("ERROR updating customer info")
-#		print("TRIED: INSERT INTO customers(firstname, lastname, email) VALUES(%s, %s, (SELECT email FROM users WHERE email = %s))" % (request.form['firstname'], request.form['lastname'], request.form['email']))
-#		conn.rollback()
-#		return render_template('account.html')
-#	conn.commit()
-	
-	
-	
-	#query = cur.mogrify("SELECT * FROM users WHERE email = %s", (request.form['fname'], ))
-	#cur.execute(query)
-	#cur.fetchall()
-	#results = cur.rowcount
-	#conn.commit()
-	
 	return render_template('account.html', info=info)
+
+@app.route('/timesheet', methods=['GET','POST'])
+def display_timesheets():
+	timesheet = []
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	print(session['email'])
+	#cur.execute("SELECT employeeid, t_date, hours FROM timesheet WHERE employeeid = %s", (session['email'],))
+	cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
+	cur.execute("SELECT t_date, hours FROM timesheet WHERE employeeid = %s", (cur.fetchall()[0][0],))
+	timesheet = cur.fetchall()
+	print timesheet
+	
+	
+
+	
+	return render_template('timesheet.html', timesheet=timesheet)
 
 @app.route('/contact')
 def contact():

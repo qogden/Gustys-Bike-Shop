@@ -67,7 +67,7 @@ DROP TABLE IF EXISTS timesheet;
 CREATE TABLE timesheet (
     id serial NOT NULL PRIMARY KEY,
     employeeid int NOT NULL references employees(id),
-    clock timestamp NOT NULL,
+    t_date timestamp NOT NULL,
     hours int NOT NULL
 );
 
