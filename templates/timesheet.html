@@ -8,8 +8,7 @@
 <p style="text-align:center">You have successfully signed in as an employee.</p>-->
     <div class="timesheet">
         <div class="col-md-2 timesheet">
-            {{timesheet[0][0]}}
-            {% for row in timesheet %}
+            {% for i in timesheet %}
             <label>
                 {{timesheet[0][0]}}
             </label>
@@ -17,7 +16,7 @@
         </div>
         <div class="col-md-10 timesheet">
             {{timesheet[0][1]}}
-            {% for row in timesheet %}
+            {% for i in timesheet %}
             <label>
                 {{timesheet[0][1]}}
             </label>

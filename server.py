@@ -30,7 +30,7 @@ def index():
 	if("email" not in session):
 		session['email']=''
 	 	session['loggedin'] = False
-	 
+	
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
@@ -145,7 +145,7 @@ def access():
 				session['email'] = request.form['email']
 				session['loggedin'] = True
 				session['employee'] = True
-				return render_template('timesheet.html')
+				return render_template('index.html')
 			else:
 				session['email'] = request.form['email']
 				session['loggedin'] = True
@@ -361,8 +361,6 @@ def display_timesheets():
 	timesheet = []
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-	print(session['email'])
-	#cur.execute("SELECT employeeid, t_date, hours FROM timesheet WHERE employeeid = %s", (session['email'],))
 	cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
 	cur.execute("SELECT t_date, hours FROM timesheet WHERE employeeid = %s", (cur.fetchall()[0][0],))
 	numrows = cur.rowcount
