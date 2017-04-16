@@ -364,7 +364,13 @@ def display_timesheets():
 	#cur.execute("SELECT employeeid, t_date, hours FROM timesheet WHERE employeeid = %s", (session['email'],))
 	cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
 	cur.execute("SELECT t_date, hours FROM timesheet WHERE employeeid = %s", (cur.fetchall()[0][0],))
+	numrows = cur.rowcount
 	timesheet = cur.fetchall()
+	print numrows
+	
+	for index in range(len(timesheet)):		#converts timesheet timestamp into just the calendar day
+		#print 'Time_Entry :', timesheet[index]
+		timesheet[index][0] = timesheet[index][0].date()
 	print timesheet
 	
 	
