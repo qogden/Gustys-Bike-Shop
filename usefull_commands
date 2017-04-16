@@ -17,7 +17,6 @@ mysql-ctl cli
 
 
 Refresh Database:
-
 sudo service postgresql stop
 sudo service postgresql start
 sudo sudo -u postgres psql

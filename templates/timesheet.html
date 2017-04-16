@@ -11,11 +11,16 @@
             {{timesheet[0]}}
         </div>
         <div class="col-md-4 timesheet">
-            {{timesheet[0]}}
         </div>
 	</div>
+	
 
-<!--<form id="timesheet_form" method="post" action="/account">
-<h3>User information</h3>
-</form> -->
+	<br></br>
+	<h3>How many hours did you work today?</h3>
+    <form id="timesheet_form" method="post" action="/timesheet">
+        <label>
+            <input placeholder="hours" name='hours' type="text">
+            <input type="submit" value="update" id="timesheet-submit">
+        </label>
+    </form>
 {% endblock %}
