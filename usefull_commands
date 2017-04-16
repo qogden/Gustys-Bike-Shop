@@ -15,13 +15,15 @@ mysql-ctl start
 mysql-ctl stop
 mysql-ctl cli
 
+
+Refresh Database:
 sudo service postgresql stop
 sudo service postgresql start
 sudo sudo -u postgres psql
+drop database bikes
+\i bikes.sql
 \c bikes
 
-
-\i bikes.sql
 \l
 \d 'table'
 
