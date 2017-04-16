@@ -5,7 +5,6 @@ App.controller('AppController', function($scope){
     
     $scope.totals = [];
 
-
     $scope.cartqty = function cartqty(qty, pid){
         $scope.qty=qty;
         $scope.pid=pid;

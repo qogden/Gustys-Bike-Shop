@@ -10,6 +10,7 @@ app.secret_key = os.urandom(24).encode('hex')
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
+
 def connectToDB():
   connectionString = 'dbname=bikes user=biker password=bike123 host=localhost'
   print connectionString
@@ -68,7 +69,7 @@ def index():
 def logout():
 	session['email'] = ''
 	session['loggedin'] = False
-	 
+	session['employee'] = False
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
@@ -591,8 +592,8 @@ def getTotals():
 	totals={'total':total, 'subtotal':subtotal, 'tax':tax, 'shipping':shipping, 'count': count}
 	
 	return totals
-	
-@app.route('/orderconfirmation', methods = ['POST'])
+
+@app.route('/orderconfirmation', methods=['POST'])
 def order():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -616,17 +617,51 @@ def order():
 	cardno = request.form['cardno']
 	csc = request.form['csc']
 	exp = request.form['exp']
+	print(exp)
 	
-	#insert into orders
-	query=cur.mogrify("Insert INTO orders(customerid, orderdate, firstname, lastname, email, bstreet, bstreet2, bcity, bstate, bzip, sstreet, sstreet2, scity, szip, cardno, csc, exp) VALUES ((SELECT id FROM customerid WHERE email = %s), (SELECT current_timestamp), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-	(session['email'], firstname, lastname, email, bstreet, bstreet2, bcity, bstate, bzip, sstreet, sstreet2, scity, szip, cardno, csc, exp))
-	print(query)
+	status="processing"
+	cur.execute("INSERT INTO orders(customerid, orderdate, status, firstname, lastname, email, bstreet, bstreet2, bcity, bstate, bzip, sstreet, sstreet2, scity, sstate, szip, cardno, csc, exp) VALUES ((SELECT id FROM customers WHERE email = %s), (SELECT current_timestamp), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (session['email'], status, firstname, lastname, email, bstreet, bstreet2, bcity, bstate, bzip, sstreet, sstreet2, scity, sstate, szip, cardno, csc, exp))
+	conn.commit()
 	
-	#insert into orderdetails using curval(orders_pid_seq)
+	cur.execute("SELECT currval('orders_id_seq')")
+	orderid = cur.fetchone()
+	conn.commit()
+	orderid=orderid[0]
+	print("orderid:", orderid)
+
+	product = getProducts()
+	print(products)
+	i=0
+	for row in product:
+		productid = product[i][0]
+		price = product[i][3]
+		qty = product[i][4]
+		cur.execute("INSERT INTO orderitems(orderid, productid, price, quantity) VALUES(%s, %s, %s, %s)", (orderid, productid, price, qty))
+		conn.commit()
+		i+=1
+	cur.execute("DELETE FROM cart WHERE customerid = (SELECT id FROM customers WHERE email = %s)", (session['email'],))
+	conn.commit()
+	return render_template('orderconfirmation.html', orderid = orderid)
+
+@app.route('/orders')
+def orders():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
+	cur.execute("SELECT distinct orderid, productid, price, quantity, status FROM orderitems INNER JOIN orders ON id = orderid WHERE customerid = (SELECT id FROM customers WHERE email = %s) ORDER BY orderid desc", (session['email'],))
+	history=cur.fetchall()
+	conn.commit()
 	
-	
-	return render_template('orderconfirmation.html')
+	p=[]
+	i=0
+	for row in history:
+		cur.execute("SELECT name FROM products WHERE id = %s", (history[i][1],))
+		name = cur.fetchone()
+		items = {'orderid':history[i][0], 'productid':name[0], 'price':history[i][2], 'quantity':history[i][3], 'status':history[i][4]}
+		p.append(items)
+		i+=1
+	print(p)
+	return render_template('order.html', order=p)
 
 @app.route('/blog')
 def blog():

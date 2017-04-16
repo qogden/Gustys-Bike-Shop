@@ -7,10 +7,26 @@
 		  <li><a href="men.html">Home</a></li>
 		  <li><a href="men.html">Account</a></li>
 		  <li class="active">Order</li>
-		 </ol>			
+		 </ol>	
+		 <h3 style="text-align:center">Your Orders</h3>
+		 <br>
+		 <style>
+				td{
+    				padding: 10px;
+    				text-align: center;
+    				border: 1px solid black;
+				}
+				
+				table {
+					margin:auto;
+				}
+		 </style>
+		 <table>
+		 	<tr><td>Order ID</td><td>Product</td><td>Price</td><td>Quantity</td><td>Status</td></tr>
 	   		{% for items in order %}
-	   			
+			<tr><td>{{items["orderid"]}}</td><td>{{items["productid"]}}</td><td>${{items["price"]}}</td><td>{{items["quantity"]}}</td><td>{{items["status"]}}</td></tr>
 	   		{% endfor %}
+	   	</table>
 		  <br>
 	 </div>
 </div>

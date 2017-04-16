@@ -49,27 +49,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					{% if session['loggedin'] != True %}
 					|<li><a href="/signup">Register</a></li>
 					{% endif %}
+					
+					{% if session['loggedin'] == True and session['employee'] == False %}
+					|<li class="top_link"><a href="/account">My Account</a></li>
+					|<li class="top_link"><a href="/orders">Orders</a></li>
+					{% elif session['employee'] == True %}
+					|<li class="top_link"><a href="/timesheet">Timesheet</a></li>
+					{% endif %}
 				</ul>
 			</div>
 			<div class="top_left">
 				<ul>
-					{% if session['loggedin'] == True %}
-					<li class="top_link">Email: <a href=user>{{ session['email'] }}</a></li>|
-					{% endif %}
-					
-					{% if session['loggedin'] == True and session['employee'] == False %}
-					<li class="top_link"><a href="/account">My Account</a></li>|
-					{% endif %}
-					
-					{% if session['employee'] == True %}
-					<li class="top_link"><a href="/timesheet">Timesheet</a></li>|
-					{% endif %}
-					
-					
 					{% if session['loggedin'] == False %}
 					<li class="top_link"><a href="/login">Login</a></li>|
-					{% endif %}
-					{% if session['loggedin'] == True %}
+					{% elif session['loggedin'] == True %}
+					<li class="top_link">Email: <a href=user>{{ session['email'] }}</a></li>|
 					<li class="top_link"><a href="/logout">Logout</a></li>|
 					{% endif %}
 				</ul>
@@ -89,7 +83,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="header_top">
 	 <div class="container">
 		 <div class="logo">
-		 	<!--<a href="/"><img src="static/images/Bike Shop logo HD.png" alt=""/></a>-->
 		 	{% if session['employee'] == False %}
 		 	<a href="/"><span style="float: left"><img src="static/images/Bike Shop logo HD.png" width="600px"/></span><h1>Gusty's Bike Shop</h1></a>
 		 	{% endif %}
@@ -177,10 +170,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 <h4>Your account</h4>
 				 <ul>
 					 <li><a href="/login">Your Account</a></li>
-					 <li><a href="#">Personal Information</a></li>
-					 <li><a href="#">Addresses</a></li>
-					 <li><a href="#">Discount</a></li>
-					 <li><a href="#">Track your order</a></li>					 					 
+					 <li><a href="/account">Personal Information</a></li>
+					 <li><a href="/orders">Track your order</a></li>					 					 
 				 </ul>
 			 </div>
 			 <div class="clearfix"></div>

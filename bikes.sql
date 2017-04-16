@@ -112,20 +112,21 @@ CREATE TABLE orders(
      id serial NOT NULL PRIMARY KEY,
      customerid int NOT NULL references customers(id),
      orderdate timestamp NOT NULL,
+     status text NOT NULL,
      
      firstname text NOT NULL,
      lastname text NOT NULL,
      email text NOT NULL references users(email),
      
      /*billing information*/
-     bstreet1 text NOT NULL,
+     bstreet text NOT NULL,
      bstreet2 text NOT NULL,
      bcity text NOT NULL,
      bstate text NOT NULL,
      bzip text NOT NULL,
     
      /*shipping information*/
-     sstreet1 text NOT NULL,
+     sstreet text NOT NULL,
      sstreet2 text NOT NULL,
      scity text NOT NULL,
      sstate text NOT NULL,
@@ -142,7 +143,8 @@ DROP TABLE IF EXISTS orderitems;
 CREATE TABLE orderitems(
     orderid int NOT NULL references orders(id),
     productid int NOT NULL references products(id),
-    quantity int
+    price decimal NOT NULL,
+    quantity int NOT NULL
 
 );
 
@@ -190,7 +192,7 @@ INSERT INTO users(email, password) VALUES('user2@email.com', crypt('Simon2', gen
 
 /*ADDING CUSTOMERS*/
 INSERT INTO customers(firstname, lastname, email, bstreet1, bstreet2, bcity, bstate, bzip, sstreet1, sstreet2, scity, sstate, szip, cardno, csc, exp) VALUES('testfirstname', 'testlastname', (SELECT email FROM users WHERE email = 'user2@email.com'), 
-                        'testbstreet1', 'testbstreet2', 'testbcity', 'AZ', 'testbzip', 'testsstreet1', 'testsstreet2', 'testscity', 'VA', 'testszip', 'testcardno', 'testcsc','09/17');
+                        'testbstreet1', 'testbstreet2', 'testbcity', 'AZ', 'testbzip', 'testsstreet1', 'testsstreet2', 'testscity', 'VA', 'testszip', '1234567890', '123','2017-09');
 INSERT INTO customers(firstname, lastname, email) VALUES('testfirstname2', 'testlastname1', (SELECT email FROM users WHERE email = 'customers1@email.com'));
 INSERT INTO customers(firstname, lastname, email) VALUES('userfirst1', 'userlast1', (SELECT email FROM users WHERE email = 'user1@email.com'));
 INSERT INTO customers(firstname, lastname, email) VALUES('userfirst2', 'userlast2', (SELECT email FROM users WHERE email = 'customers@email.com'));
