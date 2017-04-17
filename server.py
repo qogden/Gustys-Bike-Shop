@@ -423,10 +423,12 @@ def addToCart(productid, quantity):
 	query=cur.fetchall()
 	conn.commit()
 	
-	#if(cur.rowcount == 0):
-	cur.execute("INSERT INTO cart(customerid, day, productid, quantity) VALUES(%s, (SELECT CURRENT_DATE), %s, '%s')", (customerid, productid, quantity))
-	conn.commit()
-
+	if(cur.rowcount == 0):
+		cur.execute("INSERT INTO cart(customerid, day, productid, quantity) VALUES(%s, (SELECT CURRENT_DATE), %s, '%s')", (customerid, productid, quantity))
+		conn.commit()
+	else:
+		cur.execute("UPDATE cart SET quantity = quantity WHERE customerid = %s and productid = %s", (customerid, productid))
+		conn.commit()
 	
 	message='item has been added'
 	totals = getTotals()
