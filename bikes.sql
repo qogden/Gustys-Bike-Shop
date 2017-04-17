@@ -217,7 +217,7 @@ INSERT INTO producttype(producttype) VALUES ('parts');
 INSERT INTO producttype(producttype) VALUES ('tools');
 
 
-/*ADDING PRODUCTS*/
+/*ADDING BIKE PRODUCTS*/
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Merax BW2KS', '/static/images/bike1.jpg','Never stop riding.', 749.99, 31, 1);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bayside Kent3600', '/static/images/bike2.jpeg','Made for the perfect ride along the water.', 644.99, 49, 1);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Mongoose XCT28', '/static/images/bike3.jpeg','Able to withstand great impact.', 389.99, 15, 1);
@@ -231,9 +231,24 @@ INSERT INTO products(name, image, description, price, stock, producttype) VALUES
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Orange 324', '/static/images/bike11.jpg','Beautiful red color makes it visible in dark settings.', 300.00, 30, 1);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Northwoods Pamona', '/static/images/bike12.jpg','Aethetically pleasing, this bike has a beautiful silver and seafoam grean finish.', 249.99, 50, 1);
 
-INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Tire', '/static/images/tire1.jpg','Test tire', 75.50, 50, 2);
-INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Hammer', '/static/images/hammer.jpg','Test hammer', 20.00, 75, 3);
+/*ADDING PART PRODUCTS*/
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Black Handle Bar', '/static/images/parts1.jpeg','This stainless steel handle bar is very study and with stands weather damages.', 16.85, 50, 2);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bike Bicycle 7 speed Type Sprocket FreeWheel Replacement', '/static/images/parts2.jpeg','Universal gear replacement', 29.99, 45, 2);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bicycle Front Wheel', '/static/images/parts3.jpeg','24 x 1.75 ALLOY BOLT-ON', 28.99, 14, 2);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Weinmann Hybrid/Comfort Wheel', '/static/images/parts4.jpeg','700 x 35 Quick Release Silver Alloy Front Wheel.', 29.99, 30, 2);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Black Bell Sports Tire', '/static/images/parts5.jpeg','Mountain bike tire with mountain bike tire with Kevlar', 75.50, 63, 2);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bell Inner Tube', '/static/images/parts6.jpeg','26" Universal inner tube replacement, durable and reliable.', 5.00, 20, 2);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Red Bar Handle', '/static/images/parts7.jpeg','This stainless steel handle bar is very study and with stands weather damages.', 16.85, 52, 2);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bell Front Wheel', '/static/images/parts8.jpg','Wheel comes with inner tube and tire traction.', 75.50, 65, 2);
 
+/*ADDING TOOL PRODUCTS*/
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bell Tire Patching Glue', '/static/images/tools1.jpeg','Reliable glue to patch inconvenience quickly.', 10.50, 50, 3);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bikehand Crankset Crank Arm Puller Removal Tool', '/static/images/tools2.jpeg','A tool to help you get there.', 12.00, 20, 3);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bikehand Chain Wear Indicator', '/static/images/tools3.jpeg','Do not wait until the chain breaks to replace it. Let us help you check for wear in the chain', 75.50, 30, 3);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Image 16 in 1 Multi-Funtional Repair Tool', '/static/images/tools4.jpeg','With a combination of different tools, this tool set can help you with any repair.', 9.99, 33, 3);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bike Wheel Truing Stand', '/static/images/tools5.jpeg', 'Spin those wheels for days on this truing stand.', 45.00, 29, 3);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bikehand Chain Quick Link Open Close Tool', '/static/images/tools6.jpeg','Quickly open and close chain links with this tool.', 15.00, 43, 3);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('29 piece Bike Repair Tool Set', '/static/images/tools7.jpeg','Perfect emergency repair tool kit to fix your bike on the go.', 75.50, 60, 3);
 
 /*ADDING TO CART*/
 INSERT INTO cart(customerid, day, productid, quantity) VALUES((SELECT id FROM customers WHERE email = 'user2@email.com'), (SELECT CURRENT_DATE), 2, 1);
