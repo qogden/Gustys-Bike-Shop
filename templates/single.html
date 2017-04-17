@@ -66,22 +66,22 @@
 				  </div>
 				  <div class="clearfix"></div>
 				  <div class="sofaset-info">
-						 <h4>Product Summary for the {{item['name']}}</h4>
-
-						 <ul>
-							 <li>Dimensions: 6'x 4'</li>
-							 <li>Assembly Type: Pre Assembled</li>
-							 <li>Material: Metal and soft genuine leather for maximum seat comfort</li>
-							 <li>Looks amazing outdoors</li>
-							 <li>Colour: Black</li>
-							 <li>Type: 3 speed super lightning transmission</li>
-							 <li>Long lasting, durable and easy to use product</li>
-							 <li>Contents: 1 Bike</li>
-							 <li>Delivery Time: 7 to 10 days from the Day of Dispatch</li>
-							 <li>Hardcore speed and durability</li>
-							 <li>SUPC: SHG21458689652</li>
-							 <li>Material: High Density Foam and metal</li>
-						 </ul>
+						 <h4>Reviews for the {{item['name']}}</h4>
+					<style>
+						td{
+		    				padding: 10px;
+		    				text-align: center;
+							border: 1px solid gray;
+						}
+						
+						
+		 			</style>
+						<table>
+							<tr><td>Date</td><td>Customer</td><td>Rating</td><td>Comment</td></tr>
+						{% for c in reviews %}
+							<tr><td>{{c['day']}}</td><td>{{c['customer']}}</td><td>{{c['rating']}}</td><td>{{c['comment']}}</td></tr>
+						{% endfor %}
+						</table>
 				  </div>				  					
 		    </div>
 			

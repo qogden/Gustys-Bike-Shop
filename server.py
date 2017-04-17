@@ -255,7 +255,21 @@ def single():
 	item = {'id':p[0], 'name':p[1], 'image':p[2], 'description':p[3], 'price':p[4], 'stock':p[5]}
 	print(item)
 	
-	return render_template('single.html', item = item)
+	cur.execute("SELECT * FROM reviews WHERE productid = %s", (p[0],))
+	r = cur.fetchall()
+	conn.commit()
+	
+	reviews = []
+	i=0
+	for row in r:
+		cur.execute("SELECT firstname FROM customers WHERE id = %s", (r[i][1],))
+		c = cur.fetchone()
+		conn.commit()
+		comment = {'customer':c[0], 'day':r[i][3], 'rating':r[i][4], 'comment':r[i][5]}
+		reviews.append(comment)
+		i+=1
+	
+	return render_template('single.html', item = item, reviews = reviews)
 	
 @app.route('/bikes')
 def products():
@@ -409,22 +423,16 @@ def addToCart(productid, quantity):
 	query=cur.fetchall()
 	conn.commit()
 	
-	if(cur.rowcount == 0):
-		cur.execute("INSERT INTO cart(customerid, day, productid, quantity) VALUES(%s, (SELECT CURRENT_DATE), %s, '%s')", (customerid, productid, quantity))
-		conn.commit()
-	else:
-		cur.execute("SELECT quantity FROM cart WHERE customerid = %s and productid = '%s'", (customerid, productid))
-		qty=cur.fetchone()
-		quantity = qty[0] + quantity
-		conn.commit()
-		cur.execute("UPDATE cart SET quantity = %s WHERE customerid = %s and productid = '%s'", (quantity, customerid, productid))
-		conn.commit()
+	#if(cur.rowcount == 0):
+	cur.execute("INSERT INTO cart(customerid, day, productid, quantity) VALUES(%s, (SELECT CURRENT_DATE), %s, '%s')", (customerid, productid, quantity))
+	conn.commit()
+
 	
 	message='item has been added'
 	totals = getTotals()
 	print(message,": ",totals)
 
-	emit('totals', totals)
+	#emit('totals',totals)
 
 @socketio.on('cart')
 def cart():
@@ -575,7 +583,7 @@ def getTotals():
 			for row in item:
 				p=item[j]	
 				count = count + c[4]
-				subtotal = (subtotal + float(p[4]))*float(c[4])
+				subtotal = subtotal + (float(p[4])*float(c[4]))
 			i+=1
 	else:
 		subtotal = 0.00
