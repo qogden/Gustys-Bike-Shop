@@ -11,13 +11,13 @@
 		 <!--<div class="col-md-9 product-model-sec">-->
 		 			{% for product in stock %}
 		 			 <form action='/single' method = "post">
-					 <a href="/single"><div class="product-grid love-grid">
+					 <div class="product-grid love-grid">
 						<div class="more-product"><span> </span></div>						
 						<div class="product-img b-link-stripe b-animate-go  thickbox">
-							<img src="{{product['image']}}" alt="tool image"/>
+							<img src="{{product['image']}}"  alt="Bicycle Image"/>
 							<div class="b-wrapper">
 							<h4 class="b-animate b-from-left  b-delay03">							
-							<button class="btns" name="pidi" value="{{product['id']}}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Quick View</button>
+							<button class="btns" type="submit" name="pidi" value="{{product['id']}}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Quick View</button>
 							</h4>
 							</div>
 						</div></form>						
