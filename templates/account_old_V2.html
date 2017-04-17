@@ -1,16 +1,6 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<script>
-	function showuserinfo() {
-    	var x = document.getElementById('registration_form');
-    	if (x.style.display === 'none') {
-    	    x.style.display = 'block';
-    	} else {
-    	    x.style.display = 'none';
-		}
-	} 
-</script>
 <div class="info_sec">
 	<div class="container">
 		<ol class="breadcrumb">
@@ -20,14 +10,34 @@
 		<h2>Update information to purchase products.</h2>
 		<br></br>
 		<!-- use span to keep everything on same line-->
+		<div class="col-md-0 update_form">
+<!--
+			<label>{{info['fname']}}</label>
+			<label>{{info['lname']}}</label>
+			<p>{{info['bstreet']}}</p>
+			<p>{{info['bstreet2']}}</p>
+			<p>{{info['bcity']}}</p>
+			<p>{{info['bstate']}}</p>
+			<p>{{info['bzip']}}</p>
+			
+			<p>{{info['sstreet']}}</p>
+			<p>{{info['sstreet2']}}</p>
+			<p>{{info['scity']}}</p>
+			<p>{{info['sstate']}}</p>
+			<p>{{info['szip']}}</p>
+			
+			<p>{{info['cardno']}}</p>
+			<p>{{info['csc']}}</p>
+			<p>{{info['exp']}}</p>
+-->
+		</div>
 		<div class="col-md-10 update_form">
-			<button onclick="showuserinfo()">Edit</button>
 			<form id="registration_form" method="post" action="/account">
 				<h3>User information</h3>
 				<label><input placeholder="first name" name='firstname' type="text"> <input type="submit" value="update" id="fname-submit"> {{info['fname']}}</label>
+<!---->
 				<label><input placeholder="last name" name='lastname' type="text"> <input type="submit" value="update" id="lname-submit"> {{info['lname']}}</label>
 				<br></br>
-				
 				<!--
 				<h3>Billing information</h3>
 				<label><input placeholder="bstreet" name='bstreet' type="text"> <input type="submit" value="update" id="bstreet-submit"> {{info['bstreet']}}</label>
