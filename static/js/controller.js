@@ -12,10 +12,11 @@ App.controller('AppController', function($scope){
         console.log('adjusting quantity');
     };
     
-    $scope.addToCart = function addToCart(){
-        console.log('enter')
-        socket.emit('addToCart', $scope.qty);
-        console.log('adjusting quantity');
+    $scope.addToCart = function addToCart(pid){
+        console.log(pid)
+        console.log($scope.qty)
+        socket.emit('addToCart', pid, $scope.qty);
+        console.log('adding to cart');
     };
     
     $scope.itemspage = function itemspage(productid){
@@ -25,12 +26,8 @@ App.controller('AppController', function($scope){
     
     socket.on('totals', function(totals){
         $scope.totals = totals;
+        console.log('totals', $scope.totals)
         $scope.$apply();
-    });
-    
-    socket.on('added', function(){
-        console.log('added to cart');
-        
     });
     
     socket.on('connect', function(){

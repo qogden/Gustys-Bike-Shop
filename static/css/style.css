@@ -1054,6 +1054,17 @@ font-size: 0.8em;
   font-weight: 500;
   margin-top:5px;
 }
+.add{
+	font-size: 0.8em;
+  display: inline-block;
+  background: #026466;
+  border-color: #026466;
+  padding: 0.6em 2em;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top:5px;
+}
 .check{
 	float:left;
 	width:60%;
@@ -1649,6 +1660,25 @@ a.order {
   margin: 3em auto 0 auto;
 }
 a.order:hover{
+	background:#026466;
+}
+.confirm {
+  background:#333;
+  padding: 10px 1.5em;
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -o-border-radius: 7px;
+  font-size: 1em;
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  font-weight: 600;
+  text-align: center;
+  width: 85%;
+  margin: 3em auto 0 auto;
+}
+.confirm:hover{
 	background:#026466;
 }
 .total-item{
@@ -2431,4 +2461,5 @@ a.order{
   width: 31%;
   margin-top: 6px;
 }
+
 }

@@ -401,15 +401,30 @@ def addToCart(productid, quantity):
 	print(session['email'])
 	
 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-	customerid = cur.fetchall()
-	print (customerid)
+	customerid = cur.fetchone()
+	customerid=customerid[0]
 	conn.commit()
 	
-	cur.execute("INSERT INTO cart(customerid, day, productid, quantity) VALUES(%s, (SELECT CURRENT_DATE), %s, %s)", (customerid, productid, quantity))
+	cur.execute("SELECT * FROM cart WHERE customerid = %s and productid = '%s'", (customerid, productid))
+	query=cur.fetchall()
 	conn.commit()
+	
+	if(cur.rowcount == 0):
+		cur.execute("INSERT INTO cart(customerid, day, productid, quantity) VALUES(%s, (SELECT CURRENT_DATE), %s, '%s')", (customerid, productid, quantity))
+		conn.commit()
+	else:
+		cur.execute("SELECT quantity FROM cart WHERE customerid = %s and productid = '%s'", (customerid, productid))
+		qty=cur.fetchone()
+		quantity = qty[0] + quantity
+		conn.commit()
+		cur.execute("UPDATE cart SET quantity = %s WHERE customerid = %s and productid = '%s'", (quantity, customerid, productid))
+		conn.commit()
 	
 	message='item has been added'
-	emit('added')
+	totals = getTotals()
+	print(message,": ",totals)
+
+	emit('totals', totals)
 
 @socketio.on('cart')
 def cart():
@@ -441,7 +456,6 @@ def cartqty(productid, quantity):
 	conn.commit()
 	
 	totals=getTotals()
-	
 	emit('totals', totals)
 
 @app.route('/cartrm', methods=['post'])
@@ -521,7 +535,6 @@ def getProducts():
 		cur.execute("SELECT * FROM products WHERE id = %s", (c[3], ))
 		item = cur.fetchall()
 		conn.commit()
-		print(i)
 		for row in item:
 			p=item[j]	
 			items = [p[0], p[1], p[2], p[4], c[4]]
@@ -535,10 +548,7 @@ def getTotals():
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 	if (session['loggedin'] and session['employee'] == False):
-		print(session['email'])
-		
 		query = cur.mogrify("SELECT id FROM customers WHERE email = %s", (session['email'], ))
-		print(query)
 		cur.execute(query)
 		customerid = cur.fetchall()
 		customerid = customerid[0][0]
@@ -567,14 +577,12 @@ def getTotals():
 				count = count + c[4]
 				subtotal = (subtotal + float(p[4]))*float(c[4])
 			i+=1
-		
 	else:
 		subtotal = 0.00
 		tax = 0.00
 		shipping = 0.00
 		total = 0.00
-		count = 0
-			
+
 	if (subtotal != 0.00):
 		shipping = 50.00
 	tax = subtotal * 0.15

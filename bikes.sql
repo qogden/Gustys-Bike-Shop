@@ -233,9 +233,9 @@ INSERT INTO products(name, image, description, price, stock, producttype) VALUES
 
 /*ADDING PART PRODUCTS*/
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Black Handle Bar', '/static/images/parts1.jpeg','This stainless steel handle bar is very study and with stands weather damages.', 16.85, 50, 2);
-INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bike Bicycle 7 speed Type Sprocket FreeWheel Replacement', '/static/images/parts2.jpeg','Universal gear replacement', 29.99, 45, 2);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bike Bicycle FreeWheel', '/static/images/parts2.jpeg','Universal gear replacement', 29.99, 45, 2);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bicycle Front Wheel', '/static/images/parts3.jpeg','24 x 1.75 ALLOY BOLT-ON', 28.99, 14, 2);
-INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Weinmann Hybrid/Comfort Wheel', '/static/images/parts4.jpeg','700 x 35 Quick Release Silver Alloy Front Wheel.', 29.99, 30, 2);
+INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Weinmann Hybrid Wheel', '/static/images/parts4.jpeg','700 x 35 Quick Release Silver Alloy Front Wheel.', 29.99, 30, 2);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Black Bell Sports Tire', '/static/images/parts5.jpeg','Mountain bike tire with mountain bike tire with Kevlar', 75.50, 63, 2);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Bell Inner Tube', '/static/images/parts6.jpeg','26" Universal inner tube replacement, durable and reliable.', 5.00, 20, 2);
 INSERT INTO products(name, image, description, price, stock, producttype) VALUES ('Red Bar Handle', '/static/images/parts7.jpeg','This stainless steel handle bar is very study and with stands weather damages.', 16.85, 52, 2);

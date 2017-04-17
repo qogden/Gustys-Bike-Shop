@@ -10,35 +10,32 @@
 			<h2>OUR PARTS & COMPONENTS</h2>			
 		 <!--<div class="col-md-9 product-model-sec">-->
 		 			{% for product in stock %}
-					 <form action='/single' method = "post">
-					 <div class="product-grid love-grid">
+		 			 <form action='/single' method = "post">
+					 <a href="/single"><div class="product-grid love-grid">
 						<div class="more-product"><span> </span></div>						
 						<div class="product-img b-link-stripe b-animate-go  thickbox">
-							<img src="{{product['image']}}" class="img-responsive" alt="Bicycle Image"/>
+							<img src="{{product['image']}}" alt="tool image"/>
 							<div class="b-wrapper">
 							<h4 class="b-animate b-from-left  b-delay03">							
 							<button class="btns" name="pidi" value="{{product['id']}}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Quick View</button>
 							</h4>
 							</div>
-						</div></form>							
+						</div></form>						
 						<div class="product-info simpleCart_shelfItem">
 							<div class="product-info-cust prt_name">
 								<h4>{{product['name']}}</h4>
 								<p>ID: {{product['id']}}</p>
 								<span class="item_price">${{product['price']}}</span>								
-								<input type="number" ng-model="qty" class="item_quantity" ng-init="qty=1" />
-								{% if session['loggedin'] == 'true' %}
-								<p>hell</p>
-								<input type="button" class="item_add items" ng-model="add" ng-change="addToCart()"value="ADD">
+								<!--<input type="number" ng-model="qty" class="item_quantity" ng-init="qty=1">
+								{% if session['loggedin'] == True %}
+								<input class="item_add items" type="submit" ng-model="add2cart" ng-click="addToCart({{product['id']}})" value="ADD TO CART">
 								{% else %}
-								
-								<input type="button" class="item_add items" value="ADD">
-								{% endif %}
+								<button class="item_add items">LOGIN TO ADD</button>
+								{% endif %}-->
 							</div>													
 							<div class="clearfix"> </div>
 						</div>
 					</div>	
-					
 					{% endfor %}
 					
 			</div>
