@@ -5,16 +5,17 @@
 	 <div class="container">
 		 <h3>All Our Products</h3>
 					 {% for product in stock %}
-					 <a href="/single"><div class="product-grid love-grid">
+					 <form action='/single' method = "post">
+					 <div class="product-grid love-grid">
 						<div class="more-product"><span> </span></div>						
 						<div class="product-img b-link-stripe b-animate-go  thickbox">
 							<img src="{{product['image']}}" class="img-responsive" alt="Bicycle Image"/>
 							<div class="b-wrapper">
 							<h4 class="b-animate b-from-left  b-delay03">							
-							<button class="btns"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Quick View</button>
+							<button class="btns" name="pidi" value="{{product['id']}}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Quick View</button>
 							</h4>
 							</div>
-						</div></a>						
+						</div></form>					
 						<div class="product-info simpleCart_shelfItem">
 							<div class="product-info-cust prt_name">
 								<h4>{{product['name']}}</h4>
@@ -28,6 +29,65 @@
 					</div>	
 					
 					{% endfor %}
+		 
+		 <!--<div class="new-products">
+			<div class="new-items">
+			 <div class="item1">
+				 <a href="/single"><img src="static/images/bike1.jpg" alt=""/></a>
+				 <div class="item-info">
+					 <h4><a href="/single">Merax BW2KS</a></h4>
+					 <span>ID: SR5421</span>
+					 <a href="/single">Buy Now</a>
+				 </div>
+			 </div>
+			 <div class="item4">
+				 <a href="/products"><img src="static/images/bike2.jpeg" alt=""/></a>
+				  <div class="item-info4">
+					 <h4><a href="/single">Bayside Kent3600</a></h4>
+					 <span>ID: SR5421</span>
+					 <a href="/single">Buy Now</a>
+				 </div>			 
+			 </div>
+		 </div>
+		 <div class="new-items new_middle">
+			 <div class="item2">			 
+				 <div class="item-info2">
+					 <h4><a href="/single">Mongoose XCT28</a></h4>
+					 <span>ID: GS7641</span>
+					<a href="/single">Buy Now</a>
+				 </div>
+				 <a href="/products"><img src="static/images/bike3.jpeg" alt=""/></a>
+			 </div>
+			 <div class="item5">	
+				 <a href="/single"><img src="static/images/bike4.jpeg" alt=""/></a>
+				 <div class="item-info5">
+					 <h4><a href="/single">Genesis Off Road 2061</a></h4>
+					 <span>ID: SR5421</span>
+					 <a href="/single">Buy Now</a>
+				 </div>	
+			 </div>
+		 </div>		  
+		 <div class="new-items new_last">
+			 <div class="item3">	
+				 <a href="/single"><img src="static/images/bike5.jpg" alt=""/></a>
+				 <div class="item-info3">
+					 <h4><a href="/single">Frameo 360</a></h4>
+					 <span>ID: SR5421</span>
+					 <a href="/single">Buy Now</a>
+				 </div>			 
+			 </div>
+			 <div class="item6">	
+				 <a href="/single"><img src="static/images/bike6.jpeg" alt=""/></a>
+				 <div class="item-info6">
+					 <h4><a href="/single">Mongoose 28</a></h4>
+					 <span>ID: SR5421</span>
+					 <a href="/single">Buy Now</a>
+				 </div>
+				 				 
+			 </div>
+		 </div>
+		 <div class="clearfix"></div>	
+		 </div>-->
 	 </div>		 
 </div>
 <!---->

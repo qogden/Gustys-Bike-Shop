@@ -241,9 +241,21 @@ def signup():
 		return render_template('signup.html')
 	conn.commit()
 	
-@app.route('/single')
+@app.route('/single', methods=['POST'])
 def single():
-	return render_template('single.html')
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	pid = request.form['pidi']
+
+	cur.execute("SELECT * FROM products WHERE id = %s", (pid, ))
+	p = cur.fetchone()
+	conn.commit()
+	
+	item = {'id':p[0], 'name':p[1], 'image':p[2], 'description':p[3], 'price':p[4], 'stock':p[5]}
+	print(item)
+	
+	return render_template('single.html', item = item)
 	
 @app.route('/bikes')
 def products():

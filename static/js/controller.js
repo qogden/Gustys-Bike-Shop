@@ -18,6 +18,11 @@ App.controller('AppController', function($scope){
         console.log('adjusting quantity');
     };
     
+    $scope.itemspage = function itemspage(productid){
+        socket.emit('single', productid);
+        console.log('redirect to items page');
+    };
+    
     socket.on('totals', function(totals){
         $scope.totals = totals;
         $scope.$apply();
