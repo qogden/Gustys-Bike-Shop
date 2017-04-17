@@ -6,23 +6,42 @@
 
 <!--<h1 style="text-align:center">Success!</h1>
 <p style="text-align:center">You have successfully signed in as an employee.</p>-->
+    <label>{{timesheet[0][0]}}   :    {{timesheet[0][1]}}</label>
+    <label>{{timesheet[1][0]}}   :    {{timesheet[1][1]}}</label>
+    
     <div class="timesheet">
         <div class="col-md-2 timesheet">
             {% for i in timesheet %}
             <label>
-                {{timesheet[0][0]}}
+                <p id="datedisplay"></p>
+                <script>
+                    var letters = ["A", "B", "C"];
+                    var text = "";
+                    for (i=0; i < letters.length; i++) {
+                        text += letters[i] + "<br>";
+                    }
+                    document.getElementById("datedisplay").innerHTML = text;
+                </script>
             </label>
             {% endfor %}
         </div>
         <div class="col-md-10 timesheet">
-            {{timesheet[0][1]}}
             {% for i in timesheet %}
             <label>
-                {{timesheet[0][1]}}
+                <p id="hourdisplay"></p>
+                <script>
+                    var letters = ["A", "B", "C"];
+                    var text = "";
+                    for (i=0; i < letters.length; i++) {
+                        text += letters[i] + "<br>";
+                    }
+                    document.getElementById("hourdisplay").innerHTML = text;
+                </script>
             </label>
             {% endfor %}
         </div>
 	</div>
+	
 	
 
 	<br></br><br></br>
