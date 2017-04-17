@@ -3,7 +3,7 @@
 {% block content %}
 <script>
 	function showuserinfo() {
-    	var x = document.getElementById('registration_form');
+    	var x = document.getElementById('showUserInfo');
     	if (x.style.display === 'none') {
     	    x.style.display = 'block';
     	} else {
@@ -20,13 +20,18 @@
 		<h2>Update information to purchase products.</h2>
 		<br></br>
 		<!-- use span to keep everything on same line-->
+		<div class="col-md-1 Update_form">
+			
+		</div>
 		<div class="col-md-10 update_form">
-			<button onclick="showuserinfo()">Edit</button>
 			<form id="registration_form" method="post" action="/account">
-				<h3>User information</h3>
-				<label><input placeholder="first name" name='firstname' type="text"> <input type="submit" value="update" id="fname-submit"> {{info['fname']}}</label>
-				<label><input placeholder="last name" name='lastname' type="text"> <input type="submit" value="update" id="lname-submit"> {{info['lname']}}</label>
-				<br></br>
+				<label><button onclick="showuserinfo()" type="button">Edit</button><h3>User information</h3></label>
+				<div id="showUserInfo">
+					<label><input placeholder="first name" name='firstname' type="text"> {{info['fname']}}</label>
+					<label><input placeholder="last name" name='lastname' type="text"> {{info['lname']}}</label>
+					<label><input type="submit" value="update" id="userinfo-submit"></label>
+					<br></br>
+				</div>
 				
 				<!--
 				<h3>Billing information</h3>
