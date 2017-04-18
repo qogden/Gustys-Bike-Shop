@@ -2,14 +2,41 @@
 
 {% block content %}
 <script>
+	function hideall() {
+		
+	}
 	function showuserinfo() {
-    	var x = document.getElementById('showUserInfo');
+    	var x = document.getElementById('update_userinfo');
     	if (x.style.display === 'none') {
     	    x.style.display = 'block';
     	} else {
     	    x.style.display = 'none';
 		}
-	} 
+	}
+	function showbillinginfo() {
+    	var x = document.getElementById('update_billinginfo');
+    	if (x.style.display === 'none') {
+    	    x.style.display = 'block';
+    	} else {
+    	    x.style.display = 'none';
+		}
+	}
+	function showshippinginfo() {
+    	var x = document.getElementById('update_shippinginfo');
+    	if (x.style.display === 'none') {
+    	    x.style.display = 'block';
+    	} else {
+    	    x.style.display = 'none';
+		}
+	}
+	function showcreditinfo() {
+    	var x = document.getElementById('update_creditinfo');
+    	if (x.style.display === 'none') {
+    	    x.style.display = 'block';
+    	} else {
+    	    x.style.display = 'none';
+		}
+	}
 </script>
 <div class="info_sec">
 	<div class="container">
@@ -19,41 +46,53 @@
 		</ol>
 		<h2>Update information to purchase products.</h2>
 		<br></br>
-		<!-- use span to keep everything on same line-->
-		<div class="col-md-1 Update_form">
-			
-		</div>
+
+		<style>			
+				hr { 
+    				display: block;
+					margin-top: 0.5em;
+					margin-bottom: 0.5em;
+    				border-style: inset;
+					border-width: 1px;
+				}
+			</style>
 		<div class="col-md-10 update_form">
-			<form id="registration_form" method="post" action="/account">
-				<label><button onclick="showuserinfo()" type="button">Edit</button><h3>User information</h3></label>
-				<div id="showUserInfo">
-					<label><input placeholder="first name" name='firstname' type="text"> {{info['fname']}}</label>
-					<label><input placeholder="last name" name='lastname' type="text"> {{info['lname']}}</label>
-					<label><input type="submit" value="update" id="userinfo-submit"></label>
-					<br></br>
-				</div>
-				
-				<!--
-				<h3>Billing information</h3>
-				<label><input placeholder="bstreet" name='bstreet' type="text"> <input type="submit" value="update" id="bstreet-submit"> {{info['bstreet']}}</label>
-				<label><input placeholder="bstreet2" name='bstreet2' type="text"> <input type="submit" value="update" id="bstreet2-submit"> {{info['bstreet2']}}</label>
-				<label><input placeholder="bcity" name='bcity' type="text"> <input type="submit" value="update" id="bcity-submit"> {{info['bcity']}}</label>
-				<label><input placeholder="bstate" name='bstate' type="text"> <input type="submit" value="update" id="bstate-submit"> {{info['bstate']}}</label>
-				<label><input placeholder="bzip" name='bzip' type="text"> <input type="submit" value="update" id="bzip-submit"> {{info['bzip']}}</label>
-				<br></br>
-				<h3>Shipping information</h3>
-				<label><input placeholder="sstreet" name='sstreet' type="text"> <input type="submit" value="update" id="sstreet-submit"> {{info['sstreet']}}</label>
-				<label><input placeholder="sstreet2" name='sstreet2' type="text"> <input type="submit" value="update" id="sstreet2-submit"> {{info['sstreet2']}}</label>
-				<label><input placeholder="scity" name='scity' type="text"> <input type="submit" value="update" id="scity-submit"> {{info['scity']}}</label>
-				<label><input placeholder="sstate" name='sstate' type="text"> <input type="submit" value="update" id="sstate-submit"> {{info['sstate']}}</label>
-				<label><input placeholder="szip" name='szip' type="text"> <input type="submit" value="update" id="szip-submit"> {{info['szip']}}</label>
-				<br></br>
-				<h3>Credit card information</h3>
-				<label><input placeholder="cardno" name='cardno' type="text"> <input type="submit" value="update" id="cardno-submit"> {{info['cardno']}}</label>
-				<label><input placeholder="csc" name='csc' type="text"> <input type="submit" value="update" id="csc-submit"> {{info['csc']}}</label>
-				<label><input placeholder="exp" name='exp' type="text"> <input type="submit" value="update" id="exp-submit"> {{info['exp']}}</label>
-				-->
-<!---->
+			<h3><button onclick="showuserinfo()" type="button">Edit</button>User information</h3>
+			<form id="update_userinfo" method="post" action="/account">
+				<label><input placeholder="first name" name='firstname' type="text" required> {{info['fname']}}</label>
+				<label><input placeholder="last name" name='lastname' type="text" required> {{info['lname']}}</label>
+				<label><input type="submit" value="update" id="userinfo-submit"></label>
+			</form>
+			<hr>
+			
+			<h3><button onclick="showbillinginfo()" type="button">Edit</button>Billing information</h3>
+			<form id="update_billinginfo" method="post" action="/account">	
+				<label><input placeholder="bstreet" name='bstreet' type="text" required> {{info['bstreet']}}</label>
+				<label><input placeholder="bstreet2" name='bstreet2' type="text" required> {{info['bstreet2']}}</label>
+				<label><input placeholder="bcity" name='bcity' type="text" required> {{info['bcity']}}</label>
+				<label><input placeholder="bstate" name='bstate' type="text" required> {{info['bstate']}}</label>
+				<label><input placeholder="bzip" name='bzip' type="text" required> {{info['bzip']}}</label>
+				<label><input type="submit" value="update" id="billing-submit"></label>
+			</form>
+			<hr>
+			
+			<h3><button onclick="showshippinginfo()" type="button">Edit</button>Shipping information</h3>
+			<form id="update_shippinginfo" method="post" action="/account">	
+				<label><input placeholder="sstreet" name='sstreet' type="text" required> {{info['sstreet']}}</label>
+				<label><input placeholder="sstreet2" name='sstreet2' type="text" required> {{info['sstreet2']}}</label>
+				<label><input placeholder="scity" name='scity' type="text" required> {{info['scity']}}</label>
+				<label><input placeholder="sstate" name='sstate' type="text" required> {{info['sstate']}}</label>
+				<label><input placeholder="szip" name='szip' type="text" required> {{info['szip']}}</label>
+				<label><input type="submit" value="update" id="billing-submit"></label>
+			</form>
+			<hr>
+			
+			<h3><button onclick="showcreditinfo()" type="button">Edit</button>Credit Card information</h3>
+			<form id="update_creditinfo" method="post" action="/account">
+				<label><input placeholder="cardno" name='cardno' type="text" required> {{info['cardno']}}</label>
+				<label><input placeholder="csc" name='csc' type="text" required> {{info['csc']}}</label>
+				<label><input placeholder="exp" name='exp' type="text" required> {{info['exp']}}</label>
+				<label><input type="submit" value="update" id="credit-submit"></label>
 			</form>
 		</div>
 <!--		 
