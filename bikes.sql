@@ -257,8 +257,9 @@ INSERT INTO cart(customerid, day, productid, quantity) VALUES((SELECT id FROM cu
 INSERT INTO cart(customerid, day, productid, quantity) VALUES((SELECT id FROM customers WHERE email = 'user2@email.com'), (SELECT CURRENT_DATE), 4, 2);
 
 /*ADDING TO TIMESHEET*/
-INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE), 8);
-INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE+1), 2);
+INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'sales@gustybikeshop.com'), (SELECT CURRENT_DATE-1), 4);
+INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE-2), 2);
+INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE-1), 8);
 
 /*ADDING REVIEWS*/
 INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'user1@email.com'), 1, (SELECT CURRENT_DATE), 5, 'This is a great product!');

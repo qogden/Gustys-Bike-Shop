@@ -384,19 +384,35 @@ def update_account_info():
 
 @app.route('/timesheet', methods=['GET','POST'])
 def display_timesheets():
-	timesheet = []
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	skip = False
+	
+	
+	if request.method == 'POST':
+		cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
+		cur.execute("SELECT t_date FROM timesheet WHERE employeeid = %s AND t_date = (SELECT CURRENT_DATE)", (cur.fetchall()[0][0],))
+		numrows = cur.rowcount
+		cur.fetchall() #clear curser
+		if(numrows > 0):
+			cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
+			cur.execute("UPDATE timesheet SET hours = %s WHERE employeeid = %s and t_date = (SELECT CURRENT_DATE)", (request.form['hours'],cur.fetchall()[0][0]))
+			conn.commit()
+		else:
+			cur.execute("INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = %s), (SELECT CURRENT_DATE), %s)", (session['email'], request.form['hours']))
+			conn.commit()
+		
+
+	#Display current timesheet data(after update)
+	timesheet = []
 	cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
 	cur.execute("SELECT t_date, hours FROM timesheet WHERE employeeid = %s", (cur.fetchall()[0][0],))
-	numrows = cur.rowcount
 	timesheet = cur.fetchall()
-	print numrows
 	
 	for index in range(len(timesheet)):		#converts timesheet timestamp into just the calendar day
 		#print 'Time_Entry :', timesheet[index]
 		timesheet[index][0] = timesheet[index][0].date()
-	print timesheet
+	#print timesheet
 	
 	
 
