@@ -427,14 +427,20 @@ def addToCart(productid, quantity):
 		cur.execute("INSERT INTO cart(customerid, day, productid, quantity) VALUES(%s, (SELECT CURRENT_DATE), %s, '%s')", (customerid, productid, quantity))
 		conn.commit()
 	else:
-		cur.execute("UPDATE cart SET quantity = quantity WHERE customerid = %s and productid = %s", (customerid, productid))
+		cur.execute("SELECT quantity FROM cart WHERE customerid = %s and productid = '%s'", (customerid, productid))
+		qty = cur.fetchone()
+		conn.commit()
+		
+		quantity = qty[0] + quantity
+		
+		cur.execute("UPDATE cart SET quantity = %s WHERE customerid = %s and productid = '%s'", (quantity, customerid, productid))
 		conn.commit()
 	
 	message='item has been added'
 	totals = getTotals()
 	print(message,": ",totals)
 
-	#emit('totals',totals)
+	emit('totals',totals)
 
 @socketio.on('cart')
 def cart():
