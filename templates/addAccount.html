@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="info_sec">
+	<div class="container">
+		<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li class="active">Account</li>
+		</ol>
+		<h2>Add New Accounts</h2>
+		<br></br>
+
+		<style>			
+			hr { 
+    			display: block;
+				margin-top: 0.5em;
+				margin-bottom: 0.5em;
+    			border-style: inset;
+				border-width: 1px;
+			}
+		</style>
+		<div class="col-md-10 update_form">
+			<h3>Add Account</h3>
+			<form id="new_account" method="post" action="/addAccount">
+				<label><input placeholder="First Name" name='firstname' type="text" required></label>
+				<label><input placeholder="Last Name" name='lastname' type="text" required></label>
+				<br>
+				<label><input placeholder="Employee Type" name='employeetype' type="text" required></label>
+				<label><input placeholder="Email" name='email' type="text" required></label>
+				<br>
+				<label><input placeholder="Street 1" name='street1' type="text" required></label>
+				<label><input placeholder="Street 2" name='street2' type="text" required></label>
+				<br>
+				<label><input placeholder="City" name='city' type="text" required></label>
+				<label><input placeholder="State" name='state' type="text" required></label>
+				<br>
+				<label><input placeholder="Zip Code" name='zip' type="text" required></label>
+				<br>
+				<label><input type="submit" value="Add" name="newAccount" id="add_newAccount"></label>
+			</form>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+{% endblock %}
