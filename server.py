@@ -421,6 +421,10 @@ def display_timesheets():
 	
 	return render_template('timesheet.html', timesheet=timesheet)
 
+@app.route('/addAccount')
+def add_account():
+	return render_template('addAccount.html')
+	
 @app.route('/contact')
 def contact():
 	return render_template('contact.html')
