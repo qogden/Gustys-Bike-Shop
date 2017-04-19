@@ -145,8 +145,9 @@ def access():
 				session['email'] = request.form['email']
 				session['loggedin'] = True
 				session['employee'] = True
-				return render_template('index.html')
-				#return redirect("/timesheet")
+
+				#return render_template('index.html')
+				return redirect('/timesheet')
 			else:
 				session['email'] = request.form['email']
 				session['loggedin'] = True
@@ -414,8 +415,6 @@ def update_account_info():
 def display_timesheets():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-	skip = False
-	
 	
 	if request.method == 'POST':
 		cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))

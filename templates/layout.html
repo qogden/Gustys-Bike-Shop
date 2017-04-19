@@ -53,11 +53,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					{% if session['loggedin'] == True and session['employee'] == False %}
 					|<li class="top_link"><a href="/account">My Account</a></li>
 					|<li class="top_link"><a href="/orders">Orders</a></li>
+					{% elif session['master'] == True or session['manager'] == True %}
+					|<li class="top_link"><a href="/">Home</a></li>
+					|<li class="top_link"><a href="/addAccount">Add Account</a></li>
+					|<li class="top_link"><a href="/timesheet">Timesheet</a></li>
 					{% elif session['employee'] == True %}
 					|<li class="top_link"><a href="/">Home</a></li>
 					|<li class="top_link"><a href="/timesheet">Timesheet</a></li>
-					{% elif session['master'] == True or session['manager'] == True %}
-					|<li class="top_link"><a href="/addAccount">Add Account</a></li>
+
 					{% endif %}
 				</ul>
 			</div>
