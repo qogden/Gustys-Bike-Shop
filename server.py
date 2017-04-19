@@ -345,8 +345,24 @@ def update_account_info():
 	
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	print ("STARTTHING")
 	if request.method == 'POST':
-		print ("name_Trigger")
+		if request.form["updatebutton"] == 'UpdateUser':
+			print ("THING1")
+		if request.form["updatebutton"] == 'UpdateBilling':
+			print ("THING2")
+		if request.form["updatebutton"] == 'UpdateShipping':
+			print ("THING3")
+		if request.form["updatebutton"] == 'UpdateCredit':
+			print ("THING4")
+
+#		if string.IsNullOrEmpty(request.form["userinfo"])
+#			print("thing")
+			
+#		if request.form["billinginfo"] == 'update':
+			#cur.execute("UPDATE table SET hours = %s WHERE employeeid = %s and t_date = (SELECT CURRENT_DATE)", (request.form['hours'],cur.fetchall()[0][0]))
+			
 		
 		
 	cur.execute("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
