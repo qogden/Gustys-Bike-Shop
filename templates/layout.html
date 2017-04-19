@@ -54,6 +54,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					|<li class="top_link"><a href="/account">My Account</a></li>
 					|<li class="top_link"><a href="/orders">Orders</a></li>
 					{% elif session['employee'] == True %}
+					|<li class="top_link"><a href="/">Home</a></li>
 					|<li class="top_link"><a href="/timesheet">Timesheet</a></li>
 					{% endif %}
 				</ul>
@@ -115,6 +116,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--cart-->
 	 
 <!------>
+{% if session['employee'] == False %}
 <div class="mega_nav">
 	 <div class="container">
 		 <div class="menu_sec">
@@ -136,6 +138,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 </div>
 	  </div>
 </div>
+{% endif %}
 <!---->
 <!--header//-->
 {% block content %} {% endblock %}
@@ -155,6 +158,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					 <li><a href="#">Carrers</a></li>					 
 				 </ul>
 			 </div>
+			 {% if session['employee'] == False %}
 			 <div class="col-md-3 ftr-grid">
 				 <h4>Customer service</h4>
 				 <ul>
@@ -174,24 +178,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					 <li><a href="/orders">Track your order</a></li>					 					 
 				 </ul>
 			 </div>
+			 {% endif %}
 			 <div class="clearfix"></div>
 		 </div>
 	 </div>
 </div>
 <!---->
-
 <div class="footer">
-	 <div class="container">
-		 <div class="store">
-			 <ul>
-				 <li class="active">OUR STORE LOCATIONS:</li>
-				 <li><a href="#">United States</a></li>
-			 </ul>
-		 </div>		 
-		 <div class="copywrite">
-			 <p>Copyright © 2017 Gusty's Bike Shop All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
-		 </div>			 
-		 </div>
+	<div class="container">
+		<div class="store">
+			<ul>
+				<li class="active">OUR STORE LOCATIONS:</li>
+				<li><a href="#">United States</a></li>
+			</ul>
+		</div>		 
+		<div class="copywrite">
+			<p>Copyright © 2017 Gusty's Bike Shop All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+		</div>			 
+	</div>
 </div>
 </div>
 </body>

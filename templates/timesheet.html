@@ -4,39 +4,23 @@
 <!--Switch to a timesheet-->
 <!--<label><input placeholder="first name" name='firstname' type="text"> <input type="submit" value="update" id="fname-submit"> {{timesheet['fname']}}</label>-->
 
-<!--<h1 style="text-align:center">Success!</h1>
-<p style="text-align:center">You have successfully signed in as an employee.</p>-->
-    <label>{{timesheet[0][0]}}   :    {{timesheet[0][1]}}</label>
-    <label>{{timesheet[1][0]}}   :    {{timesheet[1][1]}}</label>
+<!--    <label>{{timesheet[0][0]}}   :    {{timesheet[0][1]}}</label>
+    <label>{{timesheet[1][0]}}   :    {{timesheet[1][1]}}</label> -->
     
     <div class="timesheet">
         <div class="col-md-2 timesheet">
             {% for i in timesheet %}
+            {{i[0]}}
             <label>
-                <p id="datedisplay"></p>
-                <script>
-                    var letters = ["A", "B", "C"];
-                    var text = "";
-                    for (i=0; i < letters.length; i++) {
-                        text += letters[i] + "<br>";
-                    }
-                    document.getElementById("datedisplay").innerHTML = text;
-                </script>
+                {{timesheet[i]}}
             </label>
             {% endfor %}
         </div>
         <div class="col-md-10 timesheet">
-            {% for i in timesheet %}
+            {% for j in timesheet %}
+            {{j[1]}}
             <label>
-                <p id="hourdisplay"></p>
-                <script>
-                    var letters = ["A", "B", "C"];
-                    var text = "";
-                    for (i=0; i < letters.length; i++) {
-                        text += letters[i] + "<br>";
-                    }
-                    document.getElementById("hourdisplay").innerHTML = text;
-                </script>
+                {{timesheet[j]}}
             </label>
             {% endfor %}
         </div>
@@ -48,7 +32,7 @@
 	<h3>How many hours did you work today?</h3>
     <form id="timesheet_form" method="post" action="/timesheet">
         <label>
-            <input placeholder="hours" name='hours' type="text">
+            <input placeholder="hours" name='hours' type="number" required>
             <input type="submit" value="update" id="timesheet-submit">
         </label>
     </form>

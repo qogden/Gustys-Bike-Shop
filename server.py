@@ -345,7 +345,26 @@ def update_account_info():
 	
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-	print(session['email'])
+	
+	print ("STARTTHING")
+	if request.method == 'POST':
+		if request.form["updatebutton"] == 'UpdateUser':
+			cur.execute("UPDATE customers SET firstname = %s, lastname = %s WHERE email = %s", (request.form['firstname'],request.form['lastname'],session['email']))
+			conn.commit()
+			
+		if request.form["updatebutton"] == 'UpdateBilling':
+			cur.execute("UPDATE customers SET bstreet1 = %s, bstreet2 = %s, bcity = %s, bstate = %s, bzip = %s WHERE email = %s", (request.form['bstreet'],request.form['bstreet2'],request.form['bcity'],request.form['bstate'],request.form['bzip'],session['email']))
+			conn.commit()
+
+		if request.form["updatebutton"] == 'UpdateShipping':
+			cur.execute("UPDATE customers SET sstreet1 = %s, sstreet2 = %s, scity = %s, sstate = %s, szip = %s WHERE email = %s", (request.form['sstreet'],request.form['sstreet2'],request.form['scity'],request.form['sstate'],request.form['szip'],session['email']))
+			conn.commit()
+			
+		if request.form["updatebutton"] == 'UpdateCredit':
+			cur.execute("UPDATE customers SET cardno = %s, csc = %s, exp = %s WHERE email = %s", (request.form['cardno'],request.form['csc'], request.form['exp'],session['email']))
+			conn.commit()
+
+		
 	cur.execute("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
 	info["fname"] = cur.fetchall()[0][0]
 	cur.execute("SELECT lastname FROM customers WHERE email = %s", (session['email'],))
@@ -379,30 +398,49 @@ def update_account_info():
 	info["csc"] = cur.fetchall()[0][0]
 	cur.execute("SELECT exp FROM customers WHERE email = %s", (session['email'],))
 	info["exp"] = cur.fetchall()[0][0]
-	
 	return render_template('account.html', info=info)
 
 @app.route('/timesheet', methods=['GET','POST'])
 def display_timesheets():
-	timesheet = []
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	skip = False
+	
+	
+	if request.method == 'POST':
+		cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
+		cur.execute("SELECT t_date FROM timesheet WHERE employeeid = %s AND t_date = (SELECT CURRENT_DATE)", (cur.fetchall()[0][0],))
+		numrows = cur.rowcount
+		cur.fetchall() #clear curser
+		if(numrows > 0):
+			cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
+			cur.execute("UPDATE timesheet SET hours = %s WHERE employeeid = %s and t_date = (SELECT CURRENT_DATE)", (request.form['hours'],cur.fetchall()[0][0]))
+			conn.commit()
+		else:
+			cur.execute("INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = %s), (SELECT CURRENT_DATE), %s)", (session['email'], request.form['hours']))
+			conn.commit()
+		
+
+	#Display current timesheet data(after update)
+	timesheet = []
 	cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
 	cur.execute("SELECT t_date, hours FROM timesheet WHERE employeeid = %s", (cur.fetchall()[0][0],))
-	numrows = cur.rowcount
 	timesheet = cur.fetchall()
-	print numrows
 	
 	for index in range(len(timesheet)):		#converts timesheet timestamp into just the calendar day
 		#print 'Time_Entry :', timesheet[index]
 		timesheet[index][0] = timesheet[index][0].date()
-	print timesheet
+	#print timesheet
 	
 	
 
 	
 	return render_template('timesheet.html', timesheet=timesheet)
 
+@app.route('/addAccount')
+def add_account():
+	return render_template('addAccount.html')
+	
 @app.route('/contact')
 def contact():
 	return render_template('contact.html')
