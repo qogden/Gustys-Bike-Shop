@@ -345,7 +345,11 @@ def update_account_info():
 	
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-	print(session['email'])
+	if request.method == 'POST':
+		thing = document.getElementById('update_userinfo').value;
+		print ("name_Trigger")
+		
+		
 	cur.execute("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
 	info["fname"] = cur.fetchall()[0][0]
 	cur.execute("SELECT lastname FROM customers WHERE email = %s", (session['email'],))
@@ -379,7 +383,6 @@ def update_account_info():
 	info["csc"] = cur.fetchall()[0][0]
 	cur.execute("SELECT exp FROM customers WHERE email = %s", (session['email'],))
 	info["exp"] = cur.fetchall()[0][0]
-	
 	return render_template('account.html', info=info)
 
 @app.route('/timesheet', methods=['GET','POST'])
