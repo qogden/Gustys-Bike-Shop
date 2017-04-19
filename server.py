@@ -349,21 +349,21 @@ def update_account_info():
 	print ("STARTTHING")
 	if request.method == 'POST':
 		if request.form["updatebutton"] == 'UpdateUser':
-			print ("THING1")
+			cur.execute("UPDATE customers SET firstname = %s, lastname = %s WHERE email = %s", (request.form['firstname'],request.form['lastname'],session['email']))
+			conn.commit()
+			
 		if request.form["updatebutton"] == 'UpdateBilling':
-			print ("THING2")
-		if request.form["updatebutton"] == 'UpdateShipping':
-			print ("THING3")
-		if request.form["updatebutton"] == 'UpdateCredit':
-			print ("THING4")
+			cur.execute("UPDATE customers SET bstreet1 = %s, bstreet2 = %s, bcity = %s, bstate = %s, bzip = %s WHERE email = %s", (request.form['bstreet'],request.form['bstreet2'],request.form['bcity'],request.form['bstate'],request.form['bzip'],session['email']))
+			conn.commit()
 
-#		if string.IsNullOrEmpty(request.form["userinfo"])
-#			print("thing")
+		if request.form["updatebutton"] == 'UpdateShipping':
+			cur.execute("UPDATE customers SET sstreet1 = %s, sstreet2 = %s, scity = %s, sstate = %s, szip = %s WHERE email = %s", (request.form['sstreet'],request.form['sstreet2'],request.form['scity'],request.form['sstate'],request.form['szip'],session['email']))
+			conn.commit()
 			
-#		if request.form["billinginfo"] == 'update':
-			#cur.execute("UPDATE table SET hours = %s WHERE employeeid = %s and t_date = (SELECT CURRENT_DATE)", (request.form['hours'],cur.fetchall()[0][0]))
-			
-		
+		if request.form["updatebutton"] == 'UpdateCredit':
+			cur.execute("UPDATE customers SET cardno = %s, csc = %s, exp = %s WHERE email = %s", (request.form['cardno'],request.form['csc'], request.form['exp'],session['email']))
+			conn.commit()
+
 		
 	cur.execute("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
 	info["fname"] = cur.fetchall()[0][0]
