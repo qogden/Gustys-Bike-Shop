@@ -278,18 +278,8 @@ def review():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-	productid=request.form['productid']
-	rating=request.form['rating']
-	comment=request.form['comment']
+	return redirect('/single')
 	
-	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email']))
-	customerid = cur.fetchone()
-	cur.commit()
-	
-	cur.execute("INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES(%s, %s, CURRENT_DATE, rating, comment)",(customerid, productid, rating, comment))
-	cur.commit()
-	
-	redirect("/single")
 	
 @app.route('/bikes')
 def products():

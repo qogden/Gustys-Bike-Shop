@@ -50,28 +50,31 @@
 				  {% if session["loggedin"] == True %}
 		 				<div class="sofaset-info">
 						 <h4>Review this Product</h4>
-		 					 <form action='/review' method='post' class="sky-form">
+		 					 <form action="/review" method='post' class="sky-form">
 						     <fieldset>					
-							   <section>
+							   <!--<section>-->
 							     <div class="rating">
-									<input type="radio" name="stars-rating1" id="5" value = 5>
+									<input type="radio" name="rating" id="5" value = 1>
 									<label for="5"><i class="icon-star"></i></label>
-									<input type="radio" name="stars-rating1" id="4" value = 4>
+									<input type="radio" name="rating" id="4" value = 2>
 									<label for="4"><i class="icon-star"></i></label>
-									<input type="radio" name="stars-rating1" id="3" value = 3>
+									<input type="radio" name="rating" id="3" value = 3>
 									<label for="3"><i class="icon-star"></i></label>
-									<input type="radio" name="stars-rating1" id="2" value = 2>
+									<input type="radio" name="rating" id="2" value = 4>
 									<label for="2"><i class="icon-star"></i></label>
-									<input type="radio" name="stars-rating1" id="1" value = 1>
+									<input type="radio" name="rating" id="1" value = 5>
 									<label for="1"><i class="icon-star"></i></label>
 									<div class="clearfix"></div>
 								 </div>
+							  <!--</section>-->
+							 
 							  </section>
 						    </fieldset>
 						    <br>
+						 
 						    <input type="hidden" name="productid" value="{{item['id']}}"/>
 						    <span style="display:inline"><input type="text" name="comment" placeholder="comment"/></span>
-						    <span style="display:inline; padding-left:10px;"><input type="submit" name="submit"/></span>
+						    <span style="display:inline; padding-left:10px;"><input type="submit" name="submit" value="submit"/></span>
 
 					  </form>
 					  {% endif %}
@@ -94,15 +97,15 @@
 							   <section>
 							     <div class="rating">
 							     	<p>{{c['rating']}}</p>
-									<input type="radio" name="stars-rating" id="5" {% if c['rating'] != 5 %} checked {% endif %} disabled>
+									<input type="radio" name="stars-rating" id="5" {% if c['rating'] != 1 %} checked {% endif %} disabled>
 									<label for="5"><i class="icon-star"></i></label>
-									<input type="radio" name="stars-rating" id="4" {% if c['rating'] != 4 %} checked {% endif %} disabled>
+									<input type="radio" name="stars-rating" id="4" {% if c['rating'] != 2 %} checked {% endif %} disabled>
 									<label for="4"><i class="icon-star"></i></label>
 									<input type="radio" name="stars-rating" id="3" {% if c['rating'] != 3 %} checked {% endif %} disabled>
 									<label for="3"><i class="icon-star"></i></label>
-									<input type="radio" name="stars-rating" id="2" {% if c['rating'] != 2 %} checked {% endif %} disabled>
+									<input type="radio" name="stars-rating" id="2" {% if c['rating'] != 4 %} checked {% endif %} disabled>
 									<label for="2"><i class="icon-star"></i></label>
-									<input type="radio" name="stars-rating" id="1" {% if c['rating'] != 1 %} checked {% endif %} disabled>
+									<input type="radio" name="stars-rating" id="1" {% if c['rating'] != 5 %}  {% endif %} disabled>
 									<label for="1"><i class="icon-star"></i></label>
 										<span style="padding-left:10px; display:inline">{{c['comment']}}</span></h3>
 									<div class="clearfix"></div>

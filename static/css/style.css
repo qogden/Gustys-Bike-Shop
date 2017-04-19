@@ -997,15 +997,15 @@ ul.dropdown-menu1 li a:hover{
 }
 /* checked state */
 /**/
-.sky-form .radio input + i:after {
+.sky-form .radio input  {
 	background-color: #2da5da;	
 }
-.sky-form .checkbox input + i:after {
+.sky-form .checkbox input {
 	color: #2da5da;
 }
 .sky-form .rating input:checked ~ label {
 	color: #2da5da;	
-	 background: url(../images/star.png) 0 -20px;
+	 background: url(../images/star.png) ;
 	display: -webkit-box;
 }
 
