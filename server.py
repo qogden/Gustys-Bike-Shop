@@ -146,6 +146,7 @@ def access():
 				session['loggedin'] = True
 				session['employee'] = True
 				return render_template('index.html')
+				#return redirect("/timesheet")
 			else:
 				session['email'] = request.form['email']
 				session['loggedin'] = True
@@ -270,6 +271,25 @@ def single():
 		i+=1
 	
 	return render_template('single.html', item = item, reviews = reviews)
+	
+
+@app.route('/review', methods=['POST'])	
+def review():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	productid=request.form['productid']
+	rating=request.form['rating']
+	comment=request.form['comment']
+	
+	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email']))
+	customerid = cur.fetchone()
+	cur.commit()
+	
+	cur.execute("INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES(%s, %s, CURRENT_DATE, rating, comment)",(customerid, productid, rating, comment))
+	cur.commit()
+	
+	redirect("/single")
 	
 @app.route('/bikes')
 def products():
@@ -575,7 +595,7 @@ def getProducts():
 	customerid = customerid[0][0]
 	conn.commit()
 
-	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
+	cur.execute("SELECT * FROM cart WHERE customerid = %s ORDER BY productid", (customerid, ))
 	cart = cur.fetchall()
 	print cart
 	conn.commit()

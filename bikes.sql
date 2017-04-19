@@ -104,7 +104,7 @@ CREATE TABLE reviews (
     productid int NOT NULL references products(id),
     day date NOT NULL,
     rating int NOT NULL,
-    comment text
+    comment text NOT NULL
 );
 
 DROP TABLE IF EXISTS orders;
@@ -263,7 +263,7 @@ INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employee
 
 /*ADDING REVIEWS*/
 INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'user1@email.com'), 1, (SELECT CURRENT_DATE), 5, 'This is a great product!');
-INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'user2@email.com'), 2, (SELECT CURRENT_DATE), 5, 'This is make to last. Love it!');
+INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'user2@email.com'), 1, (SELECT CURRENT_DATE), 3, 'This is make to last. Love it!');
 
 
 
