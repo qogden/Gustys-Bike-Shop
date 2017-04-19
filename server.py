@@ -345,9 +345,25 @@ def update_account_info():
 	
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	print ("STARTTHING")
 	if request.method == 'POST':
-		print ("name_Trigger")
-		
+		if request.form["updatebutton"] == 'UpdateUser':
+			cur.execute("UPDATE customers SET firstname = %s, lastname = %s WHERE email = %s", (request.form['firstname'],request.form['lastname'],session['email']))
+			conn.commit()
+			
+		if request.form["updatebutton"] == 'UpdateBilling':
+			cur.execute("UPDATE customers SET bstreet1 = %s, bstreet2 = %s, bcity = %s, bstate = %s, bzip = %s WHERE email = %s", (request.form['bstreet'],request.form['bstreet2'],request.form['bcity'],request.form['bstate'],request.form['bzip'],session['email']))
+			conn.commit()
+
+		if request.form["updatebutton"] == 'UpdateShipping':
+			cur.execute("UPDATE customers SET sstreet1 = %s, sstreet2 = %s, scity = %s, sstate = %s, szip = %s WHERE email = %s", (request.form['sstreet'],request.form['sstreet2'],request.form['scity'],request.form['sstate'],request.form['szip'],session['email']))
+			conn.commit()
+			
+		if request.form["updatebutton"] == 'UpdateCredit':
+			cur.execute("UPDATE customers SET cardno = %s, csc = %s, exp = %s WHERE email = %s", (request.form['cardno'],request.form['csc'], request.form['exp'],session['email']))
+			conn.commit()
+
 		
 	cur.execute("SELECT firstname FROM customers WHERE email = %s", (session['email'],))
 	info["fname"] = cur.fetchall()[0][0]
