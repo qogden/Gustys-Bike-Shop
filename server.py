@@ -346,7 +346,6 @@ def update_account_info():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	if request.method == 'POST':
-		thing = document.getElementById('update_userinfo').value;
 		print ("name_Trigger")
 		
 		
