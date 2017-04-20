@@ -53,14 +53,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					{% if session['loggedin'] == True and session['employee'] == False %}
 					|<li class="top_link"><a href="/account">My Account</a></li>
 					|<li class="top_link"><a href="/orders">Orders</a></li>
-					{% elif session['master'] == True or session['manager'] == True %}
-					|<li class="top_link"><a href="/">Home</a></li>
-					|<li class="top_link"><a href="/addAccount">Add Account</a></li>
-					|<li class="top_link"><a href="/timesheet">Timesheet</a></li>
-					{% elif session['employee'] == True %}
-					|<li class="top_link"><a href="/">Home</a></li>
-					|<li class="top_link"><a href="/timesheet">Timesheet</a></li>
-
 					{% endif %}
 				</ul>
 			</div>
@@ -69,7 +61,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					{% if session['loggedin'] == False %}
 					<li class="top_link"><a href="/login">Login</a></li>|
 					{% elif session['loggedin'] == True %}
-					<li class="top_link">Email: <a href=user>{{ session['email'] }}</a></li>|
+					<li class="top_link">Email: {{ session['email'] }}</li>|
 					<li class="top_link"><a href="/logout">Logout</a></li>|
 					{% endif %}
 				</ul>
@@ -120,7 +112,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--cart-->
 	 
 <!------>
-{% if session['employee'] == False %}
+{% if session['employee'] != True %}
 <div class="mega_nav">
 	 <div class="container">
 		 <div class="menu_sec">
@@ -142,6 +134,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 </div>
 	  </div>
 </div>
+
+{% else %}
+
+<div class="mega_nav">
+	 <div class="container">
+		 <div class="menu_sec">
+		 <!-- start header menu -->
+		 <ul class="megamenu skyblue">
+			<li class="active grid"><a class="color1" href="/">Home</a></li>
+			<li class="grid"><a class="color2" href="/timesheet">Timesheet</a></li>
+			{% if session['master'] == True or session['manager'] == True %}
+			<li><a class="color3" href="/addAccount">Create Employee</a></li>
+			<li><a class="color4" href="/addProduct">Add Product</a></li>
+			{% endif %}
+		 </ul> 
+			   <div class="search">
+				 <form>
+					<input type="text" value="" placeholder="Search...">
+					<input type="submit" value="">
+					</form>
+			 </div>
+			 <div class="clearfix"></div>
+		 </div>
+	  </div>
+</div>
+
+
 {% endif %}
 <!---->
 <!--header//-->

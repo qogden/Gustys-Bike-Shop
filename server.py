@@ -178,8 +178,22 @@ def access():
 				session['loggedin'] = True
 				session['employee'] = True
 
-				#return render_template('index.html')
-				return redirect('/timesheet')
+				cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 1",(request.form['email'], ))
+				query = cur.fetchall()
+				conn.commit()
+				
+				if(cur.rowcount == 1):
+					session['master'] = True
+				else:
+					cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 2",(request.form['email'], ))
+					query = cur.fetchall()
+					conn.commit()
+					
+					if(cur.rowcount == 1):
+						session['manager'] = True
+
+				return render_template('index.html')
+				#return redirect('/timesheet')
 			else:
 				session['email'] = request.form['email']
 				session['loggedin'] = True
@@ -311,7 +325,14 @@ def review():
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 	
-	return redirect('/single')
+	productid = request.form['productid']
+	rating = request.form['rating']
+	comment = request.form['comment']
+	
+	cur.execute("INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = %s), %s, (SELECT CURRENT_DATE), %s, %s)", (session['email'], productid, rating, comment))
+	conn.commit()
+	
+	return render_template('reviewcreated.html')
 	
 	
 @app.route('/bikes')
@@ -466,21 +487,32 @@ def display_timesheets():
 	timesheet = []
 	cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
 	cur.execute("SELECT t_date, hours FROM timesheet WHERE employeeid = %s", (cur.fetchall()[0][0],))
+	numrows = cur.rowcount
 	timesheet = cur.fetchall()
 	
-	for index in range(len(timesheet)):		#converts timesheet timestamp into just the calendar day
-		#print 'Time_Entry :', timesheet[index]
+	dates = []
+	clock = []
+	for index in range(len(timesheet)):
+		#print('DAT',timesheet[index][0])
+		dates.insert(index, timesheet[index][0].date())
 		timesheet[index][0] = timesheet[index][0].date()
-	#print timesheet
-	
-	
+		#print('NUM',timesheet[index][1])
+		clock.insert(index, timesheet[index][1])
 
-	
-	return render_template('timesheet.html', timesheet=timesheet)
+	print ('DATE',dates)
+	print ('Clock',clock)
+		
+		
+		
+	return render_template('timesheet.html', timesheet=timesheet, dates=dates, clock=clock)
 
 @app.route('/addAccount')
-def add_account():
+def addAccount():
 	return render_template('addAccount.html')
+	
+@app.route('/addProduct')
+def addProduct():
+	return render_template('addProduct.html')
 	
 @app.route('/contact')
 def contact():

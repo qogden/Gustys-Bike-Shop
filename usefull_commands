@@ -20,10 +20,10 @@ Refresh Database:
 sudo service postgresql stop
 sudo service postgresql start
 sudo sudo -u postgres psql
-drop database bikes
+drop database bikes;
 \i bikes.sql
-\c bikes
 
+\c bikes
 \l
 \d 'table'
 
@@ -34,8 +34,14 @@ INSERT INTO users VALUES
 
 
 Credentials:
-user1@email.com
-Simon1
+masters@gustybikeshop.com
+master123
+
 
 employee@gustybikeshop.com
 Simon
+
+user1@email.com
+Simon1
+
+
