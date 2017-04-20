@@ -469,8 +469,8 @@ def display_timesheets():
 
 	print ('DATE',dates)
 	print ('Clock',clock)
-	timesheet.insert(0,['0000-01-01','0'])
-	timesheet.insert(0,['0000-01-01','0'])
+	timesheet.insert(0,['.','0'])
+	timesheet.insert(0,['.','0'])
 	
 	return render_template('timesheet.html', timesheet=timesheet, dates=dates, clock=clock)
 
