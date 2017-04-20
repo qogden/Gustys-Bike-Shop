@@ -6,8 +6,7 @@ from flask.ext.socketio import SocketIO, emit
 from flask import Flask, render_template, request, session, redirect, render_template_string
 
 from sqlalchemy import create_engine, MetaData
-from flask.ext.login import UserMixin, LoginManager, \
-    login_user, logout_user
+from flask.ext.login import UserMixin, LoginManager, login_user, logout_user
 from flask.ext.blogging import SQLAStorage, BloggingEngine
 
 app = Flask(__name__)
