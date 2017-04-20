@@ -190,6 +190,11 @@ INSERT INTO users(email, password) VALUES('employee@gustybikeshop.com', crypt('S
 INSERT INTO users(email, password) VALUES('user1@email.com', crypt('Simon1', gen_salt('bf')));
 INSERT INTO users(email, password) VALUES('user2@email.com', crypt('Simon2', gen_salt('bf')));
 
+INSERT INTO users(email, password) VALUES('gustycooper@gustybikeshop.com', crypt('Cooper123', gen_salt('bf')));
+INSERT INTO users(email, password) VALUES('karenanewalt@email.com', crypt('Anewalt123', gen_salt('bf')));
+INSERT INTO users(email, password) VALUES('stephendavies@gustybikeshop.com', crypt('Davies123', gen_salt('bf')));
+INSERT INTO users(email, password) VALUES('geniecampbell@gustybikeshop.com', crypt('Campbell123', gen_salt('bf')));
+
 /*ADDING CUSTOMERS*/
 INSERT INTO customers(firstname, lastname, email, bstreet1, bstreet2, bcity, bstate, bzip, sstreet1, sstreet2, scity, sstate, szip, cardno, csc, exp) VALUES('testfirstname', 'testlastname', (SELECT email FROM users WHERE email = 'user2@email.com'), 
                         'testbstreet1', 'testbstreet2', 'testbcity', 'AZ', 'testbzip', 'testsstreet1', 'testsstreet2', 'testscity', 'VA', 'testszip', '1234567890', '123','2017-09');
@@ -219,6 +224,9 @@ INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2
                      '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');
 INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Stephen', 'Davies', 4, (SELECT email FROM users WHERE email = 'stephendavies@gustybikeshop.com'), 
                      '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');                     
+INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Genie', 'Campbell', 4, (SELECT email FROM users WHERE email = 'geniecampbell@gustybikeshop.com'), 
+                     '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');                     
+
 
 /*ADDING PRODUCT TYPES*/
 INSERT INTO producttype(producttype) VALUES ('bicycles');
