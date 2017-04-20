@@ -146,8 +146,22 @@ def access():
 				session['loggedin'] = True
 				session['employee'] = True
 
-				#return render_template('index.html')
-				return redirect('/timesheet')
+				cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 1",(request.form['email'], ))
+				query = cur.fetchall()
+				conn.commit()
+				
+				if(cur.rowcount == 1):
+					session['master'] = True
+				else:
+					cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 2",(request.form['email'], ))
+					query = cur.fetchall()
+					conn.commit()
+					
+					if(cur.rowcount == 1):
+						session['manager'] = True
+
+				return render_template('index.html')
+				#return redirect('/timesheet')
 			else:
 				session['email'] = request.form['email']
 				session['loggedin'] = True
@@ -447,15 +461,16 @@ def display_timesheets():
 		#print 'Time_Entry :', timesheet[index]
 		timesheet[index][0] = timesheet[index][0].date()
 	#print timesheet
-	
-	
 
-	
 	return render_template('timesheet.html', timesheet=timesheet)
 
 @app.route('/addAccount')
-def add_account():
+def addAccount():
 	return render_template('addAccount.html')
+	
+@app.route('/addProduct')
+def addProduct():
+	return render_template('addProduct.html')
 	
 @app.route('/contact')
 def contact():
