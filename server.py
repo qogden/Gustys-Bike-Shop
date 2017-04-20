@@ -3,13 +3,41 @@ import psycopg2
 import psycopg2.extras
 
 from flask.ext.socketio import SocketIO, emit
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, render_template_string
+
+from sqlalchemy import create_engine, MetaData
+from flask.ext.login import UserMixin, LoginManager, login_user, logout_user
+from flask.ext.blogging import SQLAStorage, BloggingEngine
+
 app = Flask(__name__)
 
 app.secret_key = os.urandom(24).encode('hex')
 app.config['SECRET_KEY'] = 'secret!'
+app.config["BLOGGING_URL_PREFIX"] = "/blog"
+app.config["BLOGGING_DISQUS_SITENAME"] = "test"
+app.config["BLOGGING_SITEURL"] = "http://localhost:8000"
 socketio = SocketIO(app)
 
+# blogging extensions
+engine = create_engine('sqlite:////tmp/blog.db')
+meta = MetaData()
+sql_storage = SQLAStorage(engine, metadata=meta)
+blog_engine = BloggingEngine(app, sql_storage)
+login_manager = LoginManager(app)
+meta.create_all(bind=engine)
+
+# blog authentication
+class User(UserMixin):
+    def __init__(self, user_id):
+        self.id = user_id
+
+    def get_name(self):
+        return "Gusty Cooper"  
+        
+@login_manager.user_loader
+@blog_engine.user_loader
+def load_user(user_id):
+    return User(user_id)
 
 def connectToDB():
   connectionString = 'dbname=bikes user=biker password=bike123 host=localhost'
@@ -102,12 +130,15 @@ def logout():
 		feature.append(items)
 		i+=1
 	print products
+	logout_user()
 	return render_template('index.html', stock = products)
 
 
 @app.route('/login')
 def login():
 	print(session['email'])
+	user = User("testuser")
+	login_user(user)
 	return render_template('login.html')
 	
 
@@ -146,18 +177,23 @@ def access():
 				session['loggedin'] = True
 				session['employee'] = True
 
-				cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 1",(request.form['email'], ))
-				query = cur.fetchall()
+				cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 1", (request.form['email'], ))
+				cur.fetchall()
+				query = cur.rowcount
 				conn.commit()
 				
-				if(cur.rowcount == 1):
+				if(query == 1):
+					print("master")
 					session['master'] = True
-				else:
+				elif(query != 1):
+					print("trying manager")
 					cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 2",(request.form['email'], ))
-					query = cur.fetchall()
+					cur.fetchall()
+					q = cur.rowcount
 					conn.commit()
 					
-					if(cur.rowcount == 1):
+					if(q == 1):
+						print("manager")
 						session['manager'] = True
 
 				return render_template('index.html')
@@ -677,6 +713,7 @@ def getTotals():
 		tax = 0.00
 		shipping = 0.00
 		total = 0.00
+		count = 0
 
 	if (subtotal != 0.00):
 		shipping = 50.00

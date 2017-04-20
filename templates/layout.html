@@ -135,7 +135,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	  </div>
 </div>
 
-{% else %}
+{% elif session['employee'] == True and session['master'] == True %}
 
 <div class="mega_nav">
 	 <div class="container">
@@ -144,10 +144,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 <ul class="megamenu skyblue">
 			<li class="active grid"><a class="color1" href="/">Home</a></li>
 			<li class="grid"><a class="color2" href="/timesheet">Timesheet</a></li>
-			{% if session['master'] == True or session['manager'] == True %}
 			<li><a class="color3" href="/addAccount">Create Employee</a></li>
 			<li><a class="color4" href="/addProduct">Add Product</a></li>
-			{% endif %}
+			
 		 </ul> 
 			   <div class="search">
 				 <form>
@@ -160,7 +159,46 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	  </div>
 </div>
 
+{% elif session['employee'] == True and session['manager'] == True %}
+<div class="mega_nav">
+	 <div class="container">
+		 <div class="menu_sec">
+		 <!-- start header menu -->
+		 <ul class="megamenu skyblue">
+			<li class="active grid"><a class="color1" href="/">Home</a></li>
+			<li class="grid"><a class="color2" href="/timesheet">Timesheet</a></li>
+			<li><a class="color3" href="/addAccount">Create Employee</a></li>
+		 </ul> 
+			   <div class="search">
+				 <form>
+					<input type="text" value="" placeholder="Search...">
+					<input type="submit" value="">
+					</form>
+			 </div>
+			 <div class="clearfix"></div>
+		 </div>
+	  </div>
+</div>
 
+{% else %}
+<div class="mega_nav">
+	 <div class="container">
+		 <div class="menu_sec">
+		 <!-- start header menu -->
+		 <ul class="megamenu skyblue">
+			<li class="active grid"><a class="color1" href="/">Home</a></li>
+			<li class="grid"><a class="color2" href="/timesheet">Timesheet</a></li>
+		 </ul> 
+			   <div class="search">
+				 <form>
+					<input type="text" value="" placeholder="Search...">
+					<input type="submit" value="">
+					</form>
+			 </div>
+			 <div class="clearfix"></div>
+		 </div>
+	  </div>
+</div>
 {% endif %}
 <!---->
 <!--header//-->
