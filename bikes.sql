@@ -224,7 +224,7 @@ INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2
                      '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');
 INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Stephen', 'Davies', 4, (SELECT email FROM users WHERE email = 'stephendavies@gustybikeshop.com'), 
                      '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');                     
-INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Genie', 'Campbell', 4, (SELECT email FROM users WHERE email = 'geniecampbell@gustybikeshop.com'), 
+INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Genie', 'Campbell', 2, (SELECT email FROM users WHERE email = 'geniecampbell@gustybikeshop.com'), 
                      '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');                     
 
 
@@ -279,11 +279,11 @@ INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employee
 INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE-1), 8);
 
 /*ADDING REVIEWS*/
-INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'gustycooper@gustybikeshop.com'), 1, (SELECT CURRENT_DATE), 5, 'This is a great product!');
+INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'customers@email.com'), 1, (SELECT CURRENT_DATE), 5, 'This is a great product!');
 INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'karenanewalt@email.com'), 1, (SELECT CURRENT_DATE), 3, 'This is make to last. Love it!');
-INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'gustycooper@gustybikeshop.com'), 2, (SELECT CURRENT_DATE), 5, 'This is a great product!');
+INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'customers@email.com'), 2, (SELECT CURRENT_DATE), 5, 'This is a great product!');
 INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'karenanewalt@email.com'), 3, (SELECT CURRENT_DATE), 3, 'This is make to last. Love it!');
-INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'gustycooper@gustybikeshop.com'), 4, (SELECT CURRENT_DATE), 5, 'This is a great product!');
+INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'customers@email.com'), 4, (SELECT CURRENT_DATE), 5, 'This is a great product!');
 INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'karenanewalt@email.com'), 5, (SELECT CURRENT_DATE), 3, 'This is make to last. Love it!');
 
 

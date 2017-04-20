@@ -146,18 +146,23 @@ def access():
 				session['loggedin'] = True
 				session['employee'] = True
 
-				cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 1",(request.form['email'], ))
-				query = cur.fetchall()
+				cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 1", (request.form['email'], ))
+				cur.fetchall()
+				query = cur.rowcount
 				conn.commit()
 				
-				if(cur.rowcount == 1):
+				if(query == 1):
+					print("master")
 					session['master'] = True
-				else:
+				elif(query != 1):
+					print("trying manager")
 					cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 2",(request.form['email'], ))
-					query = cur.fetchall()
+					cur.fetchall()
+					q = cur.rowcount
 					conn.commit()
 					
-					if(cur.rowcount == 1):
+					if(q == 1):
+						print("manager")
 						session['manager'] = True
 
 				return render_template('index.html')
@@ -667,6 +672,7 @@ def getTotals():
 		tax = 0.00
 		shipping = 0.00
 		total = 0.00
+		count = 0
 
 	if (subtotal != 0.00):
 		shipping = 50.00
