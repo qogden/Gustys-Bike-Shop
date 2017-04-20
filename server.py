@@ -424,17 +424,25 @@ def display_timesheets():
 	timesheet = []
 	cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
 	cur.execute("SELECT t_date, hours FROM timesheet WHERE employeeid = %s", (cur.fetchall()[0][0],))
+	numrows = cur.rowcount
 	timesheet = cur.fetchall()
 	
-	for index in range(len(timesheet)):		#converts timesheet timestamp into just the calendar day
-		#print 'Time_Entry :', timesheet[index]
+	dates = []
+	clock = []
+	for index in range(len(timesheet)):
+		#print('DAT',timesheet[index][0])
+		dates.insert(index, timesheet[index][0].date())
 		timesheet[index][0] = timesheet[index][0].date()
-	#print timesheet
-	
-	
+		
+		#print('NUM',timesheet[index][1])
+		clock.insert(index, timesheet[index][1])
 
-	
-	return render_template('timesheet.html', timesheet=timesheet)
+	print ('DATE',dates)
+	print ('Clock',clock)
+		
+		
+		
+	return render_template('timesheet.html', timesheet=timesheet, dates=dates, clock=clock)
 
 @app.route('/addAccount')
 def add_account():
