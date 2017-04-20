@@ -275,6 +275,7 @@ INSERT INTO cart(customerid, day, productid, quantity) VALUES((SELECT id FROM cu
 
 /*ADDING TO TIMESHEET*/
 INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'sales@gustybikeshop.com'), (SELECT CURRENT_DATE-1), 4);
+INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE-3), 1);
 INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE-2), 2);
 INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE-1), 8);
 
