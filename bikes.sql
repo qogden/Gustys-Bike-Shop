@@ -197,6 +197,10 @@ INSERT INTO customers(firstname, lastname, email) VALUES('testfirstname2', 'test
 INSERT INTO customers(firstname, lastname, email) VALUES('userfirst1', 'userlast1', (SELECT email FROM users WHERE email = 'user1@email.com'));
 INSERT INTO customers(firstname, lastname, email) VALUES('userfirst2', 'userlast2', (SELECT email FROM users WHERE email = 'customers@email.com'));
 
+INSERT INTO customers(firstname, lastname, email, bstreet1, bstreet2, bcity, bstate, bzip, sstreet1, sstreet2, scity, sstate, szip, cardno, csc, exp) VALUES('Karen', 'Anewalt', (SELECT email FROM users WHERE email = 'karenanewalt@email.com'), 
+                        '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401', '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401', '1234567890', '123','2017-09');
+
+
 /*ADDING EMPLOYEES*/
 INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('masterfirst', 'masterlast', 1, (SELECT email FROM users WHERE email = 'masters@gustybikeshop.com'), 
                      'teststreet1', 'teststreet2', 'testcity', 'teststate', 'testzip');
@@ -210,6 +214,11 @@ INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2
                      'teststreet1', 'teststreet2', 'testcity', 'teststate', 'testzip');
 INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('testfirstname', 'testlastname', 4, (SELECT email FROM users WHERE email = 'employee@gustybikeshop.com'), 
                      'teststreet1', 'teststreet2', 'testcity', 'teststate', 'testzip');
+
+INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Gusty', 'Cooper', 1, (SELECT email FROM users WHERE email = 'gustycooper@gustybikeshop.com'), 
+                     '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');
+INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Stephen', 'Davies', 4, (SELECT email FROM users WHERE email = 'stephendavies@gustybikeshop.com'), 
+                     '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');                     
 
 /*ADDING PRODUCT TYPES*/
 INSERT INTO producttype(producttype) VALUES ('bicycles');
@@ -262,9 +271,12 @@ INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employee
 INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE-1), 8);
 
 /*ADDING REVIEWS*/
-INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'user1@email.com'), 1, (SELECT CURRENT_DATE), 5, 'This is a great product!');
-INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'user2@email.com'), 1, (SELECT CURRENT_DATE), 3, 'This is make to last. Love it!');
-
+INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'gustycooper@gustybikeshop.com'), 1, (SELECT CURRENT_DATE), 5, 'This is a great product!');
+INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'karenanewalt@email.com'), 1, (SELECT CURRENT_DATE), 3, 'This is make to last. Love it!');
+INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'gustycooper@gustybikeshop.com'), 2, (SELECT CURRENT_DATE), 5, 'This is a great product!');
+INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'karenanewalt@email.com'), 3, (SELECT CURRENT_DATE), 3, 'This is make to last. Love it!');
+INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'gustycooper@gustybikeshop.com'), 4, (SELECT CURRENT_DATE), 5, 'This is a great product!');
+INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'karenanewalt@email.com'), 5, (SELECT CURRENT_DATE), 3, 'This is make to last. Love it!');
 
 
 
