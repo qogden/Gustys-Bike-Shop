@@ -145,8 +145,23 @@ def access():
 				session['email'] = request.form['email']
 				session['loggedin'] = True
 				session['employee'] = True
-				#return render_template('index.html')
-				return redirect('/timesheet')
+
+				cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 1",(request.form['email'], ))
+				query = cur.fetchall()
+				conn.commit()
+				
+				if(cur.rowcount == 1):
+					session['master'] = True
+				else:
+					cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 2",(request.form['email'], ))
+					query = cur.fetchall()
+					conn.commit()
+					
+					if(cur.rowcount == 1):
+						session['manager'] = True
+
+				return render_template('index.html')
+				#return redirect('/timesheet')
 			else:
 				session['email'] = request.form['email']
 				session['loggedin'] = True
@@ -271,6 +286,22 @@ def single():
 		i+=1
 	
 	return render_template('single.html', item = item, reviews = reviews)
+	
+
+@app.route('/review', methods=['POST'])	
+def review():
+	conn = connectToDB()
+	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+	
+	productid = request.form['productid']
+	rating = request.form['rating']
+	comment = request.form['comment']
+	
+	cur.execute("INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = %s), %s, (SELECT CURRENT_DATE), %s, %s)", (session['email'], productid, rating, comment))
+	conn.commit()
+	
+	return render_template('reviewcreated.html')
+	
 	
 @app.route('/bikes')
 def products():
@@ -433,7 +464,6 @@ def display_timesheets():
 		#print('DAT',timesheet[index][0])
 		dates.insert(index, timesheet[index][0].date())
 		timesheet[index][0] = timesheet[index][0].date()
-		
 		#print('NUM',timesheet[index][1])
 		clock.insert(index, timesheet[index][1])
 
@@ -445,8 +475,12 @@ def display_timesheets():
 	return render_template('timesheet.html', timesheet=timesheet, dates=dates, clock=clock)
 
 @app.route('/addAccount')
-def add_account():
+def addAccount():
 	return render_template('addAccount.html')
+	
+@app.route('/addProduct')
+def addProduct():
+	return render_template('addProduct.html')
 	
 @app.route('/contact')
 def contact():
@@ -582,7 +616,7 @@ def getProducts():
 	customerid = customerid[0][0]
 	conn.commit()
 
-	cur.execute("SELECT * FROM cart WHERE customerid = %s", (customerid, ))
+	cur.execute("SELECT * FROM cart WHERE customerid = %s ORDER BY productid", (customerid, ))
 	cart = cur.fetchall()
 	print cart
 	conn.commit()

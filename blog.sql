@@ -1,1 +1,0 @@
-/*Blog Database in MySQL*/
