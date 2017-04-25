@@ -226,7 +226,8 @@ INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2
                      '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');                     
 INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Genie', 'Campbell', 2, (SELECT email FROM users WHERE email = 'geniecampbell@gustybikeshop.com'), 
                      '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');                     
-
+INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Jeanne', 'Campbell', 2, (SELECT email FROM users WHERE email = 'jeannecampbell@gustybikeshop.com'), 
+                     '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');
 
 /*ADDING PRODUCT TYPES*/
 INSERT INTO producttype(producttype) VALUES ('bicycles');
