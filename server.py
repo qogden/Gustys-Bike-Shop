@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(24).encode('hex')
 app.config['SECRET_KEY'] = 'secret!'
-app.config["BLOGGING_URL_PREFIX"] = "/blog"
+app.config["BLOGGING_URL_PREFIX"] = "/blogdf"
 app.config["BLOGGING_DISQUS_SITENAME"] = "test"
 app.config["BLOGGING_SITEURL"] = "http://localhost:8000"
 socketio = SocketIO(app)
