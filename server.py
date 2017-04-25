@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(24).encode('hex')
 app.config['SECRET_KEY'] = 'secret!'
-app.config["BLOGGING_URL_PREFIX"] = "/blogdf"
+app.config["BLOGGING_URL_PREFIX"] = "/blogdb"
 app.config["BLOGGING_DISQUS_SITENAME"] = "test"
 app.config["BLOGGING_SITEURL"] = "http://localhost:8000"
 socketio = SocketIO(app)
@@ -137,8 +137,8 @@ def logout():
 @app.route('/login')
 def login():
 	print(session['email'])
-	user = User("testuser")
-	login_user(user)
+	#user = User("testuser")
+	#login_user(user)
 	return render_template('login.html')
 	
 
@@ -185,6 +185,8 @@ def access():
 				if(query == 1):
 					print("master")
 					session['master'] = True
+					user = User("testuser")
+					login_user(user)
 				elif(query != 1):
 					print("trying manager")
 					cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 2",(request.form['email'], ))
