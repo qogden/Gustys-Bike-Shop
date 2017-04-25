@@ -804,7 +804,7 @@ def orders():
 
 @app.route('/blog')
 def blog():
-	return render_template('blog.html')
+	return redirect('/blogdb')
 
 
 # start the server
