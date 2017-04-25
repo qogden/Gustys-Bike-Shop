@@ -58,6 +58,9 @@ def index():
 	if("email" not in session):
 		session['email']=''
 	 	session['loggedin'] = False
+		session['employee'] = False
+	 	session['manager'] = False
+	 	session['master'] = False
 	
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -98,6 +101,8 @@ def logout():
 	session['email'] = ''
 	session['loggedin'] = False
 	session['employee'] = False
+	session['manager'] = False
+	session['master'] = False
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
