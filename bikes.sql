@@ -194,6 +194,7 @@ INSERT INTO users(email, password) VALUES('gustycooper@gustybikeshop.com', crypt
 INSERT INTO users(email, password) VALUES('karenanewalt@email.com', crypt('Anewalt123', gen_salt('bf')));
 INSERT INTO users(email, password) VALUES('stephendavies@gustybikeshop.com', crypt('Davies123', gen_salt('bf')));
 INSERT INTO users(email, password) VALUES('geniecampbell@gustybikeshop.com', crypt('Campbell123', gen_salt('bf')));
+INSERT INTO users(email, password) VALUES('jeannecampbell@gustybikeshop.com', crypt('Campbell123', gen_salt('bf')));
 
 /*ADDING CUSTOMERS*/
 INSERT INTO customers(firstname, lastname, email, bstreet1, bstreet2, bcity, bstate, bzip, sstreet1, sstreet2, scity, sstate, szip, cardno, csc, exp) VALUES('testfirstname', 'testlastname', (SELECT email FROM users WHERE email = 'user2@email.com'), 

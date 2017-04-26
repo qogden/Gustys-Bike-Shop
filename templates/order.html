@@ -12,21 +12,34 @@
 		 <br>
 		 <style>
 				td{
-    				padding: 10px;
+    				padding-left: 40px;
+    				padding-right: 40px;
+    				padding-top: 10px;
     				text-align: center;
-    				border: 1px solid black;
 				}
 				
 				table {
 					margin:auto;
 				}
+				
+
 		 </style>
-		 <table>
-		 	<tr><td>Order ID</td><td>Product</td><td>Price</td><td>Quantity</td><td>Status</td></tr>
-	   		{% for items in order %}
-			<tr><td>{{items["orderid"]}}</td><td>{{items["productid"]}}</td><td>${{items["price"]}}</td><td>{{items["quantity"]}}</td><td>{{items["status"]}}</td></tr>
+		
+	   		{% for item in order %}
+	   			<div class="sofaset-info">
+				<h4 style="font-size:125%">Order: {{item[0]["orderid"]}}</h4>
+	   			<br>
+	   			<table>
+	   			<tr style="border-bottom: 1px solid gray; padding-bottom: 10px;"><td>Product</td><td>Price</td><td>Quantity</td><td>Status</td></tr>	
+	   			{% for items in item %}
+	   			<tr><td>{{items["productid"]}}</td><td>${{items["price"]}}</td><td>{{items["quantity"]}}</td><td>{{items["status"]}}</td></tr>
+				{% endfor %}
+				</table>
+				</div>
 	   		{% endfor %}
+	   		
 	   	</table>
+	   		
 		  <br>
 	 </div>
 </div>
