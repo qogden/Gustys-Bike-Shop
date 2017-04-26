@@ -29,13 +29,26 @@
 	   			<div class="sofaset-info">
 				<h4 style="font-size:125%">{{item[0]["orderdate"]}}<span style="display:inline; padding-left:15px;">Order: {{item[0]["orderid"]}}</span></h4>
 	   			<br>
-	   			<table>
-	   			<tr style="border-bottom: 1px solid gray; padding-bottom: 10px;"><td>Product</td><td>Price</td><td>Quantity</td><td>Status</td></tr>	
+	   			
 	   			{% for items in item %}
-	   			<tr><td>{{items["productid"]}}</td><td>${{items["price"]}}</td><td>{{items["quantity"]}}</td><td>{{items["status"]}}</td></tr>
-				{% endfor %}
-				</table>
-				</div>
+	   			<div class="cart-header">
+				 
+					<div class="cart-sec">
+						<div class="cart-item cyc">
+							 <img src="{{items['image']}}">
+						</div>
+					   <div class="cart-item-info">
+							 <h3>{{items["name"]}} | {{items["status"]}}<h6>Product ID: {{items["productid"]}}</h6></h3>
+							 <h3>Qty: {{items["quantity"]}}</h3>
+							 <h4>${{items["price"]}}</h4>
+					   </div>
+					   <div class="clearfix"></div>
+				  </div>
+			 </div>
+	   			
+	   			</div>
+	   			{% endfor %}
+	   			
 	   		{% endfor %}
 	   		
 	   	</table>

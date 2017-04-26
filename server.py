@@ -806,8 +806,8 @@ def orders():
 		
 		while (count != 0 and orderid == history[i][0]):
 			print('i',i,'row', history[i][0])
-			cur.execute("SELECT name FROM products WHERE id = %s", (history[i][1],))
-			name = cur.fetchone()
+			cur.execute("SELECT name, image FROM products WHERE id = %s", (history[i][1],))
+			p = cur.fetchone()
 			conn.commit()
 			
 			cur.execute("SELECT orderdate FROM orders WHERE id = %s", (history[i][0],))
@@ -828,7 +828,7 @@ def orders():
 			
 			orderdate = "{0:.0f}".format(month[0])+'-'+"{0:.0f}".format(day[0])+'-'+"{0:.0f}".format(year[0])
 			
-			orderitems = {'orderid':history[i][0], 'orderdate':orderdate, 'productid':name[0], 'price':history[i][2], 'quantity':history[i][3], 'status':history[i][4]}
+			orderitems = {'orderid':history[i][0], 'orderdate':orderdate, 'productid':history[i][2], 'name':p[0], 'image':p[1], 'price':history[i][2], 'quantity':history[i][3], 'status':history[i][4]}
 			print('orderitem',orderitems)
 			order.append(orderitems)
 			print('order',order)
