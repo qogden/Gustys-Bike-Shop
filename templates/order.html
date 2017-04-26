@@ -27,7 +27,7 @@
 		
 	   		{% for item in order %}
 	   			<div class="sofaset-info">
-				<h4 style="font-size:125%">Order: {{item[0]["orderid"]}}<span style="display:inline; padding-left:15px;">{{item[0]["orderdate"]}}</span></h4>
+				<h4 style="font-size:125%">{{item[0]["orderdate"]}}<span style="display:inline; padding-left:15px;">Order: {{item[0]["orderid"]}}</span></h4>
 	   			<br>
 	   			<table>
 	   			<tr style="border-bottom: 1px solid gray; padding-bottom: 10px;"><td>Product</td><td>Price</td><td>Quantity</td><td>Status</td></tr>	
