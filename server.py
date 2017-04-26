@@ -68,7 +68,6 @@ def index():
 
 	cur.execute("SELECT * FROM products")
 	stock = cur.fetchall()
-	print stock
 	conn.commit()
 	
 	i=0
@@ -79,11 +78,9 @@ def index():
 			items = {'id':p[0], 'name':p[1], 'image':p[2], 'price':p[4]}
 		products.append(items)
 		i+=1
-	print products
 	
 	cur.execute("SELECT * FROM products WHERE producttype = (SELECT id FROM producttype WHERE producttype = 'bicycles')")
 	stock = cur.fetchall()
-	print stock
 	conn.commit()
 	
 	i=0
@@ -94,7 +91,6 @@ def index():
 			items = {'id':p[0], 'name':p[1], 'image':p[2]}
 		feature.append(items)
 		i+=1
-	print products
 	return render_template('index.html', stock = products)
 
 @app.route('/logout')
@@ -110,7 +106,7 @@ def logout():
 
 	cur.execute("SELECT * FROM products")
 	stock = cur.fetchall()
-	print stock
+	#print stock
 	conn.commit()
 	
 	i=0
@@ -121,11 +117,11 @@ def logout():
 			items = {'id':p[0], 'name':p[1], 'image':p[2], 'price':p[4]}
 		products.append(items)
 		i+=1
-	print products
+	#print products
 	
 	cur.execute("SELECT * FROM products WHERE producttype = (SELECT id FROM producttype WHERE producttype = 'bicycles')")
 	stock = cur.fetchall()
-	print stock
+	#print stock
 	conn.commit()
 	
 	i=0
@@ -136,7 +132,7 @@ def logout():
 			items = {'id':p[0], 'name':p[1], 'image':p[2]}
 		feature.append(items)
 		i+=1
-	print products
+	#print products
 	logout_user()
 	return render_template('index.html', stock = products)
 
@@ -525,7 +521,7 @@ def display_timesheets():
 		
 		entry = {'date':time, 'hours':data[i][1]}
 		timesheet.append(entry)
-		i+=0
+		i+=1
 	
 	return render_template('timesheet.html', timesheet=timesheet)
 
@@ -667,13 +663,13 @@ def getProducts():
 	
 	cur.execute("SELECT id FROM customers WHERE email = %s", (session['email'], ))
 	customerid = cur.fetchall()
-	print('getProducts CustomerID;', customerid)
+
 	customerid = customerid[0][0]
 	conn.commit()
 
 	cur.execute("SELECT * FROM cart WHERE customerid = %s ORDER BY productid", (customerid, ))
 	cart = cur.fetchall()
-	print cart
+	
 	conn.commit()
 	
 	i=0
@@ -690,7 +686,7 @@ def getProducts():
 			items = [p[0], p[1], p[2], p[4], c[4]]
 		products.append(items)
 		i+=1
-	print products
+	#print products
 	return products
 
 def getTotals():
@@ -773,7 +769,7 @@ def order():
 	cardno = request.form['cardno']
 	csc = request.form['csc']
 	exp = request.form['exp']
-	print(exp)
+	#print(exp)
 	
 	status="processing"
 	cur.execute("INSERT INTO orders(customerid, orderdate, status, firstname, lastname, email, bstreet, bstreet2, bcity, bstate, bzip, sstreet, sstreet2, scity, sstate, szip, cardno, csc, exp) VALUES ((SELECT id FROM customers WHERE email = %s), (SELECT current_timestamp), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (session['email'], status, firstname, lastname, email, bstreet, bstreet2, bcity, bstate, bzip, sstreet, sstreet2, scity, sstate, szip, cardno, csc, exp))
@@ -783,10 +779,10 @@ def order():
 	orderid = cur.fetchone()
 	conn.commit()
 	orderid=orderid[0]
-	print("orderid:", orderid)
+	#print("orderid:", orderid)
 
 	product = getProducts()
-	print(products)
+	#print(products)
 	i=0
 	for row in product:
 		productid = product[i][0]
@@ -841,16 +837,16 @@ def orders():
 			orderdate = "{0:.0f}".format(month[0])+'-'+"{0:.0f}".format(day[0])+'-'+"{0:.0f}".format(year[0])
 			
 			orderitems = {'orderid':history[i][0], 'orderdate':orderdate, 'productid':history[i][2], 'name':p[0], 'image':p[1], 'price':history[i][2], 'quantity':history[i][3], 'status':history[i][4]}
-			print('orderitem',orderitems)
+			#print('orderitem',orderitems)
 			order.append(orderitems)
-			print('order',order)
+			#print('order',order)
 			i+=1
 			count-=1
 
 		allorders.append(order)
 		order=[]
 		
-		print('allorders',allorders)
+		#print('allorders',allorders)
 	return render_template('order.html', order=allorders)
 
 
