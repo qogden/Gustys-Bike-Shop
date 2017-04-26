@@ -509,7 +509,7 @@ def display_timesheets():
 	timesheet = []
 	cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
 	conn.commit()
-	cur.execute("SELECT t_date, hours FROM timesheet WHERE employeeid = %s", (cur.fetchall()[0][0],))
+	cur.execute("SELECT t_date, hours FROM timesheet WHERE employeeid = %s ORDER BY t_date desc", (cur.fetchall()[0][0],))
 	data = cur.fetchall()
 	conn.commit()
 
