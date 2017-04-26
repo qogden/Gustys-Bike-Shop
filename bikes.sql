@@ -195,6 +195,7 @@ INSERT INTO users(email, password) VALUES('karenanewalt@email.com', crypt('Anewa
 INSERT INTO users(email, password) VALUES('stephendavies@gustybikeshop.com', crypt('Davies123', gen_salt('bf')));
 INSERT INTO users(email, password) VALUES('geniecampbell@gustybikeshop.com', crypt('Campbell123', gen_salt('bf')));
 INSERT INTO users(email, password) VALUES('jeannecampbell@gustybikeshop.com', crypt('Campbell123', gen_salt('bf')));
+INSERT INTO users(email, password) VALUES('ianfinlayson@gustybikeshop.com', crypt('Finlayson123', gen_salt('bf')));
 
 /*ADDING CUSTOMERS*/
 INSERT INTO customers(firstname, lastname, email, bstreet1, bstreet2, bcity, bstate, bzip, sstreet1, sstreet2, scity, sstate, szip, cardno, csc, exp) VALUES('testfirstname', 'testlastname', (SELECT email FROM users WHERE email = 'user2@email.com'), 
@@ -228,6 +229,8 @@ INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2
 INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Genie', 'Campbell', 2, (SELECT email FROM users WHERE email = 'geniecampbell@gustybikeshop.com'), 
                      '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');                     
 INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Jeanne', 'Campbell', 2, (SELECT email FROM users WHERE email = 'jeannecampbell@gustybikeshop.com'), 
+                     '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');
+INSERT INTO employees(firstname, lastname, employeetype, email, street1, street2, city, state, zip) VALUES('Ian', 'Finlayson', 3, (SELECT email FROM users WHERE email = 'ianfinlayson@gustybikeshop.com'), 
                      '1301 College Ave', 'Trinkle Hall', 'Fredericksburg', 'VA', '22401');
 
 /*ADDING PRODUCT TYPES*/
@@ -276,10 +279,10 @@ INSERT INTO cart(customerid, day, productid, quantity) VALUES((SELECT id FROM cu
 INSERT INTO cart(customerid, day, productid, quantity) VALUES((SELECT id FROM customers WHERE email = 'user2@email.com'), (SELECT CURRENT_DATE), 4, 2);
 
 /*ADDING TO TIMESHEET*/
-INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'sales@gustybikeshop.com'), (SELECT CURRENT_DATE-1), 4);
-INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE-3), 1);
-INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE-2), 2);
-INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'employee@gustybikeshop.com'), (SELECT CURRENT_DATE-1), 8);
+INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'gustycooper@gustybikeshop.com'), (SELECT CURRENT_DATE-1), 4);
+INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'stephendavies@gustybikeshop.com'), (SELECT CURRENT_DATE-3), 1);
+INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'stephendavies@gustybikeshop.com'), (SELECT CURRENT_DATE-2), 2);
+INSERT INTO timesheet(employeeid, t_date, hours) VALUES((SELECT id FROM employees WHERE email = 'stephendavies@gustybikeshop.com'), (SELECT CURRENT_DATE-1), 8);
 
 /*ADDING REVIEWS*/
 INSERT INTO reviews(customerid, productid, day, rating, comment) VALUES((SELECT id FROM customers WHERE email = 'customers@email.com'), 1, (SELECT CURRENT_DATE), 5, 'This is a great product!');
