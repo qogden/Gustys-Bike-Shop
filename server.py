@@ -808,7 +808,27 @@ def orders():
 			print('i',i,'row', history[i][0])
 			cur.execute("SELECT name FROM products WHERE id = %s", (history[i][1],))
 			name = cur.fetchone()
-			orderitems = {'orderid':history[i][0], 'productid':name[0], 'price':history[i][2], 'quantity':history[i][3], 'status':history[i][4]}
+			conn.commit()
+			
+			cur.execute("SELECT orderdate FROM orders WHERE id = %s", (history[i][0],))
+			orderdate = cur.fetchone()
+			conn.commit()
+
+			cur.execute("SELECT EXTRACT(month from timestamp %s)", (orderdate[0],))
+			month = cur.fetchone()
+			conn.commit()
+
+			cur.execute("SELECT EXTRACT(day from timestamp %s)", (orderdate[0],))
+			day = cur.fetchone()
+			conn.commit()
+			
+			cur.execute("SELECT EXTRACT(year from timestamp %s)", (orderdate[0],))
+			year = cur.fetchone()
+			conn.commit()
+			
+			orderdate = "{0:.0f}".format(month[0])+'-'+"{0:.0f}".format(day[0])+'-'+"{0:.0f}".format(year[0])
+			
+			orderitems = {'orderid':history[i][0], 'orderdate':orderdate, 'productid':name[0], 'price':history[i][2], 'quantity':history[i][3], 'status':history[i][4]}
 			print('orderitem',orderitems)
 			order.append(orderitems)
 			print('order',order)
