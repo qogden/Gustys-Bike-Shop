@@ -1,40 +1,44 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<!--Switch to a timesheet-->
-<!--<label><input placeholder="first name" name='firstname' type="text"> <input type="submit" value="update" id="fname-submit"> {{timesheet['fname']}}</label>-->
-
-<!--    <label>{{timesheet[0][0]}}   :    {{timesheet[0][1]}}</label>
-    <label>{{timesheet[1][0]}}   :    {{timesheet[1][1]}}</label> -->
-    
-    <div class="timesheet">
-        <div class="col-md-2 timesheet">
-            {% for i in timesheet %}
-            {{i[0]}}
-            <label>
-                {{timesheet[i]}}
-            </label>
-            {% endfor %}
-        </div>
-        <div class="col-md-10 timesheet">
-            {% for j in timesheet %}
-            {{j[1]}}
-            <label>
-                {{timesheet[j]}}
-            </label>
-            {% endfor %}
-        </div>
-	</div>
-	
-	
-
-	<br></br><br></br>
-	<h3>How many hours did you work today?</h3>
-	<p>todays hours worked can be overwrite</p>
+<div class="info_sec">
+	<div class="container">
+		<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li class="active">Timesheet</li>
+		</ol>
+		<h2>Timesheet</h2>
+		<br>
+		
+	<h4>How many hours did you work today?</h4>
+	<br>
     <form id="timesheet_form" method="post" action="/timesheet">
         <label>
             <input placeholder="hours" name='hours' type="number" required>
             <input type="submit" value="update" id="timesheet-submit">
         </label>
     </form>
+    
+
+    <div class="timesheet">
+        <br>
+        <style>
+
+            td {
+                padding-top:10px;
+                text-align:center;
+            }
+        </style>
+        <table>
+            <tr style="border-bottom: 1px solid gray;"><td>Date</td><td style="padding-left:20px;">Hours</td></tr>
+            {% for entry in timesheet %}
+            <tr><td>{{entry['date']}}</td><td style="padding-left:20px;">{{entry['hours']}}</td></tr>
+            {% endfor %}
+        </table>
+        <br><br>
+	</div>
+	
+</div>
+	<div class="clearfix"></div>
+</div>
 {% endblock %}

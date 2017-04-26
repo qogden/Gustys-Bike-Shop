@@ -482,11 +482,14 @@ def display_timesheets():
 	
 	if request.method == 'POST':
 		cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
+		conn.commit()
 		cur.execute("SELECT t_date FROM timesheet WHERE employeeid = %s AND t_date = (SELECT CURRENT_DATE)", (cur.fetchall()[0][0],))
+		conn.commit() #clear curser
 		numrows = cur.rowcount
-		cur.fetchall() #clear curser
+		cur.fetchall() 
 		if(numrows > 0):
 			cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
+			conn.commit()
 			cur.execute("UPDATE timesheet SET hours = %s WHERE employeeid = %s and t_date = (SELECT CURRENT_DATE)", (request.form['hours'],cur.fetchall()[0][0]))
 			conn.commit()
 		else:
@@ -497,25 +500,22 @@ def display_timesheets():
 	#Display current timesheet data(after update)
 	timesheet = []
 	cur.execute("SELECT id FROM employees WHERE email = %s", (session['email'],))
+	conn.commit()
 	cur.execute("SELECT t_date, hours FROM timesheet WHERE employeeid = %s", (cur.fetchall()[0][0],))
-	numrows = cur.rowcount
-	timesheet = cur.fetchall()
-	
-	dates = []
-	clock = []
-	for index in range(len(timesheet)):
-		#print('DAT',timesheet[index][0])
-		dates.insert(index, timesheet[index][0].date())
-		timesheet[index][0] = timesheet[index][0].date()
-		#print('NUM',timesheet[index][1])
-		clock.insert(index, timesheet[index][1])
+	data = cur.fetchall()
+	conn.commit()
 
-	print ('DATE',dates)
-	print ('Clock',clock)
-	timesheet.insert(0,['.','0'])
-	timesheet.insert(0,['.','0'])
+	timesheet=[]
+	i=0
+	for index in data:
+		time = data[i][0].date()
+		print('time', time, data[i][1])
+		
+		entry = {'date':time, 'hours':data[i][1]}
+		timesheet.append(entry)
+		i+=0
 	
-	return render_template('timesheet.html', timesheet=timesheet, dates=dates, clock=clock)
+	return render_template('timesheet.html', timesheet=timesheet)
 
 @app.route('/addAccount')
 def addAccount():

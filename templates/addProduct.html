@@ -5,31 +5,26 @@
 	<div class="container">
 		<ol class="breadcrumb">
 		<li><a href="/">Home</a></li>
-		<li class="active">Account</li>
+		<li class="active">Add Products</li>
 		</ol>
 		<h2>Add New Products</h2>
-		<br></br>
+		<br>
 
 		<style>			
-			hr { 
-    			display: block;
-				margin-top: 0.5em;
-				margin-bottom: 0.5em;
-    			border-style: inset;
-				border-width: 1px;
+			td { 
+    			padding:10px;
 			}
-			label {
-				padding: 10px;
-			}
-
+		
 		</style>
 		<div class="col-md-10 update_form">
 			<form id="new_Product" method="post" action="/addProduct">
-				<label>Product name: <input type="text" name="name"></label>
-				<label>Image:<input type="file" name="image" accept="image/*"></label>
-				<label>Price: $<input type="decimal" placeholder ="00.00"></label>
-				<label>Description:<input type="text" name="desc"></label>
-				<label><input type="submit" value="Add" name="newProduct" id="add_newProduct"></label>
+				<table>
+				<tr><td>Product name: </td><td><input type="text" name="name"></td></tr>
+				<tr><td>Image:</td><td><input type="file" name="image" accept="image/*"></td></tr>
+				<tr><td>Price: </td><td><input type="decimal" placeholder ="$0.00"></td></tr>
+				<tr><td>Description:</td><td><input type="text" name="desc"></td></tr>
+				<tr><td><input type="submit" value="Add" name="newProduct" id="add_newProduct"></td></tr>
+				</table>
 			</form>
 		</div>
 	</div>
