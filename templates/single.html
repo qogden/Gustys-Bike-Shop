@@ -106,14 +106,13 @@
 									<label for="2"><i class="icon-star"></i></label>
 									<input type="radio" name="stars-rating" id="1" {% if c['rating'] != 5 %}  {% endif %} disabled>
 									<label for="1"><i class="icon-star"></i></label>
-										<span style="padding-left:10px; display:inline">{{c['comment']}}</span></h3>
+										<span style="padding-left:10px; display:inline">{{c['comment']}} </span><span style="padding-left:20px; display:inline; font-size:80%"> By {{c['customer']}} {{c['day']}}</span></h3>
 									<div class="clearfix"></div>
 								 </div>
 							  </section>
 						    </fieldset>
 						    
 						
-							<h5 style="padding-left:20px">By {{c['customer']}} <span style="padding-left:20px; display:inline">{{c['day']}}</span></h5>
 							<br>
 						{% endfor %}
 						</table>
