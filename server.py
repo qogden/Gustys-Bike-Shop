@@ -60,6 +60,7 @@ def index():
 	 	session['loggedin'] = False
 		session['employee'] = False
 	 	session['manager'] = False
+	 	session['sales'] = False
 	 	session['master'] = False
 	
 	conn = connectToDB()
@@ -102,6 +103,7 @@ def logout():
 	session['loggedin'] = False
 	session['employee'] = False
 	session['manager'] = False
+	session['sales'] = False
 	session['master'] = False
 	conn = connectToDB()
 	cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -202,6 +204,16 @@ def access():
 					if(q == 1):
 						print("manager")
 						session['manager'] = True
+					
+					if(q != 1):
+						print("trying sales")
+						cur.execute("SELECT * FROM employees WHERE email = %s and employeetype = 3",(request.form['email'], ))
+						cur.fetchall()
+						conn.commit()
+						if(cur.rowcount == 1):
+							print("sales")
+							session['sales'] = True
+						
 
 				return render_template('index.html')
 				#return redirect('/timesheet')
